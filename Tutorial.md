@@ -34,7 +34,7 @@
 ##### 各文件内容
 ```TemplateController```
 ```Java
-package com.aagu.blog.controllers;
+package com.aagu.blog.Controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,11 +50,11 @@ public class TemplateController {
         return "index";
     }
 
-    @RequestMapping(value = "admin")
-    String admin(HttpServletRequest request) {
+    @RequestMapping(value = "adminVO")
+    String adminVO(HttpServletRequest request) {
         request.setAttribute("greeting", "Hi");
-        request.setAttribute("key", "admin");
-        return "admin";
+        request.setAttribute("key", "adminVO");
+        return "adminVO";
     }
 }
 ```
@@ -76,7 +76,7 @@ public class BlogApplication {
 }
 ```
 
-```admin.html```
+```adminVO.html```
 ```HTML
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org">
@@ -131,6 +131,6 @@ com.aagu.blog.BlogApplication
  :: Spring Boot ::        (v2.1.4.RELEASE)
 ```
 
-访问```localhost:8080/blog```和```localhost:8080/admin```
+访问```localhost:8080/blog```和```localhost:8080/adminVO```
 ![blog](artwork/day1-6.png)
-![admin](artwork/day1-7.png)
+![adminVO](artwork/day1-7.png)

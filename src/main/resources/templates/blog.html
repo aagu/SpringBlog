@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 	<head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -79,7 +79,7 @@
 								</li>
 								<li><a href="about">About Me</a></li>
 								<li><a href="contact">Contact</a></li>
-								<li><a href="admin">Admin</a> </li>
+								<li><a href="adminVO">Admin</a> </li>
 							</ul>
 						</div>
 					</div>
@@ -101,7 +101,23 @@
 		<div id="colorlib-container">
 			<div class="container">
 				<div class="row row-pb-md">
-					<div class="col-md-4">
+					<div class="col-md-8">
+						<div class="blog-entry" th:each="article : ${articles}">
+							<div class="blog-img">
+								<a th:href="${article.link}"><img src="images/blog-1.jpg" class="img-responsive" alt="html5 bootstrap template"></a>
+							</div>
+							<div class="desc">
+								<p class="meta">
+									<!--span class="cat"><a href="#">Events</a></span-->
+									<span class="date" th:text="${article.date}">20 March 2018</span>
+									<!--span class="pos">By <a href="#">Rich</a></span-->
+								</p>
+								<h2><a th:href="${article.link}">Recipe for your site</a></h2>
+								<p th:text="${article.detail}"></p>
+							</div>
+						</div>
+					</div>
+					<!--div class="col-md-4">
 						<div class="blog-entry">
 							<div class="blog-img">
 								<a href="blog.html"><img src="images/blog-1.jpg" class="img-responsive" alt="html5 bootstrap template"></a>
@@ -116,8 +132,8 @@
 								<p>A small river named Duden flows by their place and supplies it with the necessary </p>
 							</div>
 						</div>
-					</div>
-					<div class="col-md-4">
+					</div-->
+					<!--div class="col-md-4">
 						<div class="blog-entry">
 							<div class="blog-img">
 								<a href="blog.html"><img src="images/blog-2.jpg" class="img-responsive" alt="html5 bootstrap template"></a>
@@ -132,8 +148,8 @@
 								<p>A small river named Duden flows by their place and supplies it with the necessary </p>
 							</div>
 						</div>
-					</div>
-					<div class="col-md-4">
+					</div-->
+					<!--div class="col-md-4">
 						<div class="blog-entry">
 							<div class="blog-slider">
 								<div class="owl-carousel">
@@ -155,9 +171,9 @@
 								<p>A small river named Duden flows by their place and supplies it with the necessary </p>
 							</div>
 						</div>
-					</div>
+					</div-->
 				</div>
-				<div class="row row-pb-md">
+				<!--div class="row row-pb-md">
 					<div class="col-md-4">
 						<div class="blog-entry">
 							<div class="blog-img">
@@ -206,8 +222,8 @@
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="row row-pb-md">
+				</div-->
+				<!--div class="row row-pb-md">
 					<div class="col-md-8">
 						<div class="blog-entry">
 							<div class="blog-img">
@@ -243,8 +259,8 @@
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="row row-pb-md">
+				</div-->
+				<!--div class="row row-pb-md">
 					<div class="col-md-4">
 						<div class="blog-entry">
 							<div class="blog-img">
@@ -293,8 +309,8 @@
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="row row-pb-md">
+				</div-->
+				<!--div class="row row-pb-md">
 					<div class="col-md-4">
 						<div class="blog-entry">
 							<div class="blog-img">
@@ -327,7 +343,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div-->
 				<div class="row">
 					<div class="col-md-12 text-center">
 						<ul class="pagination">
@@ -343,7 +359,7 @@
 			</div>
 		</div>
 
-		<div id="colorlib-instagram">
+		<!--div id="colorlib-instagram">
 			<div class="row">
 				<div class="col-md-12 col-md-offset-0 colorlib-heading text-center">
 					<h2>Instagram</h2>
@@ -369,7 +385,7 @@
 					</a>
 				</div>
 			</div>
-		</div>
+		</div-->
 		<footer id="colorlib-footer" role="contentinfo">
 			<div class="container">
 				<div class="row row-pb-md">
@@ -394,7 +410,7 @@
 							</a>
 							<div class="desc">
 								<h3><a href="blog.html">Be a designer</a></h3>
-								<p class="admin"><span>25 March 2018</span></p>
+								<p class="adminVO"><span>25 March 2018</span></p>
 							</div>
 						</div>
 						<div class="f-blog">
@@ -402,7 +418,7 @@
 							</a>
 							<div class="desc">
 								<h3><a href="blog.html">How to build website</a></h3>
-								<p class="admin"><span>24 March 2018</span></p>
+								<p class="adminVO"><span>24 March 2018</span></p>
 							</div>
 						</div>
 						<div class="f-blog">
@@ -410,7 +426,7 @@
 							</a>
 							<div class="desc">
 								<h3><a href="blog.html">Create website</a></h3>
-								<p class="admin"><span>23 March 2018</span></p>
+								<p class="adminVO"><span>23 March 2018</span></p>
 							</div>
 						</div>
 					</div>
