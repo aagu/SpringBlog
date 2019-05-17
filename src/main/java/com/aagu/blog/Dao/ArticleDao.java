@@ -20,4 +20,7 @@ public interface ArticleDao {
 
     @Select("select * from article where labelId=#{labelId}")
     List<Article> getByLabel(@Param("labelId") Integer labelId);
+
+    @Select("select * from article limit #{start}, #{end}")
+    List<Article> getByPage(@Param("start") Integer start, @Param("end") Integer end);
 }

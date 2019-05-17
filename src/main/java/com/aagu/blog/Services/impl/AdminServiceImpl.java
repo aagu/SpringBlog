@@ -50,4 +50,9 @@ public class AdminServiceImpl implements AdminService {
     public List<Article> getAllArticles() {
         return articleDao.getAll();
     }
+
+    @Override
+    public List<Label> getAllLabels() {
+        return labelDao.getAll();
+    }
 }

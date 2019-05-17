@@ -13,4 +13,6 @@ public interface AdminService {
     List<Label> getAllFinalLabels();
 
     List<Article> getAllArticles();
+
+    List<Label> getAllLabels();
 }

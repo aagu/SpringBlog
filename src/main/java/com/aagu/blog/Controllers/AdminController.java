@@ -60,4 +60,10 @@ public class AdminController {
         model.addAttribute(DATA, manageVO);
         return "admin/articleManage-tem";
     }
+
+    @GetMapping(value = "/labels-tem")
+    public String labelManageTem(Model model) {
+        model.addAttribute(DATA, adminService.getAllLabels());
+        return "admin/label-tem";
+    }
 }

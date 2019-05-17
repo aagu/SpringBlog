@@ -76,7 +76,7 @@
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">
                         <!--button class="dropdown-item btn-sm"
-                                th:onclick="${'updateContent('+item.id+','+item.getContentType()+')'}">更新
+                                th:onclick="${'updateContent('+item.id+','+item.type+')'}">更新
                         </button-->
                         <!--button class="dropdown-item btn-sm" th:onclick="${'contentTop('+item.id+')'}">设置置顶</button-->
                         <!--button class="dropdown-item btn-sm" th:onclick="${'deleteContent('+item.id+')'}">删除</button-->
@@ -148,7 +148,7 @@
                 data: {id: id, _method: "delete"},
                 success: function (data) {
                     if (data.status == 0) {
-                        //pageReplace(1);
+                        pageReplace(1);
                     } else {
                         alert(data.msg);
                     }

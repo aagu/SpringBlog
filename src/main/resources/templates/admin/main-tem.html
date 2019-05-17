@@ -62,7 +62,7 @@
             <div class="card-header card-header-primary">
                 <h4 class="card-title ">最近发布的文章</h4>
                 <p th:if="${!data.articles.isEmpty()}" class="card-category" th:text="'最后一次发表文章的日期是:'+
-                ${#dates.format(data.contentList.get(0).time,'yyyy/MM/dd')}"></p>
+                ${data.articles.get(0).date}"></p>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -96,7 +96,7 @@
                             </td>
                             <!--td th:text="${item.labelsName}">
                             </td-->
-                            <td class="text-primary" th:text="${#dates.format(item.time,'yyyy/MM/dd')}">
+                            <td class="text-primary" th:text="${item.date}">
                             </td>
                         </tr>
                         </tbody>
