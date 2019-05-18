@@ -122,7 +122,7 @@ function item_6(type) {
         type = 1;
     }
     sweetAlert("系统提示","加载中","info");
-    $.get(localUrl + '/handle-content?type=' + type, function (d, s, t) {
+    $.get(localUrl + '/write-article?type=' + type, function (d, s, t) {
         var result = t.responseText;
         updateFragment(result);
     });

@@ -6,12 +6,14 @@ import com.aagu.blog.Dao.LabelDao;
 import com.aagu.blog.Models.Article;
 import com.aagu.blog.Models.Comment;
 import com.aagu.blog.Models.Label;
+import com.aagu.blog.ServerResponse;
 import com.aagu.blog.Views.AdminVO;
 import com.aagu.blog.Services.AdminService;
+import com.aagu.blog.Views.LabelManageVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -54,5 +56,55 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public List<Label> getAllLabels() {
         return labelDao.getAll();
+    }
+
+    @Override
+    public ServerResponse<Set<LabelManageVO>> getTreeViewData() {
+        Set<LabelManageVO> data = new HashSet<>();
+        LabelManageVO rootVO = new LabelManageVO();
+        Label root = new Label(-1, -1, "root");
+
+        LevelTraverse(data, root, rootVO);
+        return ServerResponse.createBySuccess(data);
+    }
+
+    @Override
+    public ServerResponse<Article> updateArticle(Article article) {
+        int id = article.getId();
+        Article oldArticle = articleDao.getById(id);
+        if (oldArticle != null) {
+            if (!oldArticle.getDetail().equals(article.getDetail())) {
+                articleDao.updateDetail(id, article.getDetail());
+            }
+            if (!oldArticle.getLabelId().equals(article.getLabelId())) {
+                articleDao.updateLabel(id, article.getLabelId());
+            }
+            if (!oldArticle.getTitle().equals(article.getTitle())) {
+                articleDao.updateTitle(id, article.getTitle());
+            }
+        }
+        return ServerResponse.createBySuccess();
+    }
+
+    @Override
+    public ServerResponse<Article> publishArticle(Article article) {
+        articleDao.insertArticle(article.getDate(), article.getLabelId(), article.getDetail(), article.getTitle());
+        return ServerResponse.createBySuccess();
+    }
+
+    private void LevelTraverse(Set<LabelManageVO> child, Label root, LabelManageVO rootVO) {
+        List<Label> data = labelDao.getByParentId(root.getId());
+        rootVO.setTags(Collections.singletonList(data.size() + ""));
+        for (Label label : data) {
+            LabelManageVO vo = new LabelManageVO();
+            vo.setText(label.getName());
+            vo.setId(label.getId());
+            vo.setParentId(root.getId());
+            vo.setParentName(root.getName());
+            Set<LabelManageVO> Lchild = new HashSet<>();
+            LevelTraverse(Lchild, label, vo);
+            child.add(vo);
+            rootVO.setNodes(child);
+        }
     }
 }

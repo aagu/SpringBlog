@@ -18,6 +18,11 @@ public class ServerResponse<T> {
         this.msg = msg;
     }
 
+    public ServerResponse(int status, T data) {
+        this.status = status;
+        this.data = data;
+    }
+
     private ServerResponse(int status, String msg, T data) {
         this.status = status;
         this.msg = msg;
@@ -46,5 +51,38 @@ public class ServerResponse<T> {
 
     public void setData(T data) {
         this.data = data;
+    }
+
+    @JsonIgnore// 使之不在Json序列化结果当中
+    public boolean isSuccess() {
+        return this.status == ResponseCode.SUCCESS.getCode();
+    }
+
+    public static <T> ServerResponse<T> createBySuccess() {
+        return new ServerResponse<>(ResponseCode.SUCCESS.getCode());
+    }
+
+    public static <T> ServerResponse<T> createBySuccessMessage(String msg) {
+        return new ServerResponse<>(ResponseCode.SUCCESS.getCode(), msg);
+    }
+
+    public static <T> ServerResponse<T> createBySuccess(T data) {
+        return new ServerResponse<>(ResponseCode.SUCCESS.getCode(), data);
+    }
+
+    public static <T> ServerResponse<T> createBySuccess(String msg, T data) {
+        return new ServerResponse<>(ResponseCode.SUCCESS.getCode(), msg, data);
+    }
+
+    public static <T> ServerResponse<T> createError() {
+        return new ServerResponse<T>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getDesc());
+    }
+
+    public static <T> ServerResponse<T> createErrorMessage(String errorMessage) {
+        return new ServerResponse<T>(ResponseCode.ERROR.getCode(), errorMessage);
+    }
+
+    public static <T> ServerResponse<T> createErrorCodeMessage(int code, String errorMessage) {
+        return new ServerResponse<T>(code, errorMessage);
     }
 }
