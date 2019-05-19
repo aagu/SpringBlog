@@ -1,20 +1,11 @@
-package com.aagu.blog.Models;
+package com.aagu.blog.Views;
 
-public class Comment {
-    private Integer id;
+public class CommentVO {
     private String detail;
     private String email;
     private String articleTitle;
+    private Integer commentId;
     private Integer articleId;
-
-    public Comment() {
-    }
-
-    public Comment(String detail, String email, String articleTitle) {
-        this.detail = detail;
-        this.email = email;
-        this.articleTitle = articleTitle;
-    }
 
     public String getDetail() {
         return detail;
@@ -40,12 +31,12 @@ public class Comment {
         this.articleTitle = articleTitle;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getCommentId() {
+        return commentId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setCommentId(Integer commentId) {
+        this.commentId = commentId;
     }
 
     public Integer getArticleId() {
@@ -58,11 +49,11 @@ public class Comment {
 
     @Override
     public String toString() {
-        return "Comment{" +
-                "id=" + id +
-                ", detail='" + detail + '\'' +
+        return "CommentVO{" +
+                "detail='" + detail + '\'' +
                 ", email='" + email + '\'' +
                 ", articleTitle='" + articleTitle + '\'' +
+                ", commentId=" + commentId +
                 ", articleId=" + articleId +
                 '}';
     }

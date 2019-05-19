@@ -7,6 +7,7 @@ public class Article {
     private Integer labelId;
     private String title;
     private String detail;
+    private Integer type;
 
     public Article() {
     }
@@ -64,6 +65,14 @@ public class Article {
 
     public void setDetail(String detail) {
         this.detail = detail == null ? null : detail.trim();
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     @Override

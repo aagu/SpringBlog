@@ -4,6 +4,7 @@ import com.aagu.blog.Models.Article;
 import com.aagu.blog.Models.Label;
 import com.aagu.blog.ServerResponse;
 import com.aagu.blog.Views.AdminVO;
+import com.aagu.blog.Views.CommentVO;
 import com.aagu.blog.Views.LabelManageVO;
 
 import java.util.List;
@@ -24,5 +25,7 @@ public interface AdminService {
     ServerResponse<Article> updateArticle(Article article);
 
     ServerResponse<Article> publishArticle(Article article);
+
+    List<CommentVO> getAllComments();
 
 }

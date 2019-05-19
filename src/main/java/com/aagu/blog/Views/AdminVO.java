@@ -7,7 +7,7 @@ import java.util.List;
 
 public class AdminVO {
     private List<Article> articles;
-    private List<Comment> comments;
+    private List<CommentVO> comments;
     private Integer peopleCount;
     private Integer articleCount;
     private Integer infoCount;
@@ -23,11 +23,11 @@ public class AdminVO {
         this.articles = articles;
     }
 
-    public List<Comment> getComments() {
+    public List<CommentVO> getComments() {
         return comments;
     }
 
-    public void setComments(List<Comment> comments) {
+    public void setComments(List<CommentVO> comments) {
         this.comments = comments;
     }
 

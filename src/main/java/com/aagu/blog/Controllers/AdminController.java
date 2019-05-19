@@ -1,11 +1,14 @@
 package com.aagu.blog.Controllers;
 
 import com.aagu.blog.Models.Article;
+import com.aagu.blog.Models.Comment;
 import com.aagu.blog.ServerResponse;
 import com.aagu.blog.Services.AdminService;
 import com.aagu.blog.Services.FrontService;
+import com.aagu.blog.Utils.TextUtil;
 import com.aagu.blog.Views.ArticleEditVO;
 import com.aagu.blog.Views.ArticleManageVO;
+import com.aagu.blog.Views.CommentVO;
 import com.aagu.blog.Views.LabelManageVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +17,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 
@@ -83,7 +88,7 @@ public class AdminController {
         return response.getData();
     }
 
-    @RequestMapping(value = "/handle-content")
+    @RequestMapping(value = "/write-article")
     public String handleWrite(@RequestParam(value = "type", defaultValue = "1") Integer type,
                               @RequestParam(value = "id", required = false) Integer id,
                               Model model) {
@@ -119,5 +124,34 @@ public class AdminController {
             }
         }
         return ServerResponse.createErrorMessage("参数错误");
+    }
+
+    @GetMapping("/comment")
+    public String getCommentTem(@RequestParam(value = "search", required = false) String search,
+                                @RequestParam(value = "sort", defaultValue = "0") Integer sort,
+                                @RequestParam(value = "page", defaultValue = "1") Integer page, Model model) {
+        if (!sort.equals(0) && !sort.equals(1)) {
+            sort = 0;
+        }
+        String order = "desc";
+        if (sort.equals(1)) {
+            order = "asc";
+        }
+        List<CommentVO> VOs = adminService.getAllComments();
+        for (CommentVO vo : VOs) {
+            vo.setArticleTitle(TextUtil.cutString(vo.getArticleTitle(), 10));
+            vo.setDetail(TextUtil.cutString(vo.getDetail(), 10));
+        }
+
+        String param = "?sort=" + sort;
+        if (search != null) {
+            param += "&search=" + search;
+        }
+
+        model.addAttribute("urlParam", param);
+        model.addAttribute("search", search);
+        model.addAttribute("sort", sort);
+        model.addAttribute(DATA, VOs);
+        return "admin/comment-tem";
     }
 }

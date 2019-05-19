@@ -9,6 +9,7 @@ import com.aagu.blog.Models.Label;
 import com.aagu.blog.ServerResponse;
 import com.aagu.blog.Views.AdminVO;
 import com.aagu.blog.Services.AdminService;
+import com.aagu.blog.Views.CommentVO;
 import com.aagu.blog.Views.LabelManageVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,7 @@ public class AdminServiceImpl implements AdminService {
             return null;
         }
         AdminVO adminVO = new AdminVO();
-        List<Comment> comments = commentDao.getAll();
+        List<CommentVO> comments = commentDao.getAllComment();
         List<Article> articles = articleDao.getAll();
         adminVO.setComments(comments);
         adminVO.setArticles(articles);
@@ -90,6 +91,12 @@ public class AdminServiceImpl implements AdminService {
     public ServerResponse<Article> publishArticle(Article article) {
         articleDao.insertArticle(article.getDate(), article.getLabelId(), article.getDetail(), article.getTitle());
         return ServerResponse.createBySuccess();
+    }
+
+    @Override
+    public List<CommentVO> getAllComments() {
+        List<CommentVO> comments = commentDao.getAllComment();
+        return comments;
     }
 
     private void LevelTraverse(Set<LabelManageVO> child, Label root, LabelManageVO rootVO) {

@@ -1,9 +1,8 @@
 package com.aagu.blog.Dao;
 
 import com.aagu.blog.Models.Comment;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import com.aagu.blog.Views.CommentVO;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,5 +15,12 @@ public interface CommentDao {
     List<Comment> getAll();
 
     @Select("select * from comment where articleId=#{articleId}")
-    List<Comment> getByArticle(@Param("articleId") Integer articleId);
+    List<CommentVO> getByArticle(@Param("articleId") Integer articleId);
+
+    @Select("select comment.detail, email, title, comment.id, articleId from comment join article on comment.articleId = article.id")
+    @Results({
+            @Result(property = "articleTitle", column = "title"),
+            @Result(property = "commentId", column = "id"),
+    })
+    List<CommentVO> getAllComment();
 }

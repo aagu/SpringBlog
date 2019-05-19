@@ -131,11 +131,11 @@
                         <td th:text="${i.index+1}"></td>
                         <td th:text="${item.detail}"></td>
                         <td th:text="${item.email}"></td>
-                        <td><a class="text-danger" target="_blank" th:text="${item.commentTitle}"
-                               th:href="@{'/main/detail/'+${item.contentId}}"></a></td>
+                        <td><a class="text-danger" target="_blank" th:text="${item.articleTitle}"
+                               th:href="@{'/main/detail/'+${item.articleId}}"></a></td>
                         <!--td th:text="${#dates.format(item.createTime,'yyyy/MM/dd  [HH:mm]')}"></td-->
                         <td>
-                            <button th:onclick="${'deleteClick('+item.id+')'}"
+                            <button onclick="'deleteClick('+'${item.commentId}'+')'"
                                     class="btn btn-outline-info btn-sm">已读
                             </button>
                         </td>
