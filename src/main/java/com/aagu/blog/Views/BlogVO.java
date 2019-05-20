@@ -8,6 +8,7 @@ import java.util.List;
 public class BlogVO {
     List<Article> articles;
     List<Label> labels;
+    Integer pages;
 
     public List<Article> getArticles() {
         return articles;
@@ -23,5 +24,13 @@ public class BlogVO {
 
     public void setLabels(List<Label> labels) {
         this.labels = labels;
+    }
+
+    public Integer getPages() {
+        return pages;
+    }
+
+    public void setPages(Integer pages) {
+        this.pages = pages;
     }
 }

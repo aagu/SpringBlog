@@ -78,9 +78,9 @@
                             <th>
                                 内容
                             </th>
-                            <th>
+                            <!--th>
                                 类别
-                            </th>
+                            </th-->
                             <th>
                                 时间
                             </th>
@@ -135,7 +135,7 @@
                                th:href="@{'/main/detail/'+${item.articleId}}"></a></td>
                         <!--td th:text="${#dates.format(item.createTime,'yyyy/MM/dd  [HH:mm]')}"></td-->
                         <td>
-                            <button onclick="'deleteClick('+'${item.commentId}'+')'"
+                            <button th:onclick="'deleteClick('+${item.commentId}+')'"
                                     class="btn btn-outline-info btn-sm">已读
                             </button>
                         </td>
@@ -169,7 +169,7 @@
             if(id!=null){
                 $.ajax({
                     type: "post",
-                    url: serverUrl+"/delete-comment-info",
+                    url: serverUrl+"/read-comment",
                     data: {id:id,_method:"delete"},
                     success:function (data) {
                         if (data.status == 0) {

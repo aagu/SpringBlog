@@ -14,7 +14,7 @@ public class TextUtil {
         if (length == -1) {
             return text;
         }
-        text = text.replaceAll("#", "").replaceAll("[^0-9a-zA-Z\u4e00-\u9fa5,.，。？“”?\"]+", "");
+        text = text.replaceAll("#", "").replaceAll("[^0-9a-zA-Z\u4e00-\u9fa5,.，。？“”?' '\"]+", "");
         return length > text.length() ? text : text.substring(0, length) + "...";
     }
 

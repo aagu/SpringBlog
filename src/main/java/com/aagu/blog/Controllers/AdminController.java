@@ -1,7 +1,6 @@
 package com.aagu.blog.Controllers;
 
 import com.aagu.blog.Models.Article;
-import com.aagu.blog.Models.Comment;
 import com.aagu.blog.ServerResponse;
 import com.aagu.blog.Services.AdminService;
 import com.aagu.blog.Services.FrontService;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -89,8 +87,7 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/write-article")
-    public String handleWrite(@RequestParam(value = "type", defaultValue = "1") Integer type,
-                              @RequestParam(value = "id", required = false) Integer id,
+    public String handleWrite(@RequestParam(value = "id", required = false) Integer id,
                               Model model) {
         ArticleEditVO articleEditVO = new ArticleEditVO();
         articleEditVO.setLabels(adminService.getAllFinalLabels());
@@ -100,6 +97,7 @@ public class AdminController {
             Article article = frontService.getArticleById(id).getData();
             articleEditVO.setLabelId(article.getLabelId());
             articleEditVO.setTitle(article.getTitle());
+            articleEditVO.setDetail(article.getDetail());
         }
 
         model.addAttribute(DATA, articleEditVO);
@@ -153,5 +151,15 @@ public class AdminController {
         model.addAttribute("sort", sort);
         model.addAttribute(DATA, VOs);
         return "admin/comment-tem";
+    }
+
+    @DeleteMapping(value = "/delete-article")
+    public ServerResponse deleteArticle(Integer id) {
+        return adminService.deleteArticle(id);
+    }
+
+    @PostMapping(value = "/read-comment")
+    public ServerResponse deleteComment(Integer id) {
+        return adminService.markCommentAsRead(id);
     }
 }

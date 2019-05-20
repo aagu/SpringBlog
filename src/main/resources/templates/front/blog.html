@@ -51,7 +51,7 @@
 	<!--[if lt IE 9]>
 	<script src="js/respond.min.js"></script>
 	<![endif]-->
-
+	<script src="js/blog_request.js"></script>
 	</head>
 	<body>
 		
@@ -90,16 +90,14 @@
 		<div id="colorlib-container">
 			<div class="container">
 				<div class="row row-pb-md">
-					<div class="col-md-8">
+					<div class="col-md-8" id="content">
 						<div class="blog-entry" th:each="article : ${data.articles}">
 							<div class="blog-img">
 								<a th:href="'/detail/'+ ${article.id}"><img src="images/blog-1.jpg" class="img-responsive" alt="html5 bootstrap template"></a>
 							</div>
 							<div class="desc">
 								<p class="meta">
-									<!--span class="cat"><a href="#">Events</a></span-->
 									<span class="date" th:text="${article.date}">20 March 2018</span>
-									<!--span class="pos">By <a href="#">Rich</a></span-->
 								</p>
 								<h2><a th:href="'/detail/'+ ${article.id}" th:text="${article.title}">Recipe for your site</a></h2>
 								<p th:text="${article.detail}"></p>
@@ -109,13 +107,16 @@
 				</div>
 				<div class="row">
 					<div class="col-md-12 text-center">
-						<ul class="pagination">
+						<!--ul class="pagination">
 							<li class="disabled"><a href="#">&laquo;</a></li>
 							<li class="active"><a href="#">1</a></li>
 							<li><a href="#">2</a></li>
 							<li><a href="#">3</a></li>
 							<li><a href="#">4</a></li>
 							<li><a href="#">&raquo;</a></li>
+						</ul-->
+						<ul class="pagination" th:each="i:${#numbers.sequence(1, data.pages)}">
+							<li><a href="#" th:text="${i}"></a></li>
 						</ul>
 					</div>
 				</div>
@@ -219,7 +220,6 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	<script src="js/magnific-popup-options.js"></script>
 	<!-- Main -->
 	<script src="js/main.js"></script>
-
 	</body>
 </html>
 

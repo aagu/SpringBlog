@@ -28,4 +28,10 @@ public interface AdminService {
 
     List<CommentVO> getAllComments();
 
+    ServerResponse deleteArticle(Integer id);
+
+    ServerResponse deleteComment(Integer id);
+
+    ServerResponse markCommentAsRead(Integer id);
+
 }

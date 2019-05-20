@@ -12,5 +12,5 @@ public interface FrontService {
 
     ServerResponse<Article> getArticleById(Integer id);
 
-    BlogVO getMainPage();
+    BlogVO getMainPage(Integer start, Integer end);
 }

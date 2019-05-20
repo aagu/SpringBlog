@@ -80,10 +80,11 @@
                         </button-->
                         <!--button class="dropdown-item btn-sm" th:onclick="${'contentTop('+item.id+')'}">设置置顶</button-->
                         <!--button class="dropdown-item btn-sm" th:onclick="${'deleteContent('+item.id+')'}">删除</button-->
-                        <button class="dropdown-item btn-sm">更新
+                        <button class="dropdown-item btn-sm"
+                                th:onclick="'updateContent('+${item.id}+')'">更新
                         </button>
                         <button class="dropdown-item btn-sm">设置置顶</button>
-                        <button class="dropdown-item btn-sm">删除</button>
+                        <button class="dropdown-item btn-sm" th:onclick="'deleteContent('+${item.id}+')'">删除</button>
                     </div>
                 </div>
             </div>
@@ -141,13 +142,13 @@
         });
 
         function deleteContent(id) {
-            var url = localUrl + "delete-content";
+            var url = localUrl + "delete-article";
             $.ajax({
                 type: "post",
                 url: url,
                 data: {id: id, _method: "delete"},
                 success: function (data) {
-                    if (data.status == 0) {
+                    if (data.status === 0) {
                         pageReplace(1);
                     } else {
                         alert(data.msg);
@@ -159,8 +160,8 @@
             });
         }
 
-        function updateContent(id, type) {
-            var url = localUrl + "handle-content?type=" + type + "&id=" + id;
+        function updateContent(id) {
+            var url = localUrl + "/write-article?&id=" + id;
             $.get(url, function (d, s, t) {
                 updateFragment(t.responseText);
             });
@@ -194,7 +195,7 @@
         });
 
         //var requestUrl = '[[${data.requestUrl}]]' + "&page=";
-        var requestUrl = null;
+        var requestUrl = '/admin/';
 
         var localUrl = document.getElementById("localUrl").getAttribute("href");
 

@@ -23,4 +23,18 @@ public interface CommentDao {
             @Result(property = "commentId", column = "id"),
     })
     List<CommentVO> getAllComment();
+
+    @Select("select comment.detail, email, title, comment.id, articleId from comment join article on comment.articleId = article.id" +
+            " where isRead=0")
+    @Results({
+            @Result(property = "articleTitle", column = "title"),
+            @Result(property = "commentId", column = "id"),
+    })
+    List<CommentVO> getUnread();
+
+    @Delete("delete from comment where id=#{id}")
+    Integer deleteById(@Param("id") Integer id);
+
+    @Update("update comment set isRead=1 where id=#{id}")
+    Integer markAsRead(@Param("id") Integer id);
 }

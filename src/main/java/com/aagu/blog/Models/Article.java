@@ -2,21 +2,19 @@ package com.aagu.blog.Models;
 
 public class Article {
     private Integer id;
-    private String link;
     private String date;
     private Integer labelId;
     private String title;
     private String detail;
-    private Integer type;
 
     public Article() {
     }
 
-    public Article(String link, String date, Integer labelId, String detail) {
-        this.link = link;
+    public Article(String date, Integer labelId, String detail, String title) {
         this.date = date;
         this.labelId = labelId;
         this.detail = detail;
+        this.title = title;
     }
 
     public Integer getId() {
@@ -25,14 +23,6 @@ public class Article {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getLink() {
-        return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
     }
 
     public String getDate() {
@@ -67,14 +57,6 @@ public class Article {
         this.detail = detail == null ? null : detail.trim();
     }
 
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -94,7 +76,6 @@ public class Article {
     public String toString() {
         return "Article{" +
                 "id=" + id +
-                ", link='" + link + '\'' +
                 ", date='" + date + '\'' +
                 ", labelId=" + labelId +
                 ", detail='" + detail + '\'' +

@@ -35,7 +35,7 @@ public class FrontController {
     String blog(@RequestParam(value = "start", required = false, defaultValue = "0") Integer start,
                 @RequestParam(value = "end", required = false, defaultValue = "3") Integer end,
                 Model model) {
-        model.addAttribute(DATA, frontService.getMainPage());
+        model.addAttribute(DATA, frontService.getMainPage(start, end));
         return "front/blog";
     }
 

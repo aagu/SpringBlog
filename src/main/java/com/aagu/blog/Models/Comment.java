@@ -6,6 +6,7 @@ public class Comment {
     private String email;
     private String articleTitle;
     private Integer articleId;
+    private boolean isRead;
 
     public Comment() {
     }
@@ -54,6 +55,14 @@ public class Comment {
 
     public void setArticleId(Integer articleId) {
         this.articleId = articleId;
+    }
+
+    public boolean isRead() {
+        return isRead;
+    }
+
+    public void setRead(boolean read) {
+        isRead = read;
     }
 
     @Override

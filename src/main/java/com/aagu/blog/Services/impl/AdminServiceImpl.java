@@ -7,6 +7,7 @@ import com.aagu.blog.Models.Article;
 import com.aagu.blog.Models.Comment;
 import com.aagu.blog.Models.Label;
 import com.aagu.blog.ServerResponse;
+import com.aagu.blog.Utils.TextUtil;
 import com.aagu.blog.Views.AdminVO;
 import com.aagu.blog.Services.AdminService;
 import com.aagu.blog.Views.CommentVO;
@@ -34,8 +35,8 @@ public class AdminServiceImpl implements AdminService {
             return null;
         }
         AdminVO adminVO = new AdminVO();
-        List<CommentVO> comments = commentDao.getAllComment();
-        List<Article> articles = articleDao.getAll();
+        List<CommentVO> comments = commentDao.getUnread();
+        List<Article> articles = getAllArticles();
         adminVO.setComments(comments);
         adminVO.setArticles(articles);
         adminVO.setArticleCount(articles.size());
@@ -51,7 +52,11 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public List<Article> getAllArticles() {
-        return articleDao.getAll();
+        List<Article> articles = articleDao.getAll();
+        for (Article article : articles) {
+            article.setDetail(TextUtil.extractTextFromHtml(article.getDetail(), 20));
+        }
+        return articles;
     }
 
     @Override
@@ -97,6 +102,46 @@ public class AdminServiceImpl implements AdminService {
     public List<CommentVO> getAllComments() {
         List<CommentVO> comments = commentDao.getAllComment();
         return comments;
+    }
+
+    @Override
+    public ServerResponse deleteArticle(Integer id) {
+        return deleteInfo(id, "article");
+    }
+
+    @Override
+    public ServerResponse deleteComment(Integer id) {
+        return deleteInfo(id, "comment");
+    }
+
+    @Override
+    public ServerResponse markCommentAsRead(Integer id) {
+        if (id != null) {
+            commentDao.markAsRead(id);
+            return ServerResponse.createBySuccessMessage("OK");
+        }
+        return ServerResponse.createErrorMessage("failed");
+    }
+
+    private ServerResponse deleteInfo(Integer id, String type) {
+        if (id != null) {
+            int row = -1;
+            switch (type) {
+                case "article":
+                    row = commentDao.deleteById(id);
+                    break;
+                case "comment":
+                    row = articleDao.deleteById(id);
+                    break;
+                default:
+                    break;
+            }
+            if (row < 0) {
+                return ServerResponse.createErrorMessage("fail to delete id:" + id);
+            }
+            return ServerResponse.createBySuccessMessage("success");
+        }
+        return ServerResponse.createErrorMessage("invalid parameter");
     }
 
     private void LevelTraverse(Set<LabelManageVO> child, Label root, LabelManageVO rootVO) {

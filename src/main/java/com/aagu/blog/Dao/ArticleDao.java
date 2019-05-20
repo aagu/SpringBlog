@@ -23,6 +23,9 @@ public interface ArticleDao {
     @Select("select * from article limit #{start}, #{end}")
     List<Article> getByPage(@Param("start") Integer start, @Param("end") Integer end);
 
+    @Select("select count(id)/#{div} from article")
+    Integer getPageCount(@Param("div") Integer div);
+
     @Update("update article set title=#{title} date=now() where id=#{id}")
     void updateTitle(@Param("id") Integer id, @Param("title") String title);
 
@@ -38,4 +41,7 @@ public interface ArticleDao {
                           @Param("label") Integer label,
                           @Param("detail") String detail,
                           @Param("title") String title);
+
+    @Delete("delete from article where id=#{id}")
+    Integer deleteById(@Param("id") Integer id);
 }
