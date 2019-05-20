@@ -63,7 +63,7 @@
             <!--正文循环-->
             <div class="media text-muted pt-3" th:each="item : ${data.articles}">
                 <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-                    <strong class="d-block text-gray-dark"><a target="_blank" th:href="@{'/main/detail/'+${item.id}}"
+                    <strong class="d-block text-gray-dark"><a target="_blank" th:href="@{'/detail/'+${item.id}}"
                                                               th:text="${item.title}">测试文章</a></strong>
                     <th:block th:text="${item.detail.substring(0,(item.detail.length()<80?item.detail.length():80))}">
 
