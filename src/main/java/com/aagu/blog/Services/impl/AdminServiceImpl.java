@@ -4,16 +4,21 @@ import com.aagu.blog.Dao.ArticleDao;
 import com.aagu.blog.Dao.CommentDao;
 import com.aagu.blog.Dao.LabelDao;
 import com.aagu.blog.Models.Article;
-import com.aagu.blog.Models.Comment;
 import com.aagu.blog.Models.Label;
+import com.aagu.blog.Models.User;
 import com.aagu.blog.ServerResponse;
 import com.aagu.blog.Utils.TextUtil;
 import com.aagu.blog.Views.AdminVO;
 import com.aagu.blog.Services.AdminService;
 import com.aagu.blog.Views.CommentVO;
 import com.aagu.blog.Views.LabelManageVO;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.util.StringUtils;
 
 import java.util.*;
 
@@ -121,6 +126,21 @@ public class AdminServiceImpl implements AdminService {
             return ServerResponse.createBySuccessMessage("OK");
         }
         return ServerResponse.createErrorMessage("failed");
+    }
+
+    @Override
+    public ServerResponse login(String name, String pwd) {
+        if (!StringUtils.isEmpty(name) && !StringUtils.isEmpty(pwd)) {
+            UsernamePasswordToken token = new UsernamePasswordToken(name, pwd);
+            Subject subject = SecurityUtils.getSubject();
+            try {
+                subject.login(token);
+                return ServerResponse.createBySuccessMessage("登录成功");
+            } catch (AuthenticationException e) {
+                return ServerResponse.createErrorMessage("用户名和密码不匹配");
+            }
+        }
+        return ServerResponse.createErrorMessage("参数错误");
     }
 
     private ServerResponse deleteInfo(Integer id, String type) {

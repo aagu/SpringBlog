@@ -34,4 +34,6 @@ public interface AdminService {
 
     ServerResponse markCommentAsRead(Integer id);
 
+    ServerResponse login(String name, String pwd);
+
 }

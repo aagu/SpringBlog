@@ -1,6 +1,7 @@
 package com.aagu.blog.Controllers;
 
 import com.aagu.blog.Models.Article;
+import com.aagu.blog.Models.User;
 import com.aagu.blog.ServerResponse;
 import com.aagu.blog.Services.AdminService;
 import com.aagu.blog.Services.FrontService;
@@ -9,12 +10,19 @@ import com.aagu.blog.Views.ArticleEditVO;
 import com.aagu.blog.Views.ArticleManageVO;
 import com.aagu.blog.Views.CommentVO;
 import com.aagu.blog.Views.LabelManageVO;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -36,6 +44,22 @@ public class AdminController {
     @GetMapping(value = "")
     public String admin() {
         return "admin/admin";
+    }
+
+    @GetMapping(value = "/login")
+    public String login() {
+        return "admin/login";
+    }
+
+    @PostMapping(value = "/login-from")
+    public String loginForm(String name, String pwd, RedirectAttributes attributes, HttpSession session) {
+        ServerResponse res = adminService.login(name, pwd);
+        if (res.isSuccess()) {
+            session.setAttribute("CurrentAdmin", name);
+            return "redirect:/admin";
+        }
+        attributes.addFlashAttribute("login_msg", res.getMsg());
+        return "redirect:/admin/login";
     }
 
     @GetMapping(value = "/main")
@@ -161,5 +185,10 @@ public class AdminController {
     @PostMapping(value = "/read-comment")
     public ServerResponse deleteComment(Integer id) {
         return adminService.markCommentAsRead(id);
+    }
+
+    @GetMapping(value = "account-manage")
+    public String account() {
+        return "admin/account-tem";
     }
 }
