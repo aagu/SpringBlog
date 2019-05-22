@@ -15,7 +15,7 @@ public interface CommentDao {
     List<Comment> getAll();
 
     @Select("select * from comment where articleId=#{articleId}")
-    List<CommentVO> getByArticle(@Param("articleId") Integer articleId);
+    List<Comment> getByArticle(@Param("articleId") Integer articleId);
 
     @Select("select comment.detail, email, title, comment.id, articleId from comment join article on comment.articleId = article.id")
     @Results({
@@ -31,6 +31,9 @@ public interface CommentDao {
             @Result(property = "commentId", column = "id"),
     })
     List<CommentVO> getUnread();
+
+    @Insert("insert into comment(detail, email, articleId) value(#{detail},#{email},#{id})")
+    Integer insertComment(@Param("detail") String detail, @Param("email") String email, @Param("id") Integer articleId);
 
     @Delete("delete from comment where id=#{id}")
     Integer deleteById(@Param("id") Integer id);

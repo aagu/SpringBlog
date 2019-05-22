@@ -170,7 +170,7 @@
                 $.ajax({
                     type: "post",
                     url: serverUrl+"/read-comment",
-                    data: {id:id,_method:"delete"},
+                    data: {id:id},
                     success:function (data) {
                         if (data.status == 0) {
                             item_1();

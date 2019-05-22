@@ -1,17 +1,14 @@
 package com.aagu.blog.Controllers;
 
-import com.aagu.blog.Models.Article;
 import com.aagu.blog.ServerResponse;
 import com.aagu.blog.Services.FrontService;
+import com.aagu.blog.Views.ArticleDetailVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import javax.validation.constraints.Email;
 
 @Controller
 public class FrontController {
@@ -23,12 +20,8 @@ public class FrontController {
     private static final String DEFAULT_RESULT = "defaultData";
 
     @GetMapping(value = "")
-    void main(HttpServletResponse response) {
-        try {
-            response.sendRedirect("blog");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    String main() {
+        return "redirect:/blog";
     }
 
     @GetMapping(value = "/blog")
@@ -50,13 +43,19 @@ public class FrontController {
             model.addAttribute(DEFAULT_RESULT, "不记得你要哪篇内容了");
             return "error";
         }
-        ServerResponse<Article> article = frontService.getArticleById(index);
+        ServerResponse<ArticleDetailVO> article = frontService.getArticleDetail(index);
         if (!article.isSuccess()) {
             model.addAttribute(DEFAULT_RESULT, "找不到文章");
             return "error";
         }
         model.addAttribute(DATA, article);
         return "front/detail";
+    }
+
+    @PostMapping(value = "put-comment")
+    public String createComment(@Email String email, String detail, Integer articleId) {
+        frontService.createComment(email, detail, articleId);
+        return "redirect:/detail/" + articleId;
     }
 
 }

@@ -183,6 +183,7 @@ public class AdminController {
     }
 
     @PostMapping(value = "/read-comment")
+    @ResponseBody
     public ServerResponse deleteComment(Integer id) {
         return adminService.markCommentAsRead(id);
     }

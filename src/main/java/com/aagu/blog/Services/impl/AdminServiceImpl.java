@@ -122,8 +122,8 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public ServerResponse markCommentAsRead(Integer id) {
         if (id != null) {
-            commentDao.markAsRead(id);
-            return ServerResponse.createBySuccessMessage("OK");
+            int res = commentDao.markAsRead(id);
+            if (res >= 0) return ServerResponse.createBySuccessMessage("OK");
         }
         return ServerResponse.createErrorMessage("failed");
     }

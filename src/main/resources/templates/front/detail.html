@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title th:text="${data.data.title}">BLOG</title>
+    <title th:text="${data.data.article.title}">BLOG</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -20,56 +20,57 @@
     <meta name="twitter:url" content="" />
     <meta name="twitter:card" content="" />
 
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet">
-
-    <!-- Animate.css -->
-    <link rel="stylesheet" href="/css/animate.css">
-    <!-- Icomoon Icon Fonts-->
-    <link rel="stylesheet" href="/css/icomoon.css">
-    <!-- Bootstrap  -->
-    <link rel="stylesheet" href="/css/bootstrap.css">
-
-    <!-- Magnific Popup -->
-    <link rel="stylesheet" href="/css/magnific-popup.css">
-
-    <!-- Flexslider  -->
-    <link rel="stylesheet" href="/css/flexslider.css">
-
-    <!-- Owl Carousel -->
-    <link rel="stylesheet" href="/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="/css/owl.theme.default.min.css">
-
-    <!-- Flaticons  -->
-    <link rel="stylesheet" href="/fonts/flaticon/font/flaticon.css">
-
-    <!-- Theme style  -->
-    <link rel="stylesheet" href="/css/style.css">
-
-    <!-- Modernizr JS -->
-    <script src="/js/modernizr-2.6.2.min.js"></script>
-    <!-- FOR IE9 below -->
-    <!--[if lt IE 9]-->
-    <script src="/js/respond.min.js"></script>
-    <!-- jQuery -->
-    <script src="/js/jquery.min.js"></script>
-    <!-- jQuery Easing -->
-    <script src="/js/jquery.easing.1.3.js"></script>
-    <!-- Bootstrap -->
-    <script src="/js/bootstrap.min.js"></script>
-    <!-- Waypoints -->
-    <script src="/js/jquery.waypoints.min.js"></script>
-    <!-- Flexslider -->
-    <script src="/js/jquery.flexslider-min.js"></script>
-    <!-- Owl carousel -->
-    <script src="/js/owl.carousel.min.js"></script>
-    <!-- Magnific Popup -->
-    <script src="/js/jquery.magnific-popup.min.js"></script>
-    <script src="/js/magnific-popup-options.js"></script>
-    <!-- Main -->
-    <script src="/js/main.js"></script>
-    <![endif]-->
 </head>
 <body>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet">
+
+<!-- Animate.css -->
+<link rel="stylesheet" href="/css/animate.css">
+<!-- Icomoon Icon Fonts-->
+<link rel="stylesheet" href="/css/icomoon.css">
+<!-- Bootstrap  -->
+<link rel="stylesheet" href="/css/bootstrap.css">
+
+<!-- Magnific Popup -->
+<link rel="stylesheet" href="/css/magnific-popup.css">
+
+<!-- Flexslider  -->
+<link rel="stylesheet" href="/css/flexslider.css">
+
+<!-- Owl Carousel -->
+<link rel="stylesheet" href="/css/owl.carousel.min.css">
+<link rel="stylesheet" href="/css/owl.theme.default.min.css">
+
+<!-- Flaticons  -->
+<link rel="stylesheet" href="/fonts/flaticon/font/flaticon.css">
+
+<!-- Theme style  -->
+<link rel="stylesheet" href="/css/style.css">
+
+<!-- Modernizr JS -->
+<script src="/js/modernizr-2.6.2.min.js"></script>
+<!-- FOR IE9 below -->
+<!--[if lt IE 9]-->
+<script src="/js/respond.min.js"></script>
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+<!-- jQuery Easing -->
+<script src="/js/jquery.easing.1.3.js"></script>
+<!-- Bootstrap -->
+<script src="/js/bootstrap.min.js"></script>
+<!-- Waypoints -->
+<script src="/js/jquery.waypoints.min.js"></script>
+<!-- Flexslider -->
+<script src="/js/jquery.flexslider-min.js"></script>
+<!-- Owl carousel -->
+<script src="/js/owl.carousel.min.js"></script>
+<!-- Magnific Popup -->
+<script src="/js/jquery.magnific-popup.min.js"></script>
+<script src="/js/magnific-popup-options.js"></script>
+<!-- Main -->
+<script src="/js/main.js"></script>
+<![endif]-->
+
     <div class="colorlib-loader"></div>
     <div id="page">
         <nav class="colorlib-nav" role="navigation">
@@ -91,21 +92,73 @@
             </div>
         </nav>
 
-        <aside id="colorlib-breadcrumbs">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12 breadcrumbs text-center">
-                        <h2 th:text="${data.data.title}">Read our blog</h2>
-                    </div>
-                </div>
-            </div>
-        </aside>
-
         <div id="colorlib-container">
             <div class="container">
-                <div class="row row-pb-md">
-                    <div class="col-md-12" th:utext="${data.data.detail}">
-                        文章内容
+                <div class="row">
+                    <div class="col-md-9 content">
+                        <div class="row row-pb-lg">
+                            <div class="col-md-12">
+                                <div class="blog-entry">
+                                    <div class="blog-img blog-detail">
+                                        <img src="/images/blog-4.jpg" class="img-responsive" alt="html5 bootstrap template">
+                                    </div>
+                                    <div class="desc">
+                                        <!--p class="meta">
+                                            <span class="cat"><a href="#">Events</a></span>
+                                            <span class="date">20 March 2018</span>
+                                            <span class="pos">By <a href="#">Rich</a></span>
+                                        </p-->
+                                        <h2 th:text="${data.data.article.title}">Recipe for your site</h2>
+                                        <div class="row row-pb-md" th:utext="${data.data.article.detail}"></div>
+                                        <div class="row row-pb-md">
+                                            <div class="col-md-4" th:text="'标签：'+${data.data.label.name}">标签</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-pb-lg">
+                            <div class="col-md-12">
+                                <h2 class="heading-2" th:text="${data.data.commentCount}+' Comments'">23 Comments</h2>
+                                <div class="review" th:each="comment : ${data.data.comments}">
+                                    <div class="user-img" style="background-image: url(/images/person1.jpg)"></div>
+                                    <div class="desc">
+                                        <h4>
+                                            <span class="text-left" th:text="${comment.email}">Jacob Webb</span>
+                                            <span class="text-right">24 March 2018</span>
+                                        </h4>
+                                        <p th:text="${comment.detail}">Bookmarksgrov</p>
+                                        <p class="star">
+                                            <span class="text-left"><a href="#" class="reply"><i class="icon-reply"></i></a></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h2 class="heading-2">Say something</h2>
+                                <form th:action="@{/put-comment}" method="post">
+                                    <input type="hidden" name="articleId" th:value="${data.data.article.id}"/>
+                                    <div class="row form-group">
+                                        <div class="col-md-12">
+                                            <!-- <label for="email">Email</label> -->
+                                            <input name="email" type="text" id="email" class="form-control" placeholder="Your email address">
+                                        </div>
+                                    </div>
+
+                                    <div class="row form-group">
+                                        <div class="col-md-12">
+                                            <!-- <label for="message">Message</label> -->
+                                            <textarea name="detail" id="message" cols="30" rows="10" class="form-control" placeholder="Say something about us"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary" id="post_comment">Post Comment</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -115,5 +168,17 @@
     <div class="gototop js-top">
         <a href="#" class="js-gotop"><i class="icon-arrow-up2"></i></a>
     </div>
+
+    <!--script>
+        $('#post_comment').on('click', function () {
+            var data = {};
+            data.email = $('#email').val();
+            data.detail = $('#detail').val();
+            data.articleId = $('#articleId').val();
+            $.post("put-comment", data, function (result) {
+                console.log(result)
+            })
+        })
+    </script-->
 </body>
 </html>

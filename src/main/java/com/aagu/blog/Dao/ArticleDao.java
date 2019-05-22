@@ -23,13 +23,13 @@ public interface ArticleDao {
     @Select("select * from article limit #{start}, #{end}")
     List<Article> getByPage(@Param("start") Integer start, @Param("end") Integer end);
 
-    @Select("select count(id)/#{div} from article")
+    @Select("select ceil(count(id)/#{div}) from article")
     Integer getPageCount(@Param("div") Integer div);
 
-    @Update("update article set title=#{title} date=now() where id=#{id}")
+    @Update("update article set title=#{title}, date=now() where id=#{id}")
     void updateTitle(@Param("id") Integer id, @Param("title") String title);
 
-    @Update("update article set detail=#{detail} date=now() where id=#{id}")
+    @Update("update article set detail=#{detail}, date=now() where id=#{id}")
     void updateDetail(@Param("id") Integer id, @Param("detail") String detail);
 
     @Update("update article set labelId=#{labelId} where id=#{id}")

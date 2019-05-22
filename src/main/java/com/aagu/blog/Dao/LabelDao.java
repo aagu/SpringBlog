@@ -20,4 +20,7 @@ public interface LabelDao {
 
     @Select("select * from label where id not in (select parentId from label)")
     List<Label> getChildLabel();
+
+    @Select("select * from label where id=#{id}")
+    Label getById(@Param("id") Integer id);
 }
