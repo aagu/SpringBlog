@@ -6,9 +6,10 @@ import com.aagu.blog.Models.Label;
 import java.util.List;
 
 public class BlogVO {
-    List<Article> articles;
-    List<Label> labels;
-    Integer pages;
+    private List<Article> articles;
+    private List<Label> labels;
+    private Integer pages;
+    private Integer currePage;
 
     public List<Article> getArticles() {
         return articles;
@@ -32,5 +33,13 @@ public class BlogVO {
 
     public void setPages(Integer pages) {
         this.pages = pages;
+    }
+
+    public Integer getCurrePage() {
+        return currePage;
+    }
+
+    public void setCurrePage(Integer currePage) {
+        this.currePage = currePage;
     }
 }

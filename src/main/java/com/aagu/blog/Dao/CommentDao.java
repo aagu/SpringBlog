@@ -1,7 +1,6 @@
 package com.aagu.blog.Dao;
 
 import com.aagu.blog.Models.Comment;
-import com.aagu.blog.Views.CommentVO;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -17,20 +16,27 @@ public interface CommentDao {
     @Select("select * from comment where articleId=#{articleId}")
     List<Comment> getByArticle(@Param("articleId") Integer articleId);
 
-    @Select("select comment.detail, email, title, comment.id, articleId from comment join article on comment.articleId = article.id")
+    @Select("select comment.detail, email, title, comment.id, articleId, createtime " +
+            "from comment join article on comment.articleId = article.id " +
+            "limit #{start}, #{end}")
     @Results({
             @Result(property = "articleTitle", column = "title"),
-            @Result(property = "commentId", column = "id"),
+            @Result(property = "id", column = "id"),
+            @Result(property = "date", column = "createtime"),
     })
-    List<CommentVO> getAllComment();
+    List<Comment> getByPage(@Param("start") Integer start, @Param("end") Integer end);
 
-    @Select("select comment.detail, email, title, comment.id, articleId from comment join article on comment.articleId = article.id" +
+    @Select("select comment.detail, email, title, comment.id, articleId, createtime from comment join article on comment.articleId = article.id" +
             " where isRead=0")
     @Results({
             @Result(property = "articleTitle", column = "title"),
-            @Result(property = "commentId", column = "id"),
+            @Result(property = "id", column = "id"),
+            @Result(property = "date", column = "createtime"),
     })
-    List<CommentVO> getUnread();
+    List<Comment> getUnread();
+
+    @Select("select ceil(count(id)/#{div}) from comment")
+    Integer getCommentCount(@Param("div") Integer div);
 
     @Insert("insert into comment(detail, email, articleId) value(#{detail},#{email},#{id})")
     Integer insertComment(@Param("detail") String detail, @Param("email") String email, @Param("id") Integer articleId);

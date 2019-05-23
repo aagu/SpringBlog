@@ -97,6 +97,7 @@
 							</div>
 							<div class="desc">
 								<p class="meta">
+									<!--/*@thymesVar id=article type=com.aagu.blog.Models.Article*/-->
 									<span class="date" th:text="${article.date}">20 March 2018</span>
 								</p>
 								<h2><a th:href="'/detail/'+ ${article.id}" th:text="${article.title}">Recipe for your site</a></h2>
@@ -107,16 +108,14 @@
 				</div>
 				<div class="row">
 					<div class="col-md-12 text-center">
-						<!--ul class="pagination">
-							<li class="disabled"><a href="#">&laquo;</a></li>
-							<li class="active"><a href="#">1</a></li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">3</a></li>
-							<li><a href="#">4</a></li>
-							<li><a href="#">&raquo;</a></li>
-						</ul-->
-						<ul class="pagination" th:each="i:${#numbers.sequence(1, data.pages)}">
-							<li><a href="#" th:text="${i}"></a></li>
+						<ul class="pagination">
+							<li th:class="${data.currePage==1}?'disabled':''"><a th:href="@{'/blog?page=1'}">&laquo;</a></li>
+							<li th:if="${data.currePage-2>=1}"><a th:href="@{'/blog?page='+${data.currePage-2}}" th:text="${data.currePage-2}"></a></li>
+							<li th:if="${data.currePage-1>=1}"><a th:href="@{'/blog?page='+${data.currePage-1}}" th:text="${data.currePage-1}"></a></li>
+							<li class="active"><a href="#" th:text="${data.currePage}"></a></li>
+							<li th:if="${data.currePage+1<=data.pages}"><a th:href="@{'/blog?page='+${data.currePage+1}}" th:text="${data.currePage+1}"></a></li>
+							<li th:if="${data.currePage+2<=data.pages}"><a th:href="@{'/blog?page='+${data.currePage+2}}" th:text="${data.currePage+2}"></a></li>
+							<li th:class="${data.currePage==data.pages}?'disabled':''"><a th:href="@{'/blog?page='+${data.pages}}">&raquo;</a></li>
 						</ul>
 					</div>
 				</div>

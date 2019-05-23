@@ -6,7 +6,7 @@ import com.aagu.blog.Dao.LabelDao;
 import com.aagu.blog.Models.Article;
 import com.aagu.blog.Models.Comment;
 import com.aagu.blog.Models.Label;
-import com.aagu.blog.ServerResponse;
+import com.aagu.blog.Common.ServerResponse;
 import com.aagu.blog.Services.FrontService;
 import com.aagu.blog.Utils.TextUtil;
 import com.aagu.blog.Views.ArticleDetailVO;
@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static com.aagu.blog.Common.Const.*;
 
 @Service
 public class FrontServiceImpl implements FrontService {
@@ -66,15 +68,16 @@ public class FrontServiceImpl implements FrontService {
     }
 
     @Override
-    public BlogVO getMainPage(Integer start, Integer end) {
+    public BlogVO getMainPage(Integer page) {
         BlogVO blogVO = new BlogVO();
-        List<Article> articles = articleDao.getByPage(start, end);
+        List<Article> articles = articleDao.getByPage((page-1) * ARTICLE_PAGE_LEN, page * ARTICLE_PAGE_LEN - 1);
         for (Article article : articles) {
             article.setDetail(TextUtil.extractTextFromHtml(article.getDetail(), 15));
         }
         blogVO.setArticles(articles);
         blogVO.setLabels(labelDao.getChildLabel());
-        blogVO.setPages(articleDao.getPageCount(3));
+        blogVO.setPages(articleDao.getPageCount(ARTICLE_PAGE_LEN));
+        blogVO.setCurrePage(page);
         return blogVO;
     }
 

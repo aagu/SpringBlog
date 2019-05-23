@@ -7,6 +7,7 @@ public class Comment {
     private String articleTitle;
     private Integer articleId;
     private boolean isRead;
+    private String date;
 
     public Comment() {
     }
@@ -65,14 +66,22 @@ public class Comment {
         isRead = read;
     }
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
     @Override
     public String toString() {
         return "Comment{" +
-                "id=" + id +
-                ", detail='" + detail + '\'' +
+                "detail='" + detail + '\'' +
                 ", email='" + email + '\'' +
                 ", articleTitle='" + articleTitle + '\'' +
-                ", articleId=" + articleId +
+                ", isRead=" + isRead +
+                ", date='" + date + '\'' +
                 '}';
     }
 }

@@ -1,8 +1,9 @@
 package com.aagu.blog.Services;
 
 import com.aagu.blog.Models.Article;
+import com.aagu.blog.Models.Comment;
 import com.aagu.blog.Models.Label;
-import com.aagu.blog.ServerResponse;
+import com.aagu.blog.Common.ServerResponse;
 import com.aagu.blog.Views.AdminVO;
 import com.aagu.blog.Views.CommentVO;
 import com.aagu.blog.Views.LabelManageVO;
@@ -26,7 +27,7 @@ public interface AdminService {
 
     ServerResponse<Article> publishArticle(Article article);
 
-    List<CommentVO> getAllComments();
+    List<Comment> getCommentByPage(Integer start, Integer end);
 
     ServerResponse deleteArticle(Integer id);
 
@@ -35,5 +36,7 @@ public interface AdminService {
     ServerResponse markCommentAsRead(Integer id);
 
     ServerResponse login(String name, String pwd);
+
+    Integer getCommentPages();
 
 }

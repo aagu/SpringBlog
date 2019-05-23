@@ -133,9 +133,9 @@
                         <td th:text="${item.email}"></td>
                         <td><a class="text-danger" target="_blank" th:text="${item.articleTitle}"
                                th:href="@{'/main/detail/'+${item.articleId}}"></a></td>
-                        <!--td th:text="${#dates.format(item.createTime,'yyyy/MM/dd  [HH:mm]')}"></td-->
+                        <td th:text="${item.date}">2018/5/30</td>
                         <td>
-                            <button th:onclick="'deleteClick('+${item.commentId}+')'"
+                            <button th:onclick="'deleteClick('+${item.id}+')'"
                                     class="btn btn-outline-info btn-sm">已读
                             </button>
                         </td>

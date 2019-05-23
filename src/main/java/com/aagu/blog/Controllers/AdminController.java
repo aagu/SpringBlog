@@ -1,8 +1,8 @@
 package com.aagu.blog.Controllers;
 
 import com.aagu.blog.Models.Article;
-import com.aagu.blog.Models.User;
-import com.aagu.blog.ServerResponse;
+import com.aagu.blog.Common.ServerResponse;
+import com.aagu.blog.Models.Comment;
 import com.aagu.blog.Services.AdminService;
 import com.aagu.blog.Services.FrontService;
 import com.aagu.blog.Utils.TextUtil;
@@ -10,9 +10,6 @@ import com.aagu.blog.Views.ArticleEditVO;
 import com.aagu.blog.Views.ArticleManageVO;
 import com.aagu.blog.Views.CommentVO;
 import com.aagu.blog.Views.LabelManageVO;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,13 +17,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+
+import static com.aagu.blog.Common.Const.COMMENT_PAGE_LEN;
 
 
 @Controller
@@ -159,11 +156,16 @@ public class AdminController {
         if (sort.equals(1)) {
             order = "asc";
         }
-        List<CommentVO> VOs = adminService.getAllComments();
-        for (CommentVO vo : VOs) {
-            vo.setArticleTitle(TextUtil.cutString(vo.getArticleTitle(), 10));
-            vo.setDetail(TextUtil.cutString(vo.getDetail(), 10));
+        List<Comment> comments = adminService.getCommentByPage((page-1) * COMMENT_PAGE_LEN, page * COMMENT_PAGE_LEN - 1);
+        for (Comment comment : comments) {
+            comment.setArticleTitle(TextUtil.cutString(comment.getArticleTitle(), 10));
+            comment.setDetail(TextUtil.cutString(comment.getDetail(), 10));
         }
+
+        CommentVO commentVO = new CommentVO();
+        commentVO.setComments(comments);
+        commentVO.setCurrePage(page);
+        commentVO.setTotalPage(adminService.getCommentPages());
 
         String param = "?sort=" + sort;
         if (search != null) {
@@ -173,7 +175,7 @@ public class AdminController {
         model.addAttribute("urlParam", param);
         model.addAttribute("search", search);
         model.addAttribute("sort", sort);
-        model.addAttribute(DATA, VOs);
+        model.addAttribute(DATA, commentVO);
         return "admin/comment-tem";
     }
 
@@ -184,12 +186,18 @@ public class AdminController {
 
     @PostMapping(value = "/read-comment")
     @ResponseBody
-    public ServerResponse deleteComment(Integer id) {
+    public ServerResponse readComment(Integer id) {
         return adminService.markCommentAsRead(id);
     }
 
     @GetMapping(value = "account-manage")
     public String account() {
         return "admin/account-tem";
+    }
+
+    @DeleteMapping(value = "/del-comment")
+    @ResponseBody
+    public ServerResponse deleteComment(Integer id) {
+        return adminService.deleteComment(id);
     }
 }

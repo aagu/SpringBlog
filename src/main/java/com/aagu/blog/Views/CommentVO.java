@@ -1,60 +1,36 @@
 package com.aagu.blog.Views;
 
+import com.aagu.blog.Models.Comment;
+
+import java.util.List;
+
 public class CommentVO {
-    private String detail;
-    private String email;
-    private String articleTitle;
-    private Integer commentId;
-    private Integer articleId;
+    private List<Comment> comments;
+    private Integer currePage;
+    private Integer totalPage;
 
-    public String getDetail() {
-        return detail;
+    public List<Comment> getComments() {
+        return comments;
     }
 
-    public void setDetail(String detail) {
-        this.detail = detail;
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 
-    public String getEmail() {
-        return email;
+    public Integer getCurrePage() {
+        return currePage;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setCurrePage(Integer currePage) {
+        this.currePage = currePage;
     }
 
-    public String getArticleTitle() {
-        return articleTitle;
+    public Integer getTotalPage() {
+        return totalPage;
     }
 
-    public void setArticleTitle(String articleTitle) {
-        this.articleTitle = articleTitle;
+    public void setTotalPage(Integer totalPage) {
+        this.totalPage = totalPage;
     }
 
-    public Integer getCommentId() {
-        return commentId;
-    }
-
-    public void setCommentId(Integer commentId) {
-        this.commentId = commentId;
-    }
-
-    public Integer getArticleId() {
-        return articleId;
-    }
-
-    public void setArticleId(Integer articleId) {
-        this.articleId = articleId;
-    }
-
-    @Override
-    public String toString() {
-        return "CommentVO{" +
-                "detail='" + detail + '\'' +
-                ", email='" + email + '\'' +
-                ", articleTitle='" + articleTitle + '\'' +
-                ", commentId=" + commentId +
-                ", articleId=" + articleId +
-                '}';
-    }
 }

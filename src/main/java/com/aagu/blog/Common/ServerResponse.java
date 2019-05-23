@@ -1,4 +1,4 @@
-package com.aagu.blog;
+package com.aagu.blog.Common;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;

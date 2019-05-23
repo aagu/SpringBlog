@@ -34,15 +34,15 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="item,i : ${data}">
+                <tr th:each="item,i : ${data.comments}">
                     <td th:text="${i.index+1}">1</td>
                     <td th:text="${item.detail}">我用心跳给你个承诺...</td>
                     <td th:text="${item.email}">835033913@qq.com</td>
                     <td><a class="text-danger" target="_blank" th:text="${item.articleTitle}"
                            th:href="@{'/main/detail/'+${item.articleId}}"></a></td>
-                    <!--td th:text="${#dates.format(item.createTime,'yyyy/MM/dd  [HH:mm]')}">2018/5/30</td-->
+                    <td th:text="${item.date}">2018/5/30</td>
                     <td>
-                        <button type="button" onclick="'deleteClick('+'${item.commentId}'+')'"
+                        <button type="button" th:onclick="'deleteClick('+${item.id}+')'"
                                 class="btn btn-outline-github btn-round btn-sm">
                             删除
                         </button>
@@ -55,24 +55,32 @@
             <hr/>
 
             <!--页码部分代码-->
-            <!--ul class="pagination d-flex justify-content-center">
-                <li class="page-item " th:classappend="${!data.data.hasPreviousPage}?'disabled'">
-                    <a class="page-link" th:onclick="${'replacePageClick('+data.data.prePage+')'}"><</a>
-                </li>
-                <th:block th:each="item : ${data.data.navigatepageNums}">
-                    <li class="page-item" th:classappend="${item==data.data.pageNum}?'active'">
-                        <a class="page-link" th:onclick="${'replacePageClick('+item+')'}"
-                           th:text="${item}">3</a>
+            <ul class="pagination d-flex justify-content-center">
+                <th:block >
+                    <li class="page-item " th:classappend="${data.currePage==1}?'disable'">
+                        <a class="page-link" th:onclick="'replacePageClick(1)'">&laquo;</a>
+                    </li>
+                    <li class="page-item" th:if="${data.currePage-1>=1}">
+                        <a class="page-link" th:onclick="'replacePageClick('+${data.currePage-1}+')'"
+                           th:text="${data.currePage-1}">3</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" th:classappend='active'
+                           th:text="${data.currePage}">3</a>
+                    </li>
+                    <li class="page-item" th:if="${data.currePage+1<=data.totalPage}">
+                        <a class="page-link" th:onclick="'replacePageClick('+${data.currePage+1}+')'"
+                           th:text="${data.currePage+1}">3</a>
+                    </li>
+                    <li class="page-item" th:classappend="${data.currePage==data.totalPage}?'disable'">
+                        <a class="page-link" th:onclick="'replacePageClick('+${data.totalPage}+')'">&raquo;</a>
                     </li>
                 </th:block>
-                <li class="page-item" th:classappend="${!data.data.hasNextPage}?'disabled'">
-                    <a class="page-link" th:onclick="${'replacePageClick('+data.data.nextPage+')'}">></a>
-                </li>
-            </ul-->
+            </ul>
         </div>
     </div>
 
-    <a th:href="@{/admin/comment}" class="hide" id="commentUrl"></a>
+    <a th:href="@{/admin/del-comment}" class="hide" id="commentUrl"></a>
 
     <script type="text/plain" th:utext="${urlParam}" id="urlParam">
 

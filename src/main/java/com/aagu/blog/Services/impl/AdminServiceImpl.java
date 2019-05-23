@@ -4,9 +4,9 @@ import com.aagu.blog.Dao.ArticleDao;
 import com.aagu.blog.Dao.CommentDao;
 import com.aagu.blog.Dao.LabelDao;
 import com.aagu.blog.Models.Article;
+import com.aagu.blog.Models.Comment;
 import com.aagu.blog.Models.Label;
-import com.aagu.blog.Models.User;
-import com.aagu.blog.ServerResponse;
+import com.aagu.blog.Common.ServerResponse;
 import com.aagu.blog.Utils.TextUtil;
 import com.aagu.blog.Views.AdminVO;
 import com.aagu.blog.Services.AdminService;
@@ -21,6 +21,8 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.util.StringUtils;
 
 import java.util.*;
+
+import static com.aagu.blog.Common.Const.COMMENT_PAGE_LEN;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -40,7 +42,7 @@ public class AdminServiceImpl implements AdminService {
             return null;
         }
         AdminVO adminVO = new AdminVO();
-        List<CommentVO> comments = commentDao.getUnread();
+        List<Comment> comments = commentDao.getUnread();
         List<Article> articles = getAllArticles();
         adminVO.setComments(comments);
         adminVO.setArticles(articles);
@@ -104,9 +106,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<CommentVO> getAllComments() {
-        List<CommentVO> comments = commentDao.getAllComment();
-        return comments;
+    public List<Comment> getCommentByPage(Integer start, Integer end) {
+        return commentDao.getByPage(start, end);
     }
 
     @Override
@@ -141,6 +142,11 @@ public class AdminServiceImpl implements AdminService {
             }
         }
         return ServerResponse.createErrorMessage("参数错误");
+    }
+
+    @Override
+    public Integer getCommentPages() {
+        return commentDao.getCommentCount(COMMENT_PAGE_LEN);
     }
 
     private ServerResponse deleteInfo(Integer id, String type) {

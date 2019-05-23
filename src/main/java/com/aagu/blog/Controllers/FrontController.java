@@ -1,6 +1,6 @@
 package com.aagu.blog.Controllers;
 
-import com.aagu.blog.ServerResponse;
+import com.aagu.blog.Common.ServerResponse;
 import com.aagu.blog.Services.FrontService;
 import com.aagu.blog.Views.ArticleDetailVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +25,8 @@ public class FrontController {
     }
 
     @GetMapping(value = "/blog")
-    String blog(@RequestParam(value = "start", required = false, defaultValue = "0") Integer start,
-                @RequestParam(value = "end", required = false, defaultValue = "3") Integer end,
-                Model model) {
-        model.addAttribute(DATA, frontService.getMainPage(start, end));
+    String blog(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page, Model model) {
+        model.addAttribute(DATA, frontService.getMainPage(page));
         return "front/blog";
     }
 
