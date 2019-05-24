@@ -39,4 +39,12 @@ public interface AdminService {
 
     Integer getCommentPages();
 
+    ServerResponse addLabel(String tag, Integer parentId);
+
+    ServerResponse updateParentLabel(Integer parentId, Integer id);
+
+    ServerResponse updateLabelName(String name, Integer id);
+
+    ServerResponse deleteLabel(Integer id);
+
 }

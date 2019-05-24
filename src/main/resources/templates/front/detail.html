@@ -9,17 +9,6 @@
     <meta name="keywords" content="" />
     <meta name="author" content="" />
 
-    <!-- Facebook and Twitter integration -->
-    <meta property="og:title" content=""/>
-    <meta property="og:image" content=""/>
-    <meta property="og:url" content=""/>
-    <meta property="og:site_name" content=""/>
-    <meta property="og:description" content=""/>
-    <meta name="twitter:title" content="" />
-    <meta name="twitter:image" content="" />
-    <meta name="twitter:url" content="" />
-    <meta name="twitter:card" content="" />
-
 </head>
 <body>
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet">
@@ -103,16 +92,23 @@
                                         <img src="/images/blog-4.jpg" class="img-responsive" alt="html5 bootstrap template">
                                     </div>
                                     <div class="desc">
-                                        <!--p class="meta">
-                                            <span class="cat"><a href="#">Events</a></span>
-                                            <span class="date">20 March 2018</span>
-                                            <span class="pos">By <a href="#">Rich</a></span>
-                                        </p-->
+                                        <p class="meta">
+                                            <span class="cat"><a href="#" th:text="${data.data.label.name}">Events</a></span>
+                                            <span class="date" th:text="${data.data.article.date}">20 March 2018</span>
+                                            <!--span class="pos">By <a href="#">Rich</a></span-->
+                                        </p>
                                         <h2 th:text="${data.data.article.title}">Recipe for your site</h2>
                                         <div class="row row-pb-md" th:utext="${data.data.article.detail}"></div>
-                                        <div class="row row-pb-md">
-                                            <div class="col-md-4" th:text="'标签：'+${data.data.label.name}">标签</div>
-                                        </div>
+                                    </div>
+                                    <div class="row-md-12 text-center">
+                                        <ul class="pagination">
+                                            <li th:if="${data.data.next>data.data.article.id}">
+                                                <a th:href="@{'/detail/'+${data.data.next}}">下一篇 &raquo;</a>
+                                            </li>
+                                            <li th:if="${data.data.prev>0}">
+                                                <a th:href="@{'/detail/'+${data.data.prev}}">&laquo; 上一篇</a>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -163,22 +159,10 @@
                 </div>
             </div>
         </div>
-
     </div>
     <div class="gototop js-top">
         <a href="#" class="js-gotop"><i class="icon-arrow-up2"></i></a>
     </div>
 
-    <!--script>
-        $('#post_comment').on('click', function () {
-            var data = {};
-            data.email = $('#email').val();
-            data.detail = $('#detail').val();
-            data.articleId = $('#articleId').val();
-            $.post("put-comment", data, function (result) {
-                console.log(result)
-            })
-        })
-    </script-->
 </body>
 </html>

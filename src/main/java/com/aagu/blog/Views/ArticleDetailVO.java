@@ -11,6 +11,8 @@ public class ArticleDetailVO {
     private Label label;
     private List<Comment> comments;
     private Integer commentCount;
+    private Integer prev;
+    private Integer next;
 
     public Article getArticle() {
         return article;
@@ -42,5 +44,21 @@ public class ArticleDetailVO {
 
     public void setCommentCount(Integer commentCount) {
         this.commentCount = commentCount;
+    }
+
+    public Integer getPrev() {
+        return prev;
+    }
+
+    public void setPrev(Integer prev) {
+        this.prev = prev;
+    }
+
+    public Integer getNext() {
+        return next;
+    }
+
+    public void setNext(Integer next) {
+        this.next = next;
     }
 }

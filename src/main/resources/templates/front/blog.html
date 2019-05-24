@@ -137,7 +137,7 @@
 							</ul>
 						</p>
 					</div>
-					<div class="col-md-3">
+					<!--div class="col-md-3">
 						<h2>Recent Post</h2>
 						<div class="f-blog">
 							<a href="blog" class="blog-img" style="background-image: url(images/blog-1.jpg);">
@@ -163,17 +163,17 @@
 								<p class="admin"><span>23 March 2018</span></p>
 							</div>
 						</div>
-					</div>
+					</div-->
 					<div class="col-md-3">
 						<h2>Archive</h2>
 						<p>
-							<ul class="colorlib-footer-links">
-								<li><a href="#"><i class="icon-check"></i> February 2018</a></li>
-								<li><a href="#"><i class="icon-check"></i> January 2018</a></li>
-								<li><a href="#"><i class="icon-check"></i> December 2017</a></li>
-								<li><a href="#"><i class="icon-check"></i> November 2017</a></li>
-								<li><a href="#"><i class="icon-check"></i> October 2017</a></li>
-								<li><a href="#"><i class="icon-check"></i> September 2017</a></li>
+							<ul class="colorlib-footer-links" th:each="label : ${data.archiveLabel}">
+								<li><a href="#" th:text="${label}"><i class="icon-check"></i> February 2018</a></li>
+								<!--li><a href="#"><i class="icon-check"></i> January 2018</a></li-->
+								<!--li><a href="#"><i class="icon-check"></i> December 2017</a></li-->
+								<!--li><a href="#"><i class="icon-check"></i> November 2017</a></li-->
+								<!--li><a href="#"><i class="icon-check"></i> October 2017</a></li-->
+								<!--li><a href="#"><i class="icon-check"></i> September 2017</a></li-->
 							</ul>
 						</p>
 					</div>

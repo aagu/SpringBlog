@@ -18,9 +18,9 @@ public class BlogApplicationTests {
 	ArticleDao articleDao;
 
 	@Test
-	public void getArticles() {
-		List<Article> articles = articleDao.getAll();
-		System.out.println(articles.get(0).getDate());
+	public void getArticleByMonth() {
+		List<String> months = articleDao.orderByMonth();
+		System.out.println(months.get(0));
 	}
 
 }

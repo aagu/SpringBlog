@@ -10,7 +10,6 @@ import com.aagu.blog.Common.ServerResponse;
 import com.aagu.blog.Utils.TextUtil;
 import com.aagu.blog.Views.AdminVO;
 import com.aagu.blog.Services.AdminService;
-import com.aagu.blog.Views.CommentVO;
 import com.aagu.blog.Views.LabelManageVO;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -147,6 +146,35 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Integer getCommentPages() {
         return commentDao.getCommentCount(COMMENT_PAGE_LEN);
+    }
+
+    @Override
+    public ServerResponse addLabel(String tag, Integer parentId) {
+        Integer res = labelDao.insertLabel(parentId, tag);
+        if (res < 0) return ServerResponse.createErrorMessage("failed to insert label");
+        return ServerResponse.createBySuccess();
+    }
+
+    @Override
+    public ServerResponse updateParentLabel(Integer parentId, Integer id) {
+        if (parentId < 1) return ServerResponse.createErrorMessage("父标签不存在");
+        Integer res = labelDao.updateParentId(parentId, id);
+        if (res < 0) return ServerResponse.createErrorMessage("修改失败");
+        return ServerResponse.createBySuccess();
+    }
+
+    @Override
+    public ServerResponse updateLabelName(String name, Integer id) {
+        if (name.isEmpty()) return ServerResponse.createErrorMessage("标签名为空");
+        Integer res = labelDao.updateName(name, id);
+        if (res < 0) return ServerResponse.createErrorMessage("修改失败");
+        return ServerResponse.createBySuccess();
+    }
+
+    @Override
+    public ServerResponse deleteLabel(Integer id) {
+        labelDao.deleteLabelAndChild(id);
+        return ServerResponse.createBySuccess();
     }
 
     private ServerResponse deleteInfo(Integer id, String type) {

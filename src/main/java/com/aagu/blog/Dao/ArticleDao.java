@@ -11,20 +11,33 @@ import java.util.List;
 @Repository
 public interface ArticleDao {
 
-    @Select("select * from article")
+    @Select("select id, date_format(date, '%Y-%c-%d %H:%i') as date, labelId, title, detail" +
+            " from article")
     List<Article> getAll();
 
-    @Select("select * from article where id=#{id}")
+    @Select("select id, date_format(date, '%Y-%c-%d %H:%i') as date, labelId, title, detail" +
+            " from article where id=#{id}")
     Article getById(@Param("id") Integer id);
 
-    @Select("select * from article where labelId=#{labelId}")
+    @Select("select id, date_format(date, '%Y-%c-%d %H:%i') as date, labelId, title, detail" +
+            " from article where labelId=#{labelId}")
     List<Article> getByLabel(@Param("labelId") Integer labelId);
 
-    @Select("select * from article limit #{start}, #{end}")
-    List<Article> getByPage(@Param("start") Integer start, @Param("end") Integer end);
+    @Select("select id, date_format(date, '%Y-%c-%d %H:%i') as date, labelId, title, detail" +
+            " from article limit #{start}, #{num}")
+    List<Article> getByPage(@Param("start") Integer start, @Param("num") Integer num);
 
     @Select("select ceil(count(id)/#{div}) from article")
     Integer getPageCount(@Param("div") Integer div);
+
+    @Select("select max(id) from article where id<#{thisId}")
+    Integer getPrevPage(@Param("thisId") Integer id);
+
+    @Select("select min(id) from article where id>#{thisId}")
+    Integer getNextPage(@Param("thisId") Integer id);
+
+    @Select("select distinct date_format(date, '%Y %M') from article limit 5")
+    List<String> orderByMonth();
 
     @Update("update article set title=#{title}, date=now() where id=#{id}")
     void updateTitle(@Param("id") Integer id, @Param("title") String title);

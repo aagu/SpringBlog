@@ -200,4 +200,33 @@ public class AdminController {
     public ServerResponse deleteComment(Integer id) {
         return adminService.deleteComment(id);
     }
+
+    @PutMapping(value = "add-label")
+    @ResponseBody
+    public ServerResponse addLabel(@RequestParam(value = "name") String name,
+                                   @RequestParam(value = "parentId", defaultValue = "0") Integer parentId) {
+        if (name.isEmpty()) return ServerResponse.createErrorMessage("标签名不能为空");
+        return adminService.addLabel(name, parentId);
+    }
+
+    @PutMapping(value = "update-label")
+    @ResponseBody
+    public ServerResponse updateLabel(@RequestParam(value = "name", required = false) String name,
+                                      @RequestParam(value = "parentId", required = false) Integer parentId,
+                                      @RequestParam(value = "id") Integer id) {
+        if (name != null) {
+            return adminService.updateLabelName(name, id);
+        }
+        if (parentId != null) {
+            return adminService.updateParentLabel(parentId, id);
+        }
+        return ServerResponse.createErrorMessage("参数错误");
+    }
+
+    @DeleteMapping(value = "delete-label")
+    @ResponseBody
+    public ServerResponse deleteLabel(@RequestParam(value = "id") Integer id) {
+        if (id < 1) return ServerResponse.createErrorMessage("没有这个标签");
+        return adminService.deleteLabel(id);
+    }
 }

@@ -1,9 +1,7 @@
 package com.aagu.blog.Dao;
 
 import com.aagu.blog.Models.Label;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -23,4 +21,16 @@ public interface LabelDao {
 
     @Select("select * from label where id=#{id}")
     Label getById(@Param("id") Integer id);
+
+    @Insert("insert into label(parentId, name) value(#{parentId},#{name})")
+    Integer insertLabel(@Param("parentId") Integer parentId, @Param("name") String name);
+
+    @Update("update label set parentId=#{pId} where id=#{id}")
+    Integer updateParentId(@Param("pId") Integer pId, @Param("id") Integer id);
+
+    @Update("update label set name=#{name} where id=#{id}")
+    Integer updateName(@Param("name") String name, @Param("id") Integer id);
+
+    @Delete("delete from label where id=#{id} or parentId=#{id}")
+    Integer deleteLabelAndChild(@Param("id") Integer id);
 }
