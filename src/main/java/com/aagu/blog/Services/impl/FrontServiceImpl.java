@@ -82,15 +82,22 @@ public class FrontServiceImpl implements FrontService {
     public BlogVO getMainPage(Integer page) {
         BlogVO blogVO = new BlogVO();
         List<Article> articles = articleDao.getByPage((page-1) * ARTICLE_PAGE_LEN, ARTICLE_PAGE_LEN);
-        for (Article article : articles) {
-            article.setDetail(TextUtil.extractTextFromHtml(article.getDetail(), 15));
-        }
-        blogVO.setArticles(articles);
-        blogVO.setLabels(labelDao.getChildLabel());
-        blogVO.setPages(articleDao.getPageCount(ARTICLE_PAGE_LEN));
-        blogVO.setCurrePage(page);
-        blogVO.setArchiveLabel(articleDao.orderByMonth());
+        setPage(blogVO, articles, page);
+        blogVO.setCurreLabel(null);
         return blogVO;
+    }
+
+    @Override
+    public BlogVO getPageByLabel(String label, Integer page) {
+        Integer labelId = labelDao.getIdByName(label);
+        if (labelId != null) {
+            BlogVO blogVO = new BlogVO();
+            List<Article> articles = articleDao.getByLabel(labelId, (page-1) * ARTICLE_PAGE_LEN, ARTICLE_PAGE_LEN);
+            setPage(blogVO, articles, page);
+            blogVO.setCurreLabel(label);
+            return blogVO;
+        }
+        return null;
     }
 
     @Override
@@ -101,4 +108,16 @@ public class FrontServiceImpl implements FrontService {
         }
         return ServerResponse.createBySuccessMessage("ok");
     }
+
+    private void setPage(BlogVO blogVO, List<Article> articles, Integer page) {
+        for (Article article : articles) {
+            article.setDetail(TextUtil.extractTextFromHtml(article.getDetail(), 15));
+        }
+        blogVO.setArticles(articles);
+        blogVO.setLabels(labelDao.getChildLabel());
+        blogVO.setPages(articleDao.getPageCount(ARTICLE_PAGE_LEN));
+        blogVO.setCurrePage(page);
+        blogVO.setArchiveLabel(articleDao.orderByMonth());
+    }
+
 }

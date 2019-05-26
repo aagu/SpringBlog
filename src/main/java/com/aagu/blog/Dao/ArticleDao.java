@@ -20,11 +20,17 @@ public interface ArticleDao {
     Article getById(@Param("id") Integer id);
 
     @Select("select id, date_format(date, '%Y-%c-%d %H:%i') as date, labelId, title, detail" +
-            " from article where labelId=#{labelId}")
-    List<Article> getByLabel(@Param("labelId") Integer labelId);
+            " from article" +
+            " where labelId=#{labelId}" +
+            " order by date desc" +
+            " limit #{start}, #{num}")
+    List<Article> getByLabel(@Param("labelId") Integer labelId,
+                             @Param("start") Integer start,
+                             @Param("num") Integer num);
 
     @Select("select id, date_format(date, '%Y-%c-%d %H:%i') as date, labelId, title, detail" +
-            " from article limit #{start}, #{num}")
+            " from article order by date desc" +
+            " limit #{start}, #{num}")
     List<Article> getByPage(@Param("start") Integer start, @Param("num") Integer num);
 
     @Select("select ceil(count(id)/#{div}) from article")

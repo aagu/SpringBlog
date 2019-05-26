@@ -11,6 +11,7 @@ public class BlogVO {
     private Integer pages;
     private Integer currePage;
     private List<String> archiveLabel;
+    private String curreLabel;
 
     public List<Article> getArticles() {
         return articles;
@@ -50,5 +51,13 @@ public class BlogVO {
 
     public void setArchiveLabel(List<String> archiveLabel) {
         this.archiveLabel = archiveLabel;
+    }
+
+    public String getCurreLabel() {
+        return curreLabel;
+    }
+
+    public void setCurreLabel(String curreLabel) {
+        this.curreLabel = curreLabel;
     }
 }

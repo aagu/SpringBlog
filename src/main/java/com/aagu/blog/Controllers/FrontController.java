@@ -3,6 +3,7 @@ package com.aagu.blog.Controllers;
 import com.aagu.blog.Common.ServerResponse;
 import com.aagu.blog.Services.FrontService;
 import com.aagu.blog.Views.ArticleDetailVO;
+import com.aagu.blog.Views.BlogVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,8 +26,16 @@ public class FrontController {
     }
 
     @GetMapping(value = "/blog")
-    String blog(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page, Model model) {
-        model.addAttribute(DATA, frontService.getMainPage(page));
+    String blog(@RequestParam(value = "label", required = false) String label,
+                @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
+                Model model) {
+        BlogVO blogVO;
+        if (label != null) {
+            blogVO = frontService.getPageByLabel(label, page);
+        } else {
+            blogVO = frontService.getMainPage(page);
+        }
+        model.addAttribute(DATA, blogVO);
         return "front/blog";
     }
 

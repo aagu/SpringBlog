@@ -17,5 +17,7 @@ public interface FrontService {
 
     BlogVO getMainPage(Integer page);
 
+    BlogVO getPageByLabel(String label, Integer page);
+
     ServerResponse createComment(String email, String detail, Integer articleId);
 }

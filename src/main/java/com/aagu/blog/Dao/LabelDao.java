@@ -3,6 +3,7 @@ package com.aagu.blog.Dao;
 import com.aagu.blog.Models.Label;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -21,6 +22,9 @@ public interface LabelDao {
 
     @Select("select * from label where id=#{id}")
     Label getById(@Param("id") Integer id);
+
+    @Select("select id from label where name=#{name}")
+    Integer getIdByName(@Param("name") String name);
 
     @Insert("insert into label(parentId, name) value(#{parentId},#{name})")
     Integer insertLabel(@Param("parentId") Integer parentId, @Param("name") String name);
