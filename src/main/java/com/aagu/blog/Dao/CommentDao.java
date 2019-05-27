@@ -2,9 +2,11 @@ package com.aagu.blog.Dao;
 
 import com.aagu.blog.Models.Comment;
 import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.jdbc.SQL;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 @Repository
@@ -17,15 +19,13 @@ public interface CommentDao {
     @Select("select * from comment where articleId=#{articleId}")
     List<Comment> getByArticle(@Param("articleId") Integer articleId);
 
-    @Select("select comment.detail, email, title, comment.id, articleId, createtime " +
-            "from comment join article on comment.articleId = article.id " +
-            "limit #{start}, #{end}")
+    @SelectProvider(type = CommentSqlBuilder.class, method = "buildSearch")
     @Results({
             @Result(property = "articleTitle", column = "title"),
             @Result(property = "id", column = "id"),
             @Result(property = "date", column = "createtime"),
     })
-    List<Comment> getByPage(@Param("start") Integer start, @Param("end") Integer end);
+    List<Comment> getByPage(@Param("start") Integer start, @Param("num") Integer end, @Param("search") String search);
 
     @Select("select comment.detail, email, title, comment.id, articleId, createtime from comment join article on comment.articleId = article.id" +
             " where isRead=0")
@@ -47,4 +47,17 @@ public interface CommentDao {
 
     @Update("update comment set isRead=1 where id=#{id}")
     Integer markAsRead(@Param("id") Integer id);
+
+    class CommentSqlBuilder {
+        public static String buildSearch(Map<String, Object> param) {
+            return new SQL(){{
+                SELECT("comment.detail", "email", "title", "comment.id", "articleId", "createtime");
+                FROM("comment");
+                JOIN(" article on comment.articleId = article.id");
+                if (param.get("search") != null) {
+                    WHERE("comment.detail like '%" + param.get("search") + "%'");
+                }
+            }}.toString() + " LIMIT " + param.get("start") + "," + param.get("num");
+        }
+    }
 }

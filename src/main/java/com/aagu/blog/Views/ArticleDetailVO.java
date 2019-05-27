@@ -13,6 +13,7 @@ public class ArticleDetailVO {
     private Integer commentCount;
     private Integer prev;
     private Integer next;
+    private List<Label> allLabels;
 
     public Article getArticle() {
         return article;
@@ -60,5 +61,14 @@ public class ArticleDetailVO {
 
     public void setNext(Integer next) {
         this.next = next;
+    }
+
+
+    public List<Label> getAllLabels() {
+        return allLabels;
+    }
+
+    public void setAllLabels(List<Label> allLabels) {
+        this.allLabels = allLabels;
     }
 }

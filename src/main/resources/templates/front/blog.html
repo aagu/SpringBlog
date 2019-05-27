@@ -83,6 +83,7 @@
 					<div class="col-md-12 breadcrumbs text-center">
 						<h2>Read our blog</h2>
 						<h3 th:if="${data.curreLabel != null}" th:text="${data.curreLabel}"></h3>
+						<h3 th:if="${data.curreKeyWord != null}" th:text="${data.curreKeyWord}"></h3>
 					</div>
 				</div>
 			</div>
@@ -106,17 +107,27 @@
 							</div>
 						</div>
 					</div>
+					<div class="col-md-3">
+						<div class="sidebar">
+							<div class="side">
+								<div class="form-group">
+									<input type="text" class="form-control" id="search-key" placeholder="Enter any key to search...">
+									<button type="submit" class="btn btn-primary" id="search-btn"><i class="icon-search3"></i></button>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-12 text-center">
 						<ul class="pagination">
-							<li th:class="${data.currePage==1}?'disabled':''"><a th:href="@{'/blog?page=1'}">&laquo;</a></li>
-							<li th:if="${data.currePage-2>=1}"><a th:href="@{'/blog?page='+${data.currePage-2}}" th:text="${data.currePage-2}"></a></li>
-							<li th:if="${data.currePage-1>=1}"><a th:href="@{'/blog?page='+${data.currePage-1}}" th:text="${data.currePage-1}"></a></li>
+							<li th:class="${data.currePage==1}?'disabled':''"><a th:href="@{'/blog?page=1'+${data.param}}">&laquo;</a></li>
+							<li th:if="${data.currePage-2>=1}"><a th:href="@{'/blog?page='+${data.currePage-2}+${data.param}}" th:text="${data.currePage-2}"></a></li>
+							<li th:if="${data.currePage-1>=1}"><a th:href="@{'/blog?page='+${data.currePage-1}+${data.param}}" th:text="${data.currePage-1}"></a></li>
 							<li class="active"><a href="#" th:text="${data.currePage}"></a></li>
-							<li th:if="${data.currePage+1<=data.pages}"><a th:href="@{'/blog?page='+${data.currePage+1}}" th:text="${data.currePage+1}"></a></li>
-							<li th:if="${data.currePage+2<=data.pages}"><a th:href="@{'/blog?page='+${data.currePage+2}}" th:text="${data.currePage+2}"></a></li>
-							<li th:class="${data.currePage==data.pages}?'disabled':''"><a th:href="@{'/blog?page='+${data.pages}}">&raquo;</a></li>
+							<li th:if="${data.currePage+1<=data.pages}"><a th:href="@{'/blog?page='+${data.currePage+1}+${data.param}}" th:text="${data.currePage+1}"></a></li>
+							<li th:if="${data.currePage+2<=data.pages}"><a th:href="@{'/blog?page='+${data.currePage+2}+${data.param}}" th:text="${data.currePage+2}"></a></li>
+							<li th:class="${data.currePage==data.pages}?'disabled':''"><a th:href="@{'/blog?page='+${data.pages}+${data.param}}">&raquo;</a></li>
 						</ul>
 					</div>
 				</div>
@@ -170,7 +181,6 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	<div class="gototop js-top">
 		<a href="#" class="js-gotop"><i class="icon-arrow-up2"></i></a>
 	</div>
-	
 	<!-- jQuery -->
 	<script src="js/jquery.min.js"></script>
 	<!-- jQuery Easing -->
@@ -188,6 +198,15 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	<script src="js/magnific-popup-options.js"></script>
 	<!-- Main -->
 	<script src="js/main.js"></script>
+
+	<script>
+		$('#search-btn').on('click', function () {
+			var text = $('#search-key').val();
+			if (text !== null && text !== '') {
+				window.location.href="/blog?search="+text;
+			}
+		})
+	</script>
 	</body>
 </html>
 

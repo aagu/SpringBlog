@@ -12,6 +12,8 @@ public class BlogVO {
     private Integer currePage;
     private List<String> archiveLabel;
     private String curreLabel;
+    private String curreKeyWord;
+    private String param;
 
     public List<Article> getArticles() {
         return articles;
@@ -59,5 +61,21 @@ public class BlogVO {
 
     public void setCurreLabel(String curreLabel) {
         this.curreLabel = curreLabel;
+    }
+
+    public String getCurreKeyWord() {
+        return curreKeyWord;
+    }
+
+    public void setCurreKeyWord(String curreKeyWord) {
+        this.curreKeyWord = curreKeyWord;
+    }
+
+    public String getParam() {
+        return param;
+    }
+
+    public void setParam(String param) {
+        this.param = param;
     }
 }

@@ -33,6 +33,12 @@ public interface ArticleDao {
             " limit #{start}, #{num}")
     List<Article> getByPage(@Param("start") Integer start, @Param("num") Integer num);
 
+    @Select("select id, date_format(date, '%Y-%c-%d %H:%i') as date, labelId, title, detail" +
+            " from article where title like #{key}" +
+            " order by date desc" +
+            " limit #{start}, #{num}")
+    List<Article> getBySearch(@Param("start") Integer start, @Param("num") Integer num, @Param("key") String key);
+
     @Select("select ceil(count(id)/#{div}) from article")
     Integer getPageCount(@Param("div") Integer div);
 

@@ -156,7 +156,10 @@ public class AdminController {
         if (sort.equals(1)) {
             order = "asc";
         }
-        List<Comment> comments = adminService.getCommentByPage((page-1) * COMMENT_PAGE_LEN, page * COMMENT_PAGE_LEN - 1);
+        List<Comment> comments = adminService.getCommentByPage(
+                (page-1) * COMMENT_PAGE_LEN,
+                page * COMMENT_PAGE_LEN - 1,
+                null);
         for (Comment comment : comments) {
             comment.setArticleTitle(TextUtil.cutString(comment.getArticleTitle(), 10));
             comment.setDetail(TextUtil.cutString(comment.getDetail(), 10));

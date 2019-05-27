@@ -105,8 +105,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<Comment> getCommentByPage(Integer start, Integer end) {
-        return commentDao.getByPage(start, end);
+    public List<Comment> getCommentByPage(Integer start, Integer end, String search) {
+        return commentDao.getByPage(start, end, search);
     }
 
     @Override

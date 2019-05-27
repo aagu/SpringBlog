@@ -28,10 +28,13 @@ public class FrontController {
     @GetMapping(value = "/blog")
     String blog(@RequestParam(value = "label", required = false) String label,
                 @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
+                @RequestParam(value = "search", required = false) String keyWord,
                 Model model) {
         BlogVO blogVO;
-        if (label != null) {
+        if (label != null && !label.isEmpty()) {
             blogVO = frontService.getPageByLabel(label, page);
+        } else if (keyWord != null && !keyWord.isEmpty()){
+            blogVO = frontService.getSearchedPage(keyWord, page);
         } else {
             blogVO = frontService.getMainPage(page);
         }

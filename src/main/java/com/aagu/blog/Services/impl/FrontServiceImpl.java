@@ -62,6 +62,7 @@ public class FrontServiceImpl implements FrontService {
             vo.setLabel(label);
             vo.setComments(comments);
             vo.setCommentCount(comments.size());
+            vo.setAllLabels(labelDao.getChildLabel());
             Integer prev = articleDao.getPrevPage(id);
             Integer next = articleDao.getNextPage(id);
             if (prev == null) {
@@ -82,7 +83,7 @@ public class FrontServiceImpl implements FrontService {
     public BlogVO getMainPage(Integer page) {
         BlogVO blogVO = new BlogVO();
         List<Article> articles = articleDao.getByPage((page-1) * ARTICLE_PAGE_LEN, ARTICLE_PAGE_LEN);
-        setPage(blogVO, articles, page);
+        setPage(blogVO, articles, page, null);
         blogVO.setCurreLabel(null);
         return blogVO;
     }
@@ -90,14 +91,23 @@ public class FrontServiceImpl implements FrontService {
     @Override
     public BlogVO getPageByLabel(String label, Integer page) {
         Integer labelId = labelDao.getIdByName(label);
-        if (labelId != null) {
-            BlogVO blogVO = new BlogVO();
-            List<Article> articles = articleDao.getByLabel(labelId, (page-1) * ARTICLE_PAGE_LEN, ARTICLE_PAGE_LEN);
-            setPage(blogVO, articles, page);
-            blogVO.setCurreLabel(label);
-            return blogVO;
-        }
-        return null;
+        BlogVO blogVO = new BlogVO();
+        List<Article> articles = articleDao.getByLabel(labelId, (page-1) * ARTICLE_PAGE_LEN, ARTICLE_PAGE_LEN);
+        setPage(blogVO, articles, page, "&label=" + label);
+        blogVO.setCurreLabel(label);
+        return blogVO;
+    }
+
+    @Override
+    public BlogVO getSearchedPage(String key, Integer page) {
+        BlogVO blogVO = new BlogVO();
+        List<Article> articles = articleDao.getBySearch(
+                (page-1) * ARTICLE_PAGE_LEN,
+                ARTICLE_PAGE_LEN,
+                "%"+key+"%");
+        setPage(blogVO, articles, page, "&search=" + key);
+        blogVO.setCurreKeyWord(key);
+        return blogVO;
     }
 
     @Override
@@ -109,15 +119,21 @@ public class FrontServiceImpl implements FrontService {
         return ServerResponse.createBySuccessMessage("ok");
     }
 
-    private void setPage(BlogVO blogVO, List<Article> articles, Integer page) {
+    private void setPage(BlogVO blogVO, List<Article> articles, Integer page, String param) {
         for (Article article : articles) {
             article.setDetail(TextUtil.extractTextFromHtml(article.getDetail(), 15));
         }
         blogVO.setArticles(articles);
         blogVO.setLabels(labelDao.getChildLabel());
-        blogVO.setPages(articleDao.getPageCount(ARTICLE_PAGE_LEN));
+        // 先转换成double获得准确值再向上取值
+        blogVO.setPages((int)Math.ceil((double)articles.size()/ARTICLE_PAGE_LEN));
         blogVO.setCurrePage(page);
         blogVO.setArchiveLabel(articleDao.orderByMonth());
+        if (param == null || param.isEmpty()) {
+            blogVO.setParam(null);
+        } else {
+            blogVO.setParam(param);
+        }
     }
 
 }

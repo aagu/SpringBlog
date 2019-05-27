@@ -1,7 +1,7 @@
 package com.aagu.blog;
 
-import com.aagu.blog.Dao.ArticleDao;
-import com.aagu.blog.Models.Article;
+import com.aagu.blog.Dao.CommentDao;
+import com.aagu.blog.Models.Comment;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +15,14 @@ import java.util.List;
 public class BlogApplicationTests {
 
 	@Autowired
-	ArticleDao articleDao;
+	CommentDao commentDao;
 
 	@Test
 	public void getArticleByMonth() {
-		List<String> months = articleDao.orderByMonth();
-		System.out.println(months.get(0));
+		List<Comment> comments = commentDao.getByPage(0, 5, "我");
+		for (Comment c : comments) {
+			System.out.println(c.toString());
+		}
 	}
 
 }
