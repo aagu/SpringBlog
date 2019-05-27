@@ -1,6 +1,8 @@
 package com.aagu.blog.Models;
 
-public class Article {
+import java.io.Serializable;
+
+public class Article implements Serializable {
     private Integer id;
     private String date;
     private Integer labelId;

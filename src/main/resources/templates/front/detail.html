@@ -102,11 +102,11 @@
                                     </div>
                                     <div class="row-md-12 text-center">
                                         <ul class="pagination">
-                                            <li th:if="${data.data.next>data.data.article.id}">
-                                                <a th:href="@{'/detail/'+${data.data.next}}">下一篇 &raquo;</a>
-                                            </li>
                                             <li th:if="${data.data.prev>0}">
                                                 <a th:href="@{'/detail/'+${data.data.prev}}">&laquo; 上一篇</a>
+                                            </li>
+                                            <li th:if="${data.data.next>data.data.article.id}">
+                                                <a th:href="@{'/detail/'+${data.data.next}}">下一篇 &raquo;</a>
                                             </li>
                                         </ul>
                                     </div>

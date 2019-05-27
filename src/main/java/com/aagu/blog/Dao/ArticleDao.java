@@ -2,13 +2,13 @@ package com.aagu.blog.Dao;
 
 import com.aagu.blog.Models.Article;
 import org.apache.ibatis.annotations.*;
-
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Mapper
 @Repository
+@CacheNamespace
 public interface ArticleDao {
 
     @Select("select id, date_format(date, '%Y-%c-%d %H:%i') as date, labelId, title, detail" +

@@ -1,6 +1,8 @@
 package com.aagu.blog.Models;
 
-public class Label {
+import java.io.Serializable;
+
+public class Label implements Serializable {
     private Integer id;
     private Integer parentId;
     private String name;

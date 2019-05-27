@@ -1,6 +1,8 @@
 package com.aagu.blog.Models;
 
-public class Comment {
+import java.io.Serializable;
+
+public class Comment implements Serializable {
     private Integer id;
     private String detail;
     private String email;

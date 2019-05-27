@@ -8,6 +8,7 @@ import java.util.List;
 
 @Mapper
 @Repository
+@CacheNamespace
 public interface CommentDao {
 
     @Select("select * from comment")

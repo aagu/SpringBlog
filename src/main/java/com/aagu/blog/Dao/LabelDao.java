@@ -3,12 +3,12 @@ package com.aagu.blog.Dao;
 import com.aagu.blog.Models.Label;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
 @Mapper
 @Repository
+@CacheNamespace
 public interface LabelDao {
 
     @Select("select * from label")
