@@ -82,6 +82,8 @@ public class FrontServiceImpl implements FrontService {
     @Override
     public BlogVO getMainPage(Integer page) {
         BlogVO blogVO = new BlogVO();
+        // 先转换成double获得准确值再向上取值
+        blogVO.setPages((int)Math.ceil((double)articleDao.getByPageCount()/ARTICLE_PAGE_LEN));
         List<Article> articles = articleDao.getByPage((page-1) * ARTICLE_PAGE_LEN, ARTICLE_PAGE_LEN);
         setPage(blogVO, articles, page, null);
         blogVO.setCurreLabel(null);
@@ -92,6 +94,8 @@ public class FrontServiceImpl implements FrontService {
     public BlogVO getPageByLabel(String label, Integer page) {
         Integer labelId = labelDao.getIdByName(label);
         BlogVO blogVO = new BlogVO();
+        // 先转换成double获得准确值再向上取值
+        blogVO.setPages((int)Math.ceil((double)articleDao.getByLabelCount(labelId)/ARTICLE_PAGE_LEN));
         List<Article> articles = articleDao.getByLabel(labelId, (page-1) * ARTICLE_PAGE_LEN, ARTICLE_PAGE_LEN);
         setPage(blogVO, articles, page, "&label=" + label);
         blogVO.setCurreLabel(label);
@@ -101,6 +105,8 @@ public class FrontServiceImpl implements FrontService {
     @Override
     public BlogVO getSearchedPage(String key, Integer page) {
         BlogVO blogVO = new BlogVO();
+        // 先转换成double获得准确值再向上取值
+        blogVO.setPages((int)Math.ceil((double)articleDao.getBySearchCount("%"+key+"%")/ARTICLE_PAGE_LEN));
         List<Article> articles = articleDao.getBySearch(
                 (page-1) * ARTICLE_PAGE_LEN,
                 ARTICLE_PAGE_LEN,
@@ -125,12 +131,10 @@ public class FrontServiceImpl implements FrontService {
         }
         blogVO.setArticles(articles);
         blogVO.setLabels(labelDao.getChildLabel());
-        // 先转换成double获得准确值再向上取值
-        blogVO.setPages((int)Math.ceil((double)articles.size()/ARTICLE_PAGE_LEN));
         blogVO.setCurrePage(page);
         blogVO.setArchiveLabel(articleDao.orderByMonth());
         if (param == null || param.isEmpty()) {
-            blogVO.setParam(null);
+            blogVO.setParam("");
         } else {
             blogVO.setParam(param);
         }

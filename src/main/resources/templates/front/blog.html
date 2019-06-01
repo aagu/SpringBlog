@@ -82,6 +82,7 @@
 				<div class="row">
 					<div class="col-md-12 breadcrumbs text-center">
 						<h2>Read our blog</h2>
+						<!--/*@thymesVar id="data" type="com.aagu.blog.Views.BlogVO"*/-->
 						<h3 th:if="${data.curreLabel != null}" th:text="${data.curreLabel}"></h3>
 						<h3 th:if="${data.curreKeyWord != null}" th:text="${data.curreKeyWord}"></h3>
 					</div>
@@ -93,6 +94,8 @@
 			<div class="container">
 				<div class="row row-pb-md">
 					<div class="col-md-8" id="content">
+						<!--/*@thymesVar id="data" type="com.aagu.blog.Views.BlogVO"*/-->
+						<!--/*@thymesVar id="article" type="com.aagu.blog.Models.Article"*/-->
 						<div class="blog-entry" th:each="article : ${data.articles}">
 							<div class="blog-img">
 								<a th:href="'/detail/'+ ${article.id}"><img src="images/blog-1.jpg" class="img-responsive" alt="html5 bootstrap template"></a>
@@ -120,6 +123,7 @@
 				</div>
 				<div class="row">
 					<div class="col-md-12 text-center">
+						<!--/*@thymesVar id="data" type="com.aagu.blog.Views.BlogVO"*/-->
 						<ul class="pagination">
 							<li th:class="${data.currePage==1}?'disabled':''"><a th:href="@{'/blog?page=1'+${data.param}}">&laquo;</a></li>
 							<li th:if="${data.currePage-2>=1}"><a th:href="@{'/blog?page='+${data.currePage-2}+${data.param}}" th:text="${data.currePage-2}"></a></li>
@@ -136,6 +140,7 @@
 
 		<footer id="colorlib-footer" role="contentinfo">
 			<div class="container">
+				<!--/*@thymesVar id="data" type="com.aagu.blog.Views.BlogVO"*/-->
 				<div class="row row-pb-md">
 					<div class="col-md-3">
 						<h2>Navigational</h2>

@@ -2,9 +2,11 @@ package com.aagu.blog.Dao;
 
 import com.aagu.blog.Models.Article;
 import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.jdbc.SQL;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 @Repository
@@ -19,6 +21,9 @@ public interface ArticleDao {
             " from article where id=#{id}")
     Article getById(@Param("id") Integer id);
 
+    @Select("select count(id) from article where labelId=#{labelId}")
+    Integer getByLabelCount(@Param("labelId") Integer labelId);
+
     @Select("select id, date_format(date, '%Y-%c-%d %H:%i') as date, labelId, title, detail" +
             " from article" +
             " where labelId=#{labelId}" +
@@ -28,10 +33,16 @@ public interface ArticleDao {
                              @Param("start") Integer start,
                              @Param("num") Integer num);
 
+    @Select("select count(id) from article")
+    Integer getByPageCount();
+
     @Select("select id, date_format(date, '%Y-%c-%d %H:%i') as date, labelId, title, detail" +
             " from article order by date desc" +
             " limit #{start}, #{num}")
     List<Article> getByPage(@Param("start") Integer start, @Param("num") Integer num);
+
+    @Select("select count(id) from article where title like #{key}")
+    Integer getBySearchCount(@Param("key") String key);
 
     @Select("select id, date_format(date, '%Y-%c-%d %H:%i') as date, labelId, title, detail" +
             " from article where title like #{key}" +
