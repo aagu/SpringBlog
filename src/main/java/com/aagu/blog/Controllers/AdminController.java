@@ -10,7 +10,6 @@ import com.aagu.blog.Views.ArticleEditVO;
 import com.aagu.blog.Views.ArticleManageVO;
 import com.aagu.blog.Views.CommentVO;
 import com.aagu.blog.Views.LabelManageVO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,24 +29,43 @@ import static com.aagu.blog.Common.Const.COMMENT_PAGE_LEN;
 @RequestMapping("/admin")
 public class AdminController {
 
-    @Autowired
-    AdminService adminService;
+    private final AdminService adminService;
 
-    @Autowired
-    FrontService frontService;
+    private final FrontService frontService;
 
     private static final String DATA = "data";
 
+    public AdminController(AdminService adminService, FrontService frontService) {
+        this.adminService = adminService;
+        this.frontService = frontService;
+    }
+
+    /**
+     * admin主页
+     * @return admin主页
+     */
     @GetMapping(value = "")
     public String admin() {
         return "admin/admin";
     }
 
+    /**
+     * 登录页面
+     * @return 登录页
+     */
     @GetMapping(value = "/login")
     public String login() {
         return "admin/login";
     }
 
+    /**
+     * 登录操作
+     * @param name 用户名
+     * @param pwd 密码
+     * @param attributes 登录信息
+     * @param session HttpSession
+     * @return 管理员主页面或登录失败提示
+     */
     @PostMapping(value = "/login-from")
     public String loginForm(String name, String pwd, RedirectAttributes attributes, HttpSession session) {
         ServerResponse res = adminService.login(name, pwd);
@@ -59,18 +77,33 @@ public class AdminController {
         return "redirect:/admin/login";
     }
 
+    /**
+     * 后台管理主页面
+     * @param page 分页
+     * @param model ThymeLeaf Model
+     * @return 后台管理主页
+     */
     @GetMapping(value = "/main")
     public String mainTem(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page, Model model) {
         model.addAttribute(DATA, adminService.getMainAdminPage(page));
         return "admin/main-tem";
     }
 
-    @GetMapping(value = "/resources")
-    public String resourceTem(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page, Model model) {
+    //@GetMapping(value = "/resources")
+    /*public String resourceTem(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page, Model model) {
         //model.addAttribute("data", null);
         return "admin/resource-tem";
-    }
+    }*/
 
+    /**
+     * 文章管理页面
+     * @param labelId 标签ID
+     * @param page 分页
+     * @param search 关键词
+     * @param model ThymeLeaf Model
+     * @param request HttpRequest
+     * @return 文章管理页
+     */
     @GetMapping(value = "/content-manage")
     public String articleManage(@RequestParam(value = "labelId", required = false) Integer labelId,
                                 @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
@@ -94,12 +127,21 @@ public class AdminController {
         return "admin/articleManage-tem";
     }
 
+    /**
+     * 标签管理页面
+     * @param model ThymeLeaf Model
+     * @return 标签管理页
+     */
     @GetMapping(value = "/labels-tem")
     public String labelManageTem(Model model) {
         model.addAttribute(DATA, adminService.getAllLabels());
         return "admin/label-tem";
     }
 
+    /**
+     * 获取标签数据
+     * @return 标签集合
+     */
     @ResponseBody
     @RequestMapping(value = "/labels-data", headers = {"content-Type=application/json"})
     public Set<LabelManageVO> getLabelsData() {
@@ -107,6 +149,12 @@ public class AdminController {
         return response.getData();
     }
 
+    /**
+     * 写文章页面
+     * @param id 文章ID
+     * @param model ThymeLeaf Model
+     * @return 写文章页
+     */
     @RequestMapping(value = "/write-article")
     public String handleWrite(@RequestParam(value = "id", required = false) Integer id,
                               Model model) {
@@ -126,6 +174,11 @@ public class AdminController {
         return "admin/markdown-tem";
     }
 
+    /**
+     * 更新文章
+     * @param article 新的文章
+     * @return JSON对象
+     */
     @PutMapping("/create-update-content")
     @ResponseBody
     public ServerResponse createAndUpdateContent(Article article) {
@@ -145,6 +198,14 @@ public class AdminController {
         return ServerResponse.createErrorMessage("参数错误");
     }
 
+    /**
+     * 评论页面
+     * @param search 搜索关键词
+     * @param sort 排序类型
+     * @param page 页码
+     * @param model ThymeLeaf Model
+     * @return 评论页
+     */
     @GetMapping("/comment")
     public String getCommentTem(@RequestParam(value = "search", required = false) String search,
                                 @RequestParam(value = "sort", defaultValue = "0") Integer sort,
@@ -182,28 +243,53 @@ public class AdminController {
         return "admin/comment-tem";
     }
 
+    /**
+     * 删除文章
+     * @param id 文章ID
+     * @return JSON对象
+     */
     @DeleteMapping(value = "/delete-article")
     public ServerResponse deleteArticle(Integer id) {
         return adminService.deleteArticle(id);
     }
 
+    /**
+     * 评论已读标记
+     * @param id 评论ID
+     * @return JSON对象
+     */
     @PostMapping(value = "/read-comment")
     @ResponseBody
     public ServerResponse readComment(Integer id) {
         return adminService.markCommentAsRead(id);
     }
 
+    /**
+     * 账户管理页面
+     * @return 账户管理页
+     */
     @GetMapping(value = "account-manage")
     public String account() {
         return "admin/account-tem";
     }
 
+    /**
+     * 删除评论
+     * @param id 评论ID
+     * @return JSON对象
+     */
     @DeleteMapping(value = "/del-comment")
     @ResponseBody
     public ServerResponse deleteComment(Integer id) {
         return adminService.deleteComment(id);
     }
 
+    /**
+     * 添加标签
+     * @param name 标签名
+     * @param parentId 父标签ID
+     * @return JSON对象
+     */
     @PutMapping(value = "add-label")
     @ResponseBody
     public ServerResponse addLabel(@RequestParam(value = "name") String name,
@@ -212,6 +298,13 @@ public class AdminController {
         return adminService.addLabel(name, parentId);
     }
 
+    /**
+     * 更新标签
+     * @param name 标签名
+     * @param parentId 父标签ID
+     * @param id 标签ID
+     * @return JSON对象
+     */
     @PutMapping(value = "update-label")
     @ResponseBody
     public ServerResponse updateLabel(@RequestParam(value = "name", required = false) String name,
@@ -226,6 +319,11 @@ public class AdminController {
         return ServerResponse.createErrorMessage("参数错误");
     }
 
+    /**
+     * 删除标签
+     * @param id 标签ID
+     * @return JSON对象
+     */
     @DeleteMapping(value = "delete-label")
     @ResponseBody
     public ServerResponse deleteLabel(@RequestParam(value = "id") Integer id) {

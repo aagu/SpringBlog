@@ -1,7 +1,6 @@
 package com.aagu.blog.Configs;
 
 import com.aagu.blog.Realm.AdminRealm;
-import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
@@ -17,10 +16,15 @@ import java.util.Map;
 @Configuration
 public class ShiroConfig {
 
+    /**
+     * 创建Realm
+     * @return AdminRealm
+     */
     @Bean
     public AdminRealm createAdminRealm() {
         AdminRealm realm = new AdminRealm();
         realm.setCacheManager(new MemoryConstrainedCacheManager());
+        // TODO 密码加密
         //realm.setCredentialsMatcher(new HashedCredentialsMatcher("MD5"));
         return realm;
     }
@@ -35,14 +39,14 @@ public class ShiroConfig {
     /**
      * 实例化过滤器
      *
-     * @param securityManager
-     * @return
+     * @param securityManager securityManager
+     * @return ShiroFilterFactoryBean
      */
     @Bean
     public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
         ShiroFilterFactoryBean filter = new ShiroFilterFactoryBean();
         filter.setSecurityManager(securityManager);
-        /**
+        /*
          * 下面就是进行页面的认证操作的过滤器
          * 过滤的条件
          */
@@ -65,8 +69,8 @@ public class ShiroConfig {
     /**
      * 开启注解代理功能
      *
-     * @param securityManager
-     * @return
+     * @param securityManager securityManager
+     * @return AuthorizationAttributeSourceAdvisor
      */
     @Bean
     public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
@@ -77,7 +81,7 @@ public class ShiroConfig {
 
     /**
      * 为了使注解生效
-     * @return
+     * @return DefaultAdvisorAutoProxyCreator
      */
     @Bean
     public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {

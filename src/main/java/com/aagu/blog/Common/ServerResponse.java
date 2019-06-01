@@ -18,7 +18,7 @@ public class ServerResponse<T> {
         this.msg = msg;
     }
 
-    public ServerResponse(int status, T data) {
+    private ServerResponse(int status, T data) {
         this.status = status;
         this.data = data;
     }

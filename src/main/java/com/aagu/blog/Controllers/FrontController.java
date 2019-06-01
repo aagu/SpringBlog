@@ -4,7 +4,6 @@ import com.aagu.blog.Common.ServerResponse;
 import com.aagu.blog.Services.FrontService;
 import com.aagu.blog.Views.ArticleDetailVO;
 import com.aagu.blog.Views.BlogVO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,19 +13,34 @@ import javax.validation.constraints.Email;
 @Controller
 public class FrontController {
 
-    @Autowired
-    FrontService frontService;
+    private final FrontService frontService;
 
     private static final String DATA = "data";
     private static final String DEFAULT_RESULT = "defaultData";
 
+    public FrontController(FrontService frontService) {
+        this.frontService = frontService;
+    }
+
+    /**
+     * 主页
+     * @return 重定向到博客页
+     */
     @GetMapping(value = "")
-    String main() {
+    public String main() {
         return "redirect:/blog";
     }
 
+    /**
+     * 博客页
+     * @param label 分类标签
+     * @param page 分页
+     * @param keyWord 关键词
+     * @param model ThymeLeaf Model
+     * @return 指定分页的博客页
+     */
     @GetMapping(value = "/blog")
-    String blog(@RequestParam(value = "label", required = false) String label,
+    public String blog(@RequestParam(value = "label", required = false) String label,
                 @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
                 @RequestParam(value = "search", required = false) String keyWord,
                 Model model) {
@@ -43,10 +57,16 @@ public class FrontController {
     }
 
     @GetMapping(value = "/about")
-    String about() {
+    public String about() {
         return "front/about";
     }
 
+    /**
+     * 返回index指定的详情页
+     * @param index 文章编号
+     * @param model ThymeLeaf Model
+     * @return 详情页地址
+     */
     @GetMapping(value = "/detail/{index}")
     public String detail(@PathVariable(value = "index", required = false) Integer index, Model model) {
         if (index == null) {
@@ -62,7 +82,14 @@ public class FrontController {
         return "front/detail";
     }
 
-    @PostMapping(value = "put-comment")
+    /**
+     * 评论文章
+     * @param email 评论者邮箱
+     * @param detail 评论详情
+     * @param articleId 文章编号
+     * @return 当前文章详情页
+     */
+    @PostMapping(value = "/put-comment")
     public String createComment(@Email String email, String detail, Integer articleId) {
         frontService.createComment(email, detail, articleId);
         return "redirect:/detail/" + articleId;

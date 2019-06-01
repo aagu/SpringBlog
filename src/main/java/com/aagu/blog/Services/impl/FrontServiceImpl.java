@@ -11,7 +11,6 @@ import com.aagu.blog.Services.FrontService;
 import com.aagu.blog.Utils.TextUtil;
 import com.aagu.blog.Views.ArticleDetailVO;
 import com.aagu.blog.Views.BlogVO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,18 +19,21 @@ import static com.aagu.blog.Common.Const.*;
 
 @Service
 public class FrontServiceImpl implements FrontService {
-    @Autowired
-    ArticleDao articleDao;
+    private final ArticleDao articleDao;
 
-    @Autowired
-    LabelDao labelDao;
+    private final LabelDao labelDao;
 
-    @Autowired
-    CommentDao commentDao;
+    private final CommentDao commentDao;
+
+    public FrontServiceImpl(ArticleDao articleDao, LabelDao labelDao, CommentDao commentDao) {
+        this.articleDao = articleDao;
+        this.labelDao = labelDao;
+        this.commentDao = commentDao;
+    }
 
     @Override
-    public List<Article> getArticleByPage(Integer start, Integer end) {
-        List<Article> articles = articleDao.getByPage(start, end);
+    public List<Article> getArticleByPage(Integer start, Integer num) {
+        List<Article> articles = articleDao.getByPage(start, num);
         for (Article article : articles) {
             article.setDetail(TextUtil.extractTextFromHtml(article.getDetail(), 15));
         }

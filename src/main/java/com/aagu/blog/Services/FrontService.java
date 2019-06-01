@@ -9,12 +9,28 @@ import java.util.List;
 
 public interface FrontService {
 
-    List<Article> getArticleByPage(Integer start, Integer end);
+    /**
+     * 获取文章列表的分页
+     * @param start 起始位置
+     * @param num 数目
+     * @return List<Article>
+     */
+    List<Article> getArticleByPage(Integer start, Integer num);
 
+    /**
+     * 按ID获取指定文章
+     * @param id 文章ID
+     * @return Article
+     */
     ServerResponse<Article> getArticleById(Integer id);
 
     ServerResponse<ArticleDetailVO> getArticleDetail(Integer id);
 
+    /**
+     * 获取某一页的文章
+     * @param page 页数
+     * @return BlogVO
+     */
     BlogVO getMainPage(Integer page);
 
     BlogVO getPageByLabel(String label, Integer page);
