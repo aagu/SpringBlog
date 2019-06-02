@@ -21,7 +21,7 @@ import org.thymeleaf.util.StringUtils;
 
 import java.util.*;
 
-import static com.aagu.blog.Common.Const.COMMENT_PAGE_LEN;
+import static com.aagu.blog.Common.Const.*;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -42,7 +42,7 @@ public class AdminServiceImpl implements AdminService {
         }
         AdminVO adminVO = new AdminVO();
         List<Comment> comments = commentDao.getUnread();
-        List<Article> articles = getAllArticles();
+        List<Article> articles = getArticleByPage(page);
         adminVO.setComments(comments);
         adminVO.setArticles(articles);
         adminVO.setArticleCount(articles.size());
@@ -57,8 +57,26 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<Article> getAllArticles() {
-        List<Article> articles = articleDao.getAll();
+    public List<Article> getArticleByPage(Integer page) {
+        List<Article> articles = articleDao.getByPage((page-1)*ARTICLE_ADMIN_PAGE_LEN, ARTICLE_ADMIN_PAGE_LEN);
+        for (Article article : articles) {
+            article.setDetail(TextUtil.extractTextFromHtml(article.getDetail(), 20));
+        }
+        return articles;
+    }
+
+    @Override
+    public List<Article> getArticleByLabel(Integer labelId, Integer page) {
+        List<Article> articles = articleDao.getByLabel(labelId, (page-1)*ARTICLE_ADMIN_PAGE_LEN, ARTICLE_ADMIN_PAGE_LEN);
+        for (Article article : articles) {
+            article.setDetail(TextUtil.extractTextFromHtml(article.getDetail(), 20));
+        }
+        return articles;
+    }
+
+    @Override
+    public List<Article> getArticleBySearch(String key, Integer page) {
+        List<Article> articles = articleDao.getBySearch((page-1)*ARTICLE_ADMIN_PAGE_LEN, ARTICLE_ADMIN_PAGE_LEN, "%"+key+"%");
         for (Article article : articles) {
             article.setDetail(TextUtil.extractTextFromHtml(article.getDetail(), 20));
         }
@@ -144,8 +162,22 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    public ServerResponse logout() {
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+        return ServerResponse.createBySuccessMessage("退出登录");
+    }
+
+    @Override
     public Integer getCommentPages() {
         return commentDao.getCommentCount(COMMENT_PAGE_LEN);
+    }
+
+    @Override
+    public Integer getArticlePages(Integer labelId, String search) {
+        if (labelId != null) return articleDao.getByLabelCount(labelId, 5);
+        if (search != null) return articleDao.getBySearchCount(search, 5);
+        return articleDao.getPageCount(5);
     }
 
     @Override

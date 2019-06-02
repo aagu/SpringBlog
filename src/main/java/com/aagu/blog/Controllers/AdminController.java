@@ -107,7 +107,9 @@ public class AdminController {
     @GetMapping(value = "/content-manage")
     public String articleManage(@RequestParam(value = "labelId", required = false) Integer labelId,
                                 @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
-                                @RequestParam(value = "search", required = false) String search, Model model, HttpServletRequest request) {
+                                @RequestParam(value = "search", required = false) String search,
+                                Model model,
+                                HttpServletRequest request) {
         if (labelId == null && search == null) {
             //错误了 不能都为空
             model.addAttribute("defaultData", "参数错误啦！！");
@@ -118,9 +120,21 @@ public class AdminController {
 
         ArticleManageVO manageVO = new ArticleManageVO();
         manageVO.setLabels(adminService.getAllFinalLabels());
-        manageVO.setArticles(adminService.getAllArticles());
+        manageVO.setCurrePage(page);
         if (labelId != null) {
             requestUrl = request.getContextPath() + "/admin/content-manage?labelId=" + labelId;
+            if (labelId < 0) {
+                manageVO.setTotalPage(adminService.getArticlePages(null, null));
+                manageVO.setArticles(adminService.getArticleByPage(page));
+            } else {
+                manageVO.setTotalPage(adminService.getArticlePages(labelId, null));
+                manageVO.setArticles(adminService.getArticleByLabel(labelId, page));
+            }
+            manageVO.setCurrentLabelsId(labelId);
+        } else if (!search.isEmpty()){
+            requestUrl = request.getContextPath() + "/admin/content-manage?search=" + search;
+            manageVO.setTotalPage(adminService.getArticlePages(null, search));
+            manageVO.setArticles(adminService.getArticleBySearch(search, page));
         }
         manageVO.setRequestUrl(requestUrl);
         model.addAttribute(DATA, manageVO);
@@ -329,5 +343,10 @@ public class AdminController {
     public ServerResponse deleteLabel(@RequestParam(value = "id") Integer id) {
         if (id < 1) return ServerResponse.createErrorMessage("没有这个标签");
         return adminService.deleteLabel(id);
+    }
+
+    @PostMapping(value = "logout")
+    public void logout() {
+        adminService.logout();
     }
 }

@@ -5,9 +5,9 @@ import com.aagu.blog.Models.Comment;
 import com.aagu.blog.Models.Label;
 import com.aagu.blog.Common.ServerResponse;
 import com.aagu.blog.Views.AdminVO;
-import com.aagu.blog.Views.CommentVO;
 import com.aagu.blog.Views.LabelManageVO;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
@@ -17,7 +17,11 @@ public interface AdminService {
 
     List<Label> getAllFinalLabels();
 
-    List<Article> getAllArticles();
+    List<Article> getArticleByPage(Integer page);
+
+    List<Article> getArticleByLabel(Integer labelId, Integer page);
+
+    List<Article> getArticleBySearch(String key, Integer page);
 
     List<Label> getAllLabels();
 
@@ -37,7 +41,11 @@ public interface AdminService {
 
     ServerResponse login(String name, String pwd);
 
+    ServerResponse logout();
+
     Integer getCommentPages();
+
+    Integer getArticlePages(Integer labelId, String search);
 
     ServerResponse addLabel(String tag, Integer parentId);
 
