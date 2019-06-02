@@ -7,7 +7,6 @@ import com.aagu.blog.Common.ServerResponse;
 import com.aagu.blog.Views.AdminVO;
 import com.aagu.blog.Views.LabelManageVO;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
@@ -31,7 +30,7 @@ public interface AdminService {
 
     ServerResponse<Article> publishArticle(Article article);
 
-    List<Comment> getCommentByPage(Integer start, Integer end, String search);
+    List<Comment> getCommentByPage(Integer page, String search, String order);
 
     ServerResponse deleteArticle(Integer id);
 

@@ -26,14 +26,17 @@ import static com.aagu.blog.Common.Const.*;
 @Service
 public class AdminServiceImpl implements AdminService {
 
-    @Autowired
-    private ArticleDao articleDao;
+    private final ArticleDao articleDao;
 
-    @Autowired
-    private CommentDao commentDao;
+    private final CommentDao commentDao;
 
-    @Autowired
-    private LabelDao labelDao;
+    private final LabelDao labelDao;
+
+    public AdminServiceImpl(ArticleDao articleDao, CommentDao commentDao, LabelDao labelDao) {
+        this.articleDao = articleDao;
+        this.commentDao = commentDao;
+        this.labelDao = labelDao;
+    }
 
     @Override
     public AdminVO getMainAdminPage(Integer page) {
@@ -123,8 +126,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<Comment> getCommentByPage(Integer start, Integer end, String search) {
-        return commentDao.getByPage(start, end, search);
+    public List<Comment> getCommentByPage(Integer page, String search, String order) {
+        return commentDao.getByPage((page-1)*COMMENT_PAGE_LEN, COMMENT_PAGE_LEN, search, order);
     }
 
     @Override

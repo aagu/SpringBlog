@@ -25,7 +25,10 @@ public interface CommentDao {
             @Result(property = "id", column = "id"),
             @Result(property = "date", column = "createtime"),
     })
-    List<Comment> getByPage(@Param("start") Integer start, @Param("num") Integer end, @Param("search") String search);
+    List<Comment> getByPage(@Param("start") Integer start,
+                            @Param("num") Integer end,
+                            @Param("search") String search,
+                            @Param("order") String order);
 
     @Select("select comment.detail, email, title, comment.id, articleId, createtime from comment join article on comment.articleId = article.id" +
             " where isRead=0")
@@ -57,6 +60,7 @@ public interface CommentDao {
                 if (param.get("search") != null) {
                     WHERE("comment.detail like '%" + param.get("search") + "%'");
                 }
+                ORDER_BY("createtime " + param.get("order"));
             }}.toString() + " LIMIT " + param.get("start") + "," + param.get("num");
         }
     }

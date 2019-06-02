@@ -22,9 +22,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import static com.aagu.blog.Common.Const.COMMENT_PAGE_LEN;
-
-
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -231,10 +228,18 @@ public class AdminController {
         if (sort.equals(1)) {
             order = "asc";
         }
-        List<Comment> comments = adminService.getCommentByPage(
-                (page-1) * COMMENT_PAGE_LEN,
-                page * COMMENT_PAGE_LEN - 1,
-                null);
+        List<Comment> comments;
+        if (search == null || search.isEmpty()) {
+            comments = adminService.getCommentByPage(
+                    page,
+                    null,
+                    order);
+        } else {
+            comments = adminService.getCommentByPage(
+                    page,
+                    search,
+                    order);
+        }
         for (Comment comment : comments) {
             comment.setArticleTitle(TextUtil.cutString(comment.getArticleTitle(), 10));
             comment.setDetail(TextUtil.cutString(comment.getDetail(), 10));
