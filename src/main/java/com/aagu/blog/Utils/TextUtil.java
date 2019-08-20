@@ -1,6 +1,10 @@
 package com.aagu.blog.Utils;
 
+import com.vladsch.flexmark.html.HtmlRenderer;
+import com.vladsch.flexmark.parser.Parser;
+import com.vladsch.flexmark.util.ast.Node;
 import org.jsoup.Jsoup;
+import org.springframework.expression.ParserContext;
 
 public class TextUtil {
     /**
@@ -29,5 +33,12 @@ public class TextUtil {
             return "";
         }
         return length > str.length()? str : str.substring(0, length) + "...";
+    }
+
+    public static String markdownParser(String markdown) {
+        Parser parser = Parser.builder().build();
+        HtmlRenderer renderer = HtmlRenderer.builder().build();
+        Node document = parser.parse(markdown);
+        return renderer.render(document);
     }
 }

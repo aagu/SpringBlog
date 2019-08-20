@@ -30,8 +30,8 @@ public interface CommentDao {
                             @Param("search") String search,
                             @Param("order") String order);
 
-    @Select("select comment.detail, email, title, comment.id, articleId, createtime from comment join article on comment.articleId = article.id" +
-            " where isRead=0")
+    @Select("select comment.detail, email, title, comment.id, articleId, createtime, comment.status from comment join article on comment.articleId = article.id" +
+            " where status='unread'")
     @Results({
             @Result(property = "articleTitle", column = "title"),
             @Result(property = "id", column = "id"),
@@ -48,13 +48,13 @@ public interface CommentDao {
     @Delete("delete from comment where id=#{id}")
     Integer deleteById(@Param("id") Integer id);
 
-    @Update("update comment set isRead=1 where id=#{id}")
+    @Update("update comment set status='read' where id=#{id}")
     Integer markAsRead(@Param("id") Integer id);
 
     class CommentSqlBuilder {
         public static String buildSearch(Map<String, Object> param) {
             return new SQL(){{
-                SELECT("comment.detail", "email", "title", "comment.id", "articleId", "createtime");
+                SELECT("comment.detail", "email", "title", "comment.id", "articleId", "createtime", "comment.status");
                 FROM("comment");
                 JOIN(" article on comment.articleId = article.id");
                 if (param.get("search") != null) {

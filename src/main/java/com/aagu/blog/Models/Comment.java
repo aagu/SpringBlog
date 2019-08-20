@@ -8,7 +8,7 @@ public class Comment implements Serializable {
     private String email;
     private String articleTitle;
     private Integer articleId;
-    private boolean isRead;
+    private String status;
     private String date;
 
     public Comment() {
@@ -60,12 +60,12 @@ public class Comment implements Serializable {
         this.articleId = articleId;
     }
 
-    public boolean isRead() {
-        return isRead;
+    public String getStatus() {
+        return status;
     }
 
-    public void setRead(boolean read) {
-        isRead = read;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getDate() {
@@ -79,10 +79,12 @@ public class Comment implements Serializable {
     @Override
     public String toString() {
         return "Comment{" +
-                "detail='" + detail + '\'' +
+                "id=" + id +
+                ", detail='" + detail + '\'' +
                 ", email='" + email + '\'' +
                 ", articleTitle='" + articleTitle + '\'' +
-                ", isRead=" + isRead +
+                ", articleId=" + articleId +
+                ", status='" + status + '\'' +
                 ", date='" + date + '\'' +
                 '}';
     }

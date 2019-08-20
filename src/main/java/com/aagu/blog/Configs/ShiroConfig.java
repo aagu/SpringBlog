@@ -51,15 +51,15 @@ public class ShiroConfig {
          * 过滤的条件
          */
         Map<String, String> map = new LinkedHashMap<>(1);
-        map.put("/admin/login", "anon");
-        map.put("/admin/login-from", "anon");
-        map.put("/admin/logout", "logout");
-
-        map.put("/admin**", "authc");
-
-        filter.setLoginUrl("/admin/login");
-        filter.setSuccessUrl("/admin/index");
-        filter.setUnauthorizedUrl("/unauthorized");
+//        map.put("/admin/login", "anon");
+//        map.put("/admin/login-from", "anon");
+//        map.put("/admin/logout", "logout");
+//
+//        map.put("/admin**", "authc");
+//
+//        filter.setLoginUrl("/admin/login");
+//        //filter.setSuccessUrl("/admin/index");
+//        filter.setUnauthorizedUrl("/unauthorized");
 
         //这一步是讲设置的过滤规则添加到
         filter.setFilterChainDefinitionMap(map);

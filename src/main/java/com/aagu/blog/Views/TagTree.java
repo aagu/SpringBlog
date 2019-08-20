@@ -2,36 +2,37 @@ package com.aagu.blog.Views;
 
 import java.util.Collection;
 
-public class LabelManageVO {
-    private String text;
-    private Collection<String> tags;
-    private Collection<LabelManageVO> nodes;
+public class TagTree {
+    private String label;
+    private Collection<TagTree> children;
     private Integer parentId;
     private String parentName;
     private Integer id;
 
-    public String getText() {
-        return text;
+    public TagTree() {
+
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public TagTree(Integer id, Integer parentId, String label) {
+        this.id = id;
+        this.parentId = parentId;
+        this.label = label;
     }
 
-    public Collection<String> getTags() {
-        return tags;
+    public String getLabel() {
+        return label;
     }
 
-    public void setTags(Collection<String> tags) {
-        this.tags = tags;
+    public void setLabel(String label) {
+        this.label = label;
     }
 
-    public Collection<LabelManageVO> getNodes() {
-        return nodes;
+    public Collection<TagTree> getChildren() {
+        return children;
     }
 
-    public void setNodes(Collection<LabelManageVO> nodes) {
-        this.nodes = nodes;
+    public void setChildren(Collection<TagTree> children) {
+        this.children = children;
     }
 
     public Integer getParentId() {
@@ -70,18 +71,16 @@ public class LabelManageVO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        LabelManageVO that = (LabelManageVO) o;
-        if (!text.equals(that.text)) return false;
-        if (!tags.equals(that.tags)) return false;
-        return nodes.equals(that.nodes);
+        TagTree that = (TagTree) o;
+        if (!label.equals(that.label)) return false;
+        return children.equals(that.children);
     }
 
     @Override
     public String toString() {
-        return "LabelManageVO{" +
-                "text='" + text + '\'' +
-                ", tags=" + tags +
-                ", nodes=" + nodes +
+        return "TagTree{" +
+                "label='" + label + '\'' +
+                ", children=" + children +
                 ", parentId=" + parentId +
                 ", parentName='" + parentName + '\'' +
                 ", id=" + id +

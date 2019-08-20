@@ -6,6 +6,9 @@ public class User implements Serializable {
     private Integer id;
     private String name;
     private String password;
+    private String email;
+    private String role;
+    private String status;
 
     public Integer getId() {
         return id;
@@ -31,12 +34,38 @@ public class User implements Serializable {
         this.password = password;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", role='" + role + '\'' +
+                ", status;" + status + '\'' +
                 '}';
     }
 }

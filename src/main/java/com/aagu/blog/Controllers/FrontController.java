@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.constraints.Email;
 
 @Controller
@@ -17,6 +19,7 @@ public class FrontController {
 
     private static final String DATA = "data";
     private static final String DEFAULT_RESULT = "defaultData";
+    public static final String KEY_READ_RECORD = "readCount";
 
     public FrontController(FrontService frontService) {
         this.frontService = frontService;
@@ -43,7 +46,9 @@ public class FrontController {
     public String blog(@RequestParam(value = "label", required = false) String label,
                 @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
                 @RequestParam(value = "search", required = false) String keyWord,
-                Model model) {
+                Model model, HttpServletRequest httpServletRequest) {
+        HttpSession session = httpServletRequest.getSession();
+        session.getAttribute("count");
         BlogVO blogVO;
         if (label != null && !label.isEmpty()) {
             blogVO = frontService.getPageByLabel(label, page);

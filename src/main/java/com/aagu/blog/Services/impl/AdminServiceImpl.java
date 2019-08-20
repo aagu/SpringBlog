@@ -1,21 +1,16 @@
 package com.aagu.blog.Services.impl;
 
-import com.aagu.blog.Dao.ArticleDao;
-import com.aagu.blog.Dao.CommentDao;
-import com.aagu.blog.Dao.LabelDao;
-import com.aagu.blog.Models.Article;
-import com.aagu.blog.Models.Comment;
-import com.aagu.blog.Models.Label;
+import com.aagu.blog.Dao.*;
+import com.aagu.blog.Models.*;
 import com.aagu.blog.Common.ServerResponse;
+import com.aagu.blog.Utils.Pager;
 import com.aagu.blog.Utils.TextUtil;
-import com.aagu.blog.Views.AdminVO;
 import com.aagu.blog.Services.AdminService;
-import com.aagu.blog.Views.LabelManageVO;
+import com.aagu.blog.Views.TagTree;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.util.StringUtils;
 
@@ -32,26 +27,13 @@ public class AdminServiceImpl implements AdminService {
 
     private final LabelDao labelDao;
 
-    public AdminServiceImpl(ArticleDao articleDao, CommentDao commentDao, LabelDao labelDao) {
+    private final UserDao userDao;
+
+    public AdminServiceImpl(ArticleDao articleDao, CommentDao commentDao, LabelDao labelDao, UserDao userDao) {
         this.articleDao = articleDao;
         this.commentDao = commentDao;
         this.labelDao = labelDao;
-    }
-
-    @Override
-    public AdminVO getMainAdminPage(Integer page) {
-        if (page == null) {
-            return null;
-        }
-        AdminVO adminVO = new AdminVO();
-        List<Comment> comments = commentDao.getUnread();
-        List<Article> articles = getArticleByPage(page);
-        adminVO.setComments(comments);
-        adminVO.setArticles(articles);
-        adminVO.setArticleCount(articles.size());
-        adminVO.setInfoCount(comments.size());
-        adminVO.setPeopleCount(1);
-        return adminVO;
+        this.userDao = userDao;
     }
 
     @Override
@@ -60,12 +42,13 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<Article> getArticleByPage(Integer page) {
-        List<Article> articles = articleDao.getByPage((page-1)*ARTICLE_ADMIN_PAGE_LEN, ARTICLE_ADMIN_PAGE_LEN);
-        for (Article article : articles) {
-            article.setDetail(TextUtil.extractTextFromHtml(article.getDetail(), 20));
-        }
-        return articles;
+    public Integer getArticleCount() {
+        return articleDao.getPageCount(1);
+    }
+
+    @Override
+    public PageModel<Article> getArticleByPage(Integer page, Integer limit) {
+        return new Pager<>(articleDao).getPage(page, limit);
     }
 
     @Override
@@ -92,13 +75,20 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public ServerResponse<Set<LabelManageVO>> getTreeViewData() {
-        Set<LabelManageVO> data = new HashSet<>();
-        LabelManageVO rootVO = new LabelManageVO();
+    public Map<String, Object> getTreeViewData() {
+        TagTree rootVO = new TagTree(-1, -1, "root");
         Label root = new Label(-1, -1, "root");
 
-        LevelTraverse(data, root, rootVO);
-        return ServerResponse.createBySuccess(data);
+        int maxId = LevelTraverse(root, rootVO, root.getId());
+        Map<String, Object> map = new HashMap<>();
+        map.put("maxId", maxId);
+        map.put("tree", rootVO);
+        return map;
+    }
+
+    @Override
+    public void addArticle(Article article) {
+        articleDao.insertArticle(article.getDate(), article.getLabelId(), article.getDetail(), article.getTitle());
     }
 
     @Override
@@ -109,19 +99,22 @@ public class AdminServiceImpl implements AdminService {
             if (!oldArticle.getDetail().equals(article.getDetail())) {
                 articleDao.updateDetail(id, article.getDetail());
             }
-            if (!oldArticle.getLabelId().equals(article.getLabelId())) {
+            if (oldArticle.getLabelId() != article.getLabelId()) {
                 articleDao.updateLabel(id, article.getLabelId());
             }
             if (!oldArticle.getTitle().equals(article.getTitle())) {
                 articleDao.updateTitle(id, article.getTitle());
+            }
+            if (!oldArticle.getStatus().equals(article.getStatus())) {
+                articleDao.updateStatus(id, article.getStatus());
             }
         }
         return ServerResponse.createBySuccess();
     }
 
     @Override
-    public ServerResponse<Article> publishArticle(Article article) {
-        articleDao.insertArticle(article.getDate(), article.getLabelId(), article.getDetail(), article.getTitle());
+    public ServerResponse<Article> publishArticle(Integer id) {
+        articleDao.updateStatus(id, "published");
         return ServerResponse.createBySuccess();
     }
 
@@ -150,18 +143,19 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public ServerResponse login(String name, String pwd) {
+    public String login(String name, String pwd) {
         if (!StringUtils.isEmpty(name) && !StringUtils.isEmpty(pwd)) {
             UsernamePasswordToken token = new UsernamePasswordToken(name, pwd);
             Subject subject = SecurityUtils.getSubject();
             try {
                 subject.login(token);
-                return ServerResponse.createBySuccessMessage("登录成功");
+                User user = (User)subject.getPrincipal();
+                return user.getRole();
             } catch (AuthenticationException e) {
-                return ServerResponse.createErrorMessage("用户名和密码不匹配");
+                return "error";
             }
         }
-        return ServerResponse.createErrorMessage("参数错误");
+        return null;
     }
 
     @Override
@@ -184,32 +178,59 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public ServerResponse addLabel(String tag, Integer parentId) {
-        Integer res = labelDao.insertLabel(parentId, tag);
-        if (res < 0) return ServerResponse.createErrorMessage("failed to insert label");
-        return ServerResponse.createBySuccess();
+    public Map<String, Object> addLabel(String tag, Integer parentId) {
+        if (tag.isEmpty()) return null;
+        labelDao.insertLabel(parentId, tag);
+        return getTreeViewData();
     }
 
     @Override
-    public ServerResponse updateParentLabel(Integer parentId, Integer id) {
-        if (parentId < 1) return ServerResponse.createErrorMessage("父标签不存在");
-        Integer res = labelDao.updateParentId(parentId, id);
-        if (res < 0) return ServerResponse.createErrorMessage("修改失败");
-        return ServerResponse.createBySuccess();
+    public Map<String, Object> updateParentLabel(Integer parentId, Integer id) {
+        if (parentId < 1) return null;
+        labelDao.updateParentId(parentId, id);
+        return getTreeViewData();
     }
 
     @Override
-    public ServerResponse updateLabelName(String name, Integer id) {
-        if (name.isEmpty()) return ServerResponse.createErrorMessage("标签名为空");
-        Integer res = labelDao.updateName(name, id);
-        if (res < 0) return ServerResponse.createErrorMessage("修改失败");
-        return ServerResponse.createBySuccess();
+    public Map<String, Object> updateLabelName(String name, Integer id) {
+        if (name.isEmpty()) return null;
+        labelDao.updateName(name, id);
+        return getTreeViewData();
     }
 
     @Override
-    public ServerResponse deleteLabel(Integer id) {
-        labelDao.deleteLabelAndChild(id);
-        return ServerResponse.createBySuccess();
+    public Map<String, Object> deleteLabel(String name) {
+        Integer id = labelDao.getIdByName(name);
+        if (id != null &&  id > 0) {
+            labelDao.deleteLabelAndChild(id);
+            return getTreeViewData();
+        }
+        return null;
+    }
+
+    @Override
+    public List<User> getUserByPage(Integer page) {
+        return userDao.getByPage((page-1)*4, 4);
+    }
+
+    @Override
+    public Map getUserInfo(String name) {
+        User user = userDao.getByName(name);
+        if (user != null) {
+            Map<String, String> params = new HashMap<>();
+            params.put("roles", user.getRole());
+            params.put("introduction", user.getName());
+            params.put("avatar", "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
+            params.put("email", user.getEmail());
+            return params;
+        }
+        return null;
+    }
+
+    @Override
+    public List<String> getAllUserByName(String name) {
+        if (name == null) name = "";
+        return userDao.getAllNameLike("%"+name+"%");
     }
 
     private ServerResponse deleteInfo(Integer id, String type) {
@@ -233,19 +254,18 @@ public class AdminServiceImpl implements AdminService {
         return ServerResponse.createErrorMessage("invalid parameter");
     }
 
-    private void LevelTraverse(Set<LabelManageVO> child, Label root, LabelManageVO rootVO) {
+    private int LevelTraverse(Label root, TagTree rootVO, Integer maxId) {
+        int max = maxId;
         List<Label> data = labelDao.getByParentId(root.getId());
-        rootVO.setTags(Collections.singletonList(data.size() + ""));
+        Set<TagTree> child = new HashSet<>();
         for (Label label : data) {
-            LabelManageVO vo = new LabelManageVO();
-            vo.setText(label.getName());
-            vo.setId(label.getId());
-            vo.setParentId(root.getId());
+            if (label.getId() > max) max = label.getId();
+            TagTree vo = new TagTree(label.getId(), label.getParentId(), label.getName());
             vo.setParentName(root.getName());
-            Set<LabelManageVO> Lchild = new HashSet<>();
-            LevelTraverse(Lchild, label, vo);
+            max = LevelTraverse(label, vo, max);
             child.add(vo);
-            rootVO.setNodes(child);
+            rootVO.setChildren(child);
         }
+        return max;
     }
 }

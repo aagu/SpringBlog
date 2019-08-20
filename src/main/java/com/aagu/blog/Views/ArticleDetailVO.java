@@ -3,6 +3,7 @@ package com.aagu.blog.Views;
 import com.aagu.blog.Models.Article;
 import com.aagu.blog.Models.Comment;
 import com.aagu.blog.Models.Label;
+import com.aagu.blog.Utils.TextUtil;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class ArticleDetailVO {
     }
 
     public void setArticle(Article article) {
+        article.setDetail(TextUtil.markdownParser(article.getDetail()));
         this.article = article;
     }
 

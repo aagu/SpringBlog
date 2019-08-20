@@ -5,23 +5,24 @@ import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 @Mapper
 @Repository
 @CacheNamespace
-public interface ArticleDao {
+public interface ArticleDao extends BaseDao<Article>{
 
-    @Select("select id, date_format(date, '%Y-%c-%d %H:%i') as date, labelId, title, detail" +
+    @Select("select id, date, labelId, title, detail, status" +
             " from article")
     List<Article> getAll();
 
-    @Select("select id, date_format(date, '%Y-%c-%d %H:%i') as date, labelId, title, detail" +
+    @Select("select id, date, labelId, title, detail, status" +
             " from article where id=#{id}")
     Article getById(@Param("id") Integer id);
 
-    @Select("select id, date_format(date, '%Y-%c-%d %H:%i') as date, labelId, title, detail" +
+    @Select("select id, date, labelId, title, detail, status" +
             " from article" +
             " where labelId=#{labelId}" +
             " order by date desc" +
@@ -30,12 +31,22 @@ public interface ArticleDao {
                              @Param("start") Integer start,
                              @Param("num") Integer num);
 
-    @Select("select id, date_format(date, '%Y-%c-%d %H:%i') as date, labelId, title, detail" +
+    @Override
+    @Select("select ceil(count(id)) from article")
+    int getTotal();
+
+    @Override
+    @Select("select id, date, labelId, title, detail, status" +
+            " from article order by date desc" +
+            " limit #{page}, #{limit}")
+    List<Article> getItems(int page, int limit);
+
+    @Select("select id, date, labelId, title, detail, status" +
             " from article order by date desc" +
             " limit #{start}, #{num}")
     List<Article> getByPage(@Param("start") Integer start, @Param("num") Integer num);
 
-    @Select("select id, date_format(date, '%Y-%c-%d %H:%i') as date, labelId, title, detail" +
+    @Select("select id, date, labelId, title, detail" +
             " from article where title like #{key}" +
             " order by date desc" +
             " limit #{start}, #{num}")
@@ -68,9 +79,12 @@ public interface ArticleDao {
     @Update("update article set labelId=#{labelId} where id=#{id}")
     void updateLabel(@Param("id") Integer id, @Param("labelId") Integer labelId);
 
+    @Update("update article set status=#{status} where id=#{id}")
+    Integer updateStatus(@Param("id")Integer id, @Param("status")String status);
+
     @Insert("insert into article(date,labelId,detail,title) values(" +
             "#{date},#{label},#{detail},#{title})")
-    Integer insertArticle(@Param("date") String date,
+    Integer insertArticle(@Param("date") Date date,
                           @Param("label") Integer label,
                           @Param("detail") String detail,
                           @Param("title") String title);

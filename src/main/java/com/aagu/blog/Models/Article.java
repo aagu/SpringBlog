@@ -1,18 +1,21 @@
 package com.aagu.blog.Models;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Article implements Serializable {
     private Integer id;
-    private String date;
+    private Date date;
     private Integer labelId;
     private String title;
     private String detail;
+    private String author;
+    private String status;
 
     public Article() {
     }
 
-    public Article(String date, Integer labelId, String detail, String title) {
+    public Article(Date date, Integer labelId, String detail, String title) {
         this.date = date;
         this.labelId = labelId;
         this.detail = detail;
@@ -27,11 +30,11 @@ public class Article implements Serializable {
         this.id = id;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -59,6 +62,22 @@ public class Article implements Serializable {
         this.detail = detail == null ? null : detail.trim();
     }
 
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -80,7 +99,9 @@ public class Article implements Serializable {
                 "id=" + id +
                 ", date='" + date + '\'' +
                 ", labelId=" + labelId +
-                ", detail='" + detail + '\'' +
+                ", title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", status='" + status + '\'' +
                 '}';
     }
 }

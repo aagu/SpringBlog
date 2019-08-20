@@ -1,15 +1,16 @@
 package com.aagu.blog.Views;
 
-import com.aagu.blog.Models.Label;
-
-import java.util.List;
+import java.util.Date;
 
 public class ArticleEditVO {
     private Integer id;
     private String detail;
     private String title;
     private Integer labelId;
-    private List<Label> labels;
+    private String labelName;
+    private Date date;
+    private String author;
+    private String status;
 
     public Integer getId() {
         return id;
@@ -43,22 +44,35 @@ public class ArticleEditVO {
         this.labelId = labelId;
     }
 
-    public List<Label> getLabels() {
-        return labels;
+    public String getLabelName() {
+        return labelName;
     }
 
-    public void setLabels(List<Label> labels) {
-        this.labels = labels;
+    public void setLabelName(String labelName) {
+        this.labelName = labelName;
     }
 
-    @Override
-    public String toString() {
-        return "ArticleEditVO{" +
-                "id=" + id +
-                ", detail='" + detail + '\'' +
-                ", title='" + title + '\'' +
-                ", labelId=" + labelId +
-                ", labels=" + labels +
-                '}';
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

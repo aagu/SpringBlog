@@ -1,22 +1,21 @@
 package com.aagu.blog.Services;
 
-import com.aagu.blog.Models.Article;
-import com.aagu.blog.Models.Comment;
-import com.aagu.blog.Models.Label;
+import com.aagu.blog.Models.*;
 import com.aagu.blog.Common.ServerResponse;
 import com.aagu.blog.Views.AdminVO;
-import com.aagu.blog.Views.LabelManageVO;
+import com.aagu.blog.Views.TagTree;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public interface AdminService {
 
-    AdminVO getMainAdminPage(Integer page);
-
     List<Label> getAllFinalLabels();
 
-    List<Article> getArticleByPage(Integer page);
+    Integer getArticleCount();
+
+    PageModel<Article> getArticleByPage(Integer page, Integer limit);
 
     List<Article> getArticleByLabel(Integer labelId, Integer page);
 
@@ -24,11 +23,13 @@ public interface AdminService {
 
     List<Label> getAllLabels();
 
-    ServerResponse<Set<LabelManageVO>> getTreeViewData();
+    Map<String, Object> getTreeViewData();
+
+    void addArticle(Article article);
 
     ServerResponse<Article> updateArticle(Article article);
 
-    ServerResponse<Article> publishArticle(Article article);
+    ServerResponse<Article> publishArticle(Integer id);
 
     List<Comment> getCommentByPage(Integer page, String search, String order);
 
@@ -38,7 +39,7 @@ public interface AdminService {
 
     ServerResponse markCommentAsRead(Integer id);
 
-    ServerResponse login(String name, String pwd);
+    String login(String name, String pwd);
 
     ServerResponse logout();
 
@@ -46,12 +47,17 @@ public interface AdminService {
 
     Integer getArticlePages(Integer labelId, String search);
 
-    ServerResponse addLabel(String tag, Integer parentId);
+    Map<String, Object> addLabel(String tag, Integer parentId);
 
-    ServerResponse updateParentLabel(Integer parentId, Integer id);
+    Map<String, Object> updateParentLabel(Integer parentId, Integer id);
 
-    ServerResponse updateLabelName(String name, Integer id);
+    Map<String, Object> updateLabelName(String name, Integer id);
 
-    ServerResponse deleteLabel(Integer id);
+    Map<String, Object> deleteLabel(String name);
 
+    List<User> getUserByPage(Integer page);
+
+    Map getUserInfo(String name);
+
+    List<String> getAllUserByName(String name);
 }
