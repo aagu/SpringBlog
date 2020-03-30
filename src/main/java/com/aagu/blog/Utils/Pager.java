@@ -3,6 +3,8 @@ package com.aagu.blog.Utils;
 import com.aagu.blog.Dao.BaseDao;
 import com.aagu.blog.Models.PageModel;
 
+import java.util.Map;
+
 public class Pager<T> {
 
     private PagerCallback<T> callback;
@@ -23,10 +25,10 @@ public class Pager<T> {
         return data;
     }
 
-    public PageModel<T> getPage(int page, int num) {
+    public PageModel<T> getPage(int page, int num, Map<String, Object> params) {
         PageModel<T> data = new PageModel<>();
-        data.setTotal(dao.getTotal());
-        data.setItems(dao.getItems((page-1)*num, num));
+        data.setTotal(dao.getTotal(params));
+        data.setItems(dao.getItems((page-1)*num, num, params));
         return data;
     }
 }

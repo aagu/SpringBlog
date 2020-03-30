@@ -3,6 +3,7 @@ package com.aagu.blog.Views;
 import com.aagu.blog.Models.Article;
 import com.aagu.blog.Models.Comment;
 import com.aagu.blog.Models.Label;
+import com.aagu.blog.Utils.MarkdownParser;
 import com.aagu.blog.Utils.TextUtil;
 
 import java.util.List;
@@ -10,8 +11,6 @@ import java.util.List;
 public class ArticleDetailVO {
     private Article article;
     private Label label;
-    private List<Comment> comments;
-    private Integer commentCount;
     private Integer prev;
     private Integer next;
     private List<Label> allLabels;
@@ -21,7 +20,7 @@ public class ArticleDetailVO {
     }
 
     public void setArticle(Article article) {
-        article.setDetail(TextUtil.markdownParser(article.getDetail()));
+//        article.setContent(MarkdownParser.INSTANCE.parser(article.getContent()));
         this.article = article;
     }
 
@@ -31,22 +30,6 @@ public class ArticleDetailVO {
 
     public void setLabel(Label label) {
         this.label = label;
-    }
-
-    public List<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
-
-    public Integer getCommentCount() {
-        return commentCount;
-    }
-
-    public void setCommentCount(Integer commentCount) {
-        this.commentCount = commentCount;
     }
 
     public Integer getPrev() {

@@ -4,9 +4,41 @@ import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
 import com.vladsch.flexmark.util.ast.Node;
 import org.jsoup.Jsoup;
-import org.springframework.expression.ParserContext;
+
+import java.util.Arrays;
+import java.util.Optional;
 
 public class TextUtil {
+    private static final String[][] monthDigitMapper = new String[][] {
+            {"January", "01"},
+            {"February", "02"},
+            {"March", "03"},
+            {"April", "04"},
+            {"May", "05"},
+            {"June", "06"},
+            {"July", "07"},
+            {"August", "08"},
+            {"September", "09"},
+            {"October", "10"},
+            {"November", "11"},
+            {"December", "12"}
+    };
+
+    private static final String[][] monthZhMapper = new String[][] {
+            {"January", "一月"},
+            {"February", "二月"},
+            {"March", "三月"},
+            {"April", "四月"},
+            {"May", "五月"},
+            {"June", "六月"},
+            {"July", "七月"},
+            {"August", "八月"},
+            {"September", "九月"},
+            {"October", "十月"},
+            {"November", "十一月"},
+            {"December", "十二月"}
+    };
+
     /**
      *
      * @param Html
@@ -35,10 +67,22 @@ public class TextUtil {
         return length > str.length()? str : str.substring(0, length) + "...";
     }
 
-    public static String markdownParser(String markdown) {
-        Parser parser = Parser.builder().build();
-        HtmlRenderer renderer = HtmlRenderer.builder().build();
-        Node document = parser.parse(markdown);
-        return renderer.render(document);
+    public static String getDigitMonth(String s) {
+        return mapMonth(s, "-", monthDigitMapper);
+    }
+
+    public static String getZhMonth(String s) {
+        return mapMonth(s, " ", monthZhMapper);
+    }
+
+    private static String mapMonth(String s, String divider, String[][] monthZhMapper) {
+        String year = s.split(" ")[0];
+        String month = s.split(" ")[1];
+        Optional<String> opt = Arrays.stream(monthZhMapper).filter(m -> month.equals(m[0])).map(m -> m[1]).findFirst();
+        return opt.map(value -> year + divider + value).orElse(s);
+    }
+
+    public static boolean notEmpty(String s) {
+        return s != null && !s.isEmpty();
     }
 }

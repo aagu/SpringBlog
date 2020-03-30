@@ -1,21 +1,26 @@
 package com.aagu.blog.Services.impl;
 
+import com.aagu.blog.Common.ServerResponse;
 import com.aagu.blog.Dao.ArticleDao;
 import com.aagu.blog.Dao.CommentDao;
 import com.aagu.blog.Dao.LabelDao;
 import com.aagu.blog.Models.Article;
 import com.aagu.blog.Models.Comment;
 import com.aagu.blog.Models.Label;
-import com.aagu.blog.Common.ServerResponse;
+import com.aagu.blog.Models.PageModel;
 import com.aagu.blog.Services.FrontService;
+import com.aagu.blog.Utils.Pager;
 import com.aagu.blog.Utils.TextUtil;
+import com.aagu.blog.Views.ArchiveLabel;
 import com.aagu.blog.Views.ArticleDetailVO;
 import com.aagu.blog.Views.BlogVO;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.*;
 
-import static com.aagu.blog.Common.Const.*;
+import static com.aagu.blog.Common.Const.ARTICLE_PAGE_LEN;
 
 @Service
 public class FrontServiceImpl implements FrontService {
@@ -32,38 +37,22 @@ public class FrontServiceImpl implements FrontService {
     }
 
     @Override
-    public List<Article> getArticleByPage(Integer start, Integer num) {
-        List<Article> articles = articleDao.getByPage(start, num);
-        for (Article article : articles) {
-            article.setDetail(TextUtil.extractTextFromHtml(article.getDetail(), 15));
-        }
-        return articles;
-    }
-
-    @Override
-    public ServerResponse<Article> getArticleById(Integer id) {
+    public Article getArticleById(Integer id) {
         if (id != null) {
             Article article = articleDao.getById(id);
-            if (article == null) {
-                return ServerResponse.createErrorMessage("article not found");
-            }
-            return ServerResponse.createBySuccess(article);
+            return article;
         }
-        return ServerResponse.createErrorMessage("wrong parameter");
+        return null;
     }
 
     @Override
-    public ServerResponse<ArticleDetailVO> getArticleDetail(Integer id) {
+    public ArticleDetailVO getArticleDetail(Integer id) {
         ArticleDetailVO vo = new ArticleDetailVO();
-        ServerResponse<Article> articleResponse = getArticleById(id);
-        if (articleResponse.isSuccess()) {
-            Article article = articleResponse.getData();
+        Article article = getArticleById(id);
+        if (article != null) {
             Label label = labelDao.getById(article.getLabelId());
-            List<Comment> comments = commentDao.getByArticle(article.getId());
             vo.setArticle(article);
             vo.setLabel(label);
-            vo.setComments(comments);
-            vo.setCommentCount(comments.size());
             vo.setAllLabels(labelDao.getChildLabel());
             Integer prev = articleDao.getPrevPage(id);
             Integer next = articleDao.getNextPage(id);
@@ -76,42 +65,24 @@ public class FrontServiceImpl implements FrontService {
                 next = articleDao.getPageCount(1);
             }
             vo.setNext(next);
-            return ServerResponse.createBySuccess(vo);
+            return vo;
         }
-        return ServerResponse.createBySuccessMessage("article not found");
+        return null;
     }
 
     @Override
-    public BlogVO getMainPage(Integer page) {
+    public BlogVO getArticlesPage(int page, Map<String, Object> params) {
         BlogVO blogVO = new BlogVO();
-        blogVO.setPages(articleDao.getPageCount(ARTICLE_PAGE_LEN));
-        List<Article> articles = articleDao.getByPage((page-1) * ARTICLE_PAGE_LEN, ARTICLE_PAGE_LEN);
-        setPage(blogVO, articles, page, null);
-        blogVO.setCurreLabel(null);
-        return blogVO;
-    }
-
-    @Override
-    public BlogVO getPageByLabel(String label, Integer page) {
-        Integer labelId = labelDao.getIdByName(label);
-        BlogVO blogVO = new BlogVO();
-        blogVO.setPages(articleDao.getByLabelCount(labelId, ARTICLE_PAGE_LEN));
-        List<Article> articles = articleDao.getByLabel(labelId, (page-1) * ARTICLE_PAGE_LEN, ARTICLE_PAGE_LEN);
-        setPage(blogVO, articles, page, "&label=" + label);
-        blogVO.setCurreLabel(label);
-        return blogVO;
-    }
-
-    @Override
-    public BlogVO getSearchedPage(String key, Integer page) {
-        BlogVO blogVO = new BlogVO();
-        blogVO.setPages(articleDao.getBySearchCount("%"+key+"%", ARTICLE_PAGE_LEN));
-        List<Article> articles = articleDao.getBySearch(
-                (page-1) * ARTICLE_PAGE_LEN,
-                ARTICLE_PAGE_LEN,
-                "%"+key+"%");
-        setPage(blogVO, articles, page, "&search=" + key);
-        blogVO.setCurreKeyWord(key);
+        if (params.get("month") != null) {
+            LocalDate date = ((Date)params.get("month")).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            params.put("date1", date);
+            params.put("date2", date.plusMonths(1));
+        }
+        if (params.get("labelId") != null) {
+            blogVO.setCurreLabel(labelDao.getById((int)params.get("labelId")).getName());
+        }
+        PageModel<Article> articles = new Pager<>(articleDao).getPage(page, ARTICLE_PAGE_LEN, params);
+        setPage(blogVO, articles, page);
         return blogVO;
     }
 
@@ -124,19 +95,47 @@ public class FrontServiceImpl implements FrontService {
         return ServerResponse.createBySuccessMessage("ok");
     }
 
-    private void setPage(BlogVO blogVO, List<Article> articles, Integer page, String param) {
-        for (Article article : articles) {
-            article.setDetail(TextUtil.extractTextFromHtml(article.getDetail(), 15));
+    @Override
+    public Object getArchiveLabels() {
+        List<String> labels = articleDao.orderByMonth();
+        Map<String, Object> resp = new HashMap<>();
+        resp.put("group", "archive");
+        resp.put("text", "归档");
+        resp.put("icon", "archive");
+        List<ArchiveLabel> set = new ArrayList<>();
+        for (String l: labels) {
+            set.add(new ArchiveLabel(TextUtil.getZhMonth(l), TextUtil.getDigitMonth(l)));
         }
-        blogVO.setArticles(articles);
+        resp.put("children", set);
+        return resp;
+    }
+
+    @Override
+    public Object getAllFinalLabels() {
+        List<Label> labels = labelDao.getChildLabel();
+        Map<String, Object> resp = new HashMap<>();
+        resp.put("group", "category");
+        resp.put("text", "标签");
+        resp.put("icon", "label");
+        Set<ArchiveLabel> set = new HashSet<>();
+        for (Label l: labels) {
+            set.add(new ArchiveLabel(l.getName(), String.valueOf(l.getId())));
+        }
+        resp.put("children", set);
+        return resp;
+    }
+
+    private void setPage(BlogVO blogVO, PageModel<Article> articles, Integer page) {
+        articles.getItems().forEach(article -> {
+            article.setUrl("/detail/" + article.getId());
+            article.setContent(TextUtil.extractTextFromHtml(article.getContent(), 40));
+        });
+        blogVO.setArticles(articles.getItems());
+        blogVO.setPages((int) Math.ceil((float)articles.getTotal()/ARTICLE_PAGE_LEN));
         blogVO.setLabels(labelDao.getChildLabel());
         blogVO.setCurrePage(page);
         blogVO.setArchiveLabel(articleDao.orderByMonth());
-        if (param == null || param.isEmpty()) {
-            blogVO.setParam("");
-        } else {
-            blogVO.setParam(param);
-        }
+        blogVO.setParam("");
     }
 
 }

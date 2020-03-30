@@ -12,7 +12,6 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Service;
-import org.thymeleaf.util.StringUtils;
 
 import java.util.*;
 
@@ -48,14 +47,14 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public PageModel<Article> getArticleByPage(Integer page, Integer limit) {
-        return new Pager<>(articleDao).getPage(page, limit);
+        return new Pager<>(articleDao).getPage(page, limit, new HashMap<>());
     }
 
     @Override
     public List<Article> getArticleByLabel(Integer labelId, Integer page) {
         List<Article> articles = articleDao.getByLabel(labelId, (page-1)*ARTICLE_ADMIN_PAGE_LEN, ARTICLE_ADMIN_PAGE_LEN);
         for (Article article : articles) {
-            article.setDetail(TextUtil.extractTextFromHtml(article.getDetail(), 20));
+            article.setContent(TextUtil.extractTextFromHtml(article.getContent(), 20));
         }
         return articles;
     }
@@ -64,7 +63,7 @@ public class AdminServiceImpl implements AdminService {
     public List<Article> getArticleBySearch(String key, Integer page) {
         List<Article> articles = articleDao.getBySearch((page-1)*ARTICLE_ADMIN_PAGE_LEN, ARTICLE_ADMIN_PAGE_LEN, "%"+key+"%");
         for (Article article : articles) {
-            article.setDetail(TextUtil.extractTextFromHtml(article.getDetail(), 20));
+            article.setContent(TextUtil.extractTextFromHtml(article.getContent(), 20));
         }
         return articles;
     }
@@ -88,7 +87,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void addArticle(Article article) {
-        articleDao.insertArticle(article.getDate(), article.getLabelId(), article.getDetail(), article.getTitle());
+        articleDao.insertArticle(article.getDate(), article.getLabelId(), article.getContent(), article.getTitle());
     }
 
     @Override
@@ -96,16 +95,16 @@ public class AdminServiceImpl implements AdminService {
         int id = article.getId();
         Article oldArticle = articleDao.getById(id);
         if (oldArticle != null) {
-            if (!oldArticle.getDetail().equals(article.getDetail())) {
-                articleDao.updateDetail(id, article.getDetail());
+            if (oldArticle.getContent() == null || !oldArticle.getContent().equals(article.getContent())) {
+                articleDao.updateDetail(id, article.getContent());
             }
-            if (oldArticle.getLabelId() != article.getLabelId()) {
+            if (!oldArticle.getLabelId().equals(article.getLabelId())) {
                 articleDao.updateLabel(id, article.getLabelId());
             }
-            if (!oldArticle.getTitle().equals(article.getTitle())) {
+            if (oldArticle.getTitle() == null || !oldArticle.getTitle().equals(article.getTitle())) {
                 articleDao.updateTitle(id, article.getTitle());
             }
-            if (!oldArticle.getStatus().equals(article.getStatus())) {
+            if (oldArticle.getStatus() == null || !oldArticle.getStatus().equals(article.getStatus())) {
                 articleDao.updateStatus(id, article.getStatus());
             }
         }
@@ -119,8 +118,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<Comment> getCommentByPage(Integer page, String search, String order) {
-        return commentDao.getByPage((page-1)*COMMENT_PAGE_LEN, COMMENT_PAGE_LEN, search, order);
+    public List<Comment> getCommentByPage(Integer page, String search, String order, String status) {
+        return commentDao.getByPage((page-1)*COMMENT_PAGE_LEN, COMMENT_PAGE_LEN, search, order, status);
     }
 
     @Override
@@ -144,7 +143,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public String login(String name, String pwd) {
-        if (!StringUtils.isEmpty(name) && !StringUtils.isEmpty(pwd)) {
+        if (TextUtil.notEmpty(name) && TextUtil.notEmpty(pwd)) {
             UsernamePasswordToken token = new UsernamePasswordToken(name, pwd);
             Subject subject = SecurityUtils.getSubject();
             try {
@@ -167,7 +166,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Integer getCommentPages() {
-        return commentDao.getCommentCount(COMMENT_PAGE_LEN);
+        return commentDao.getCount(COMMENT_PAGE_LEN);
     }
 
     @Override
@@ -238,10 +237,10 @@ public class AdminServiceImpl implements AdminService {
             int row = -1;
             switch (type) {
                 case "article":
-                    row = commentDao.deleteById(id);
+                    row = articleDao.deleteById(id);
                     break;
                 case "comment":
-                    row = articleDao.deleteById(id);
+                    row = commentDao.deleteById(id);
                     break;
                 default:
                     break;

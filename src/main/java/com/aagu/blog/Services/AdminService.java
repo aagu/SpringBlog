@@ -31,7 +31,7 @@ public interface AdminService {
 
     ServerResponse<Article> publishArticle(Integer id);
 
-    List<Comment> getCommentByPage(Integer page, String search, String order);
+    List<Comment> getCommentByPage(Integer page, String search, String order, String status);
 
     ServerResponse deleteArticle(Integer id);
 

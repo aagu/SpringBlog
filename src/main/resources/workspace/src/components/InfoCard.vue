@@ -1,0 +1,38 @@
+<template>
+  <v-card
+    :color="color"
+  >
+    <div class="d-flex flex-no-wrap justify-space-between">
+      <v-avatar
+        color="rgba(255, 255, 255, 0.2)"
+        class="ma-4"
+      >
+        <v-icon large>{{ icon }}</v-icon>
+      </v-avatar>
+
+      <div>
+        <v-card-title
+          class="headline"
+          v-text="title"
+        ></v-card-title>
+
+        <v-card-subtitle v-text="subTitle" class="text-right"></v-card-subtitle>
+      </div>
+    </div>
+  </v-card>
+</template>
+
+<script>
+export default {
+  props: ['color', 'icon', 'title', 'subTitle']
+}
+</script>
+
+<style scoped>
+  .icon-wrapper {
+    opacity: 0.4;
+    background-color:white;
+    border-radius: 25px;
+    padding: 10px;
+  }
+</style>

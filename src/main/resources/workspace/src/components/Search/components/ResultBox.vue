@@ -1,0 +1,40 @@
+<template>
+  <div>
+    <v-card
+      transition="fade-transition"
+      light
+      class="mx-auto"
+      v-show="show"
+    >
+      <v-list-item
+        v-for="(item, idx) in items"
+        :key="idx"
+        :to="`/detail/${item.id}`"
+      >
+        <v-list-item-content>
+          <v-list-item-title>{{ item.title }}</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+    </v-card>
+    <v-row v-show="persistClose || show">
+      <v-col cols="4" offset="4" class="d-flex justify-center">
+        <v-btn fab small light @click="$emit('close')">
+          <v-icon>close</v-icon>
+        </v-btn>
+      </v-col>
+    </v-row>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    items: Array,
+    show: Boolean,
+    persistClose: {
+      type: Boolean,
+      default: false
+    }
+  }
+}
+</script>

@@ -66,8 +66,8 @@ public class AdminRestController {
     public Object commentList(@RequestParam(value = "status", required = false) String status,
                               @RequestParam(value = "page", required = false, defaultValue = "1")Integer page,
                               @RequestParam(value = "limit", required = false, defaultValue = "20")Integer limit,
-                              @RequestParam(value = "sort", required = false)String sort) {
-        List<Comment>  comments = adminService.getCommentByPage(page, null, "desc");
+                              @RequestParam(value = "sort", required = false) String sort) {
+        List<Comment>  comments = adminService.getCommentByPage(page, null, "desc", status);
         return HttpUtil.createResponse(20000, null, comments);
     }
 
@@ -80,9 +80,9 @@ public class AdminRestController {
 
     @GetMapping("article/detail")
     public Object articleDetail(@RequestParam("id")Integer id) {
-        Article article = frontService.getArticleById(id).getData();
+        Article article = frontService.getArticleById(id);
         ArticleEditVO vo = new ArticleEditVO();
-        vo.setDetail(article.getDetail());
+        vo.setContent(article.getContent());
         vo.setTitle(article.getTitle());
         vo.setLabelId(article.getLabelId());
         vo.setLabelName(labelDao.getById(article.getLabelId()).getName());
@@ -148,17 +148,22 @@ public class AdminRestController {
         Map<String, Object> map = adminService.getTreeViewData();
         if (!needRoot) {
             tagTree.addAll(((TagTree)map.get("tree")).getChildren());
-            map.replace("tree", tagTree);
         } else {
             tagTree.add(((TagTree)map.get("tree")));
-            map.replace("tree", tagTree);
         }
+        map.replace("tree", tagTree);
         return HttpUtil.createResponse(20000, null, map);
+    }
+
+    @GetMapping("labels")
+    public Object labels() {
+        List<Label> labels = adminService.getAllLabels();
+        return HttpUtil.createResponse(20000, null, labels);
     }
 
     @PostMapping("label/add")
     public Object labelAdd(@RequestBody TagTree node) {
-        Map<String, Object> map = adminService.addLabel(node.getLabel(), node.getParentId());
+        Map<String, Object> map = adminService.addLabel(node.getName(), node.getParentId());
         if (map == null) return HttpUtil.createResponse(400000, "error add label", null);
         Set<TagTree> tagTree = new HashSet<>();
         tagTree.add(((TagTree)map.get("tree")));

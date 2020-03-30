@@ -3,7 +3,7 @@ package com.aagu.blog.Views;
 import java.util.Collection;
 
 public class TagTree {
-    private String label;
+    private String name;
     private Collection<TagTree> children;
     private Integer parentId;
     private String parentName;
@@ -13,18 +13,18 @@ public class TagTree {
 
     }
 
-    public TagTree(Integer id, Integer parentId, String label) {
+    public TagTree(Integer id, Integer parentId, String name) {
         this.id = id;
         this.parentId = parentId;
-        this.label = label;
+        this.name = name;
     }
 
-    public String getLabel() {
-        return label;
+    public String getName() {
+        return name;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Collection<TagTree> getChildren() {
@@ -72,14 +72,14 @@ public class TagTree {
         if (o == null || getClass() != o.getClass()) return false;
 
         TagTree that = (TagTree) o;
-        if (!label.equals(that.label)) return false;
+        if (!name.equals(that.name)) return false;
         return children.equals(that.children);
     }
 
     @Override
     public String toString() {
         return "TagTree{" +
-                "label='" + label + '\'' +
+                "label='" + name + '\'' +
                 ", children=" + children +
                 ", parentId=" + parentId +
                 ", parentName='" + parentName + '\'' +

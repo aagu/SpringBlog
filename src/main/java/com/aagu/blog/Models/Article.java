@@ -8,17 +8,18 @@ public class Article implements Serializable {
     private Date date;
     private Integer labelId;
     private String title;
-    private String detail;
+    private String content;
     private String author;
     private String status;
+    private String url;
 
     public Article() {
     }
 
-    public Article(Date date, Integer labelId, String detail, String title) {
+    public Article(Date date, Integer labelId, String content, String title) {
         this.date = date;
         this.labelId = labelId;
-        this.detail = detail;
+        this.content = content;
         this.title = title;
     }
 
@@ -54,12 +55,12 @@ public class Article implements Serializable {
         this.title = title;
     }
 
-    public String getDetail() {
-        return detail;
+    public String getContent() {
+        return content;
     }
 
-    public void setDetail(String detail) {
-        this.detail = detail == null ? null : detail.trim();
+    public void setContent(String content) {
+        this.content = content == null ? null : content.trim();
     }
 
     public String getAuthor() {
@@ -76,6 +77,14 @@ public class Article implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     @Override

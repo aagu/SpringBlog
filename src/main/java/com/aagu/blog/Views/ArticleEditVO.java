@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class ArticleEditVO {
     private Integer id;
-    private String detail;
+    private String content;
     private String title;
     private Integer labelId;
     private String labelName;
@@ -20,12 +20,12 @@ public class ArticleEditVO {
         this.id = id;
     }
 
-    public String getDetail() {
-        return detail;
+    public String getContent() {
+        return content;
     }
 
-    public void setDetail(String detail) {
-        this.detail = detail;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public String getTitle() {

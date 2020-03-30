@@ -34,7 +34,7 @@ public class AdminController {
      */
     @GetMapping(value = "")
     public String admin() {
-        return "admin/index";
+        return "admin";
     }
 
     /**
@@ -44,7 +44,7 @@ public class AdminController {
 
     @GetMapping(value = "/login")
     public String login() {
-        return "admin/index";
+        return "admin";
     }
 
 
@@ -89,12 +89,14 @@ public class AdminController {
             comments = adminService.getCommentByPage(
                     page,
                     null,
-                    order);
+                    order,
+                    null);
         } else {
             comments = adminService.getCommentByPage(
                     page,
                     search,
-                    order);
+                    order,
+                    null);
         }
         for (Comment comment : comments) {
             comment.setArticleTitle(TextUtil.cutString(comment.getArticleTitle(), 10));

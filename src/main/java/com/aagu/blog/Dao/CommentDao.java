@@ -14,9 +14,19 @@ import java.util.Map;
 public interface CommentDao {
 
     @Select("select * from comment")
+    @Results({
+            @Result(property = "articleTitle", column = "title"),
+            @Result(property = "id", column = "id"),
+            @Result(property = "date", column = "createtime"),
+    })
     List<Comment> getAll();
 
     @Select("select * from comment where articleId=#{articleId}")
+    @Results({
+            @Result(property = "articleTitle", column = "title"),
+            @Result(property = "id", column = "id"),
+            @Result(property = "date", column = "createtime"),
+    })
     List<Comment> getByArticle(@Param("articleId") Integer articleId);
 
     @SelectProvider(type = CommentSqlBuilder.class, method = "buildSearch")
@@ -28,10 +38,16 @@ public interface CommentDao {
     List<Comment> getByPage(@Param("start") Integer start,
                             @Param("num") Integer end,
                             @Param("search") String search,
-                            @Param("order") String order);
+                            @Param("order") String order,
+                            @Param("status") String status);
 
-    @Select("select comment.detail, email, title, comment.id, articleId, createtime, comment.status from comment join article on comment.articleId = article.id" +
-            " where status='unread'")
+    @SelectProvider(type = CommentSqlBuilder.class, method = "buildPage")
+    @Results({
+            @Result(property = "date", column = "createtime"),
+    })
+    List<Comment> getByPageV2(Map<String, String> param);
+
+    @Select("select comment.detail, email, title, comment.id, articleId, createtime, comment.status from comment join article on comment.articleId = article.id")
     @Results({
             @Result(property = "articleTitle", column = "title"),
             @Result(property = "id", column = "id"),
@@ -40,7 +56,10 @@ public interface CommentDao {
     List<Comment> getUnread();
 
     @Select("select ceil(count(id)/#{div}) from comment")
-    Integer getCommentCount(@Param("div") Integer div);
+    Integer getCount(@Param("div") Integer div);
+
+    @SelectProvider(type = CommentSqlBuilder.class, method = "buildCount")
+    Integer getCountV2(Map<String, String> params);
 
     @Insert("insert into comment(detail, email, articleId) value(#{detail},#{email},#{id})")
     Integer insertComment(@Param("detail") String detail, @Param("email") String email, @Param("id") Integer articleId);
@@ -60,7 +79,40 @@ public interface CommentDao {
                 if (param.get("search") != null) {
                     WHERE("comment.detail like '%" + param.get("search") + "%'");
                 }
+                if (param.get("status") != null) {
+                    WHERE("comment.status='" + param.get("status") + "'");
+                }
                 ORDER_BY("createtime " + param.get("order"));
+            }}.toString() + " LIMIT " + param.get("start") + "," + param.get("num");
+        }
+
+        public static String buildCount(Map<String, String> param) {
+            return new SQL(){{
+                if (param.containsKey("div")) {
+                    SELECT("ceil(count(id)/#{div})");
+                } else {
+                    SELECT("count(id)");
+                }
+                FROM("comment");
+                if (param.containsKey("articleId")) {
+                    WHERE("articleId=" + Integer.parseInt(param.get("articleId")));
+                }
+            }}.toString();
+        }
+
+        public static String buildPage(Map<String, String> param) {
+            return new SQL(){{
+                SELECT("detail, email, id, articleId, createtime, status");
+                FROM("comment");
+                if (param.containsKey("status")) {
+                    WHERE("comment.status='" + param.get("status") + "'");
+                }
+                if (param.containsKey("articleId")) {
+                    WHERE("articleId=" + param.get("articleId"));
+                }
+                if (param.containsKey("order")) {
+                    ORDER_BY("createtime " + param.get("order"));
+                }
             }}.toString() + " LIMIT " + param.get("start") + "," + param.get("num");
         }
     }

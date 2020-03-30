@@ -19,7 +19,7 @@ public class BlogApplicationTests {
 
 	@Test
 	public void getArticleByMonth() {
-		List<Comment> comments = commentDao.getByPage(0, 5, "我", "desc");
+		List<Comment> comments = commentDao.getByPage(0, 5, "我", "desc", "unread");
 		for (Comment c : comments) {
 			System.out.println(c.toString());
 		}
