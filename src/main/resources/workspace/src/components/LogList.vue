@@ -8,9 +8,9 @@
       <v-simple-table>
         <template v-slot:default>
           <tbody>
-            <tr v-for="item in comments" :key="item.id">
-              <td>{{ item.detail }}</td>
-              <td>{{ item.email }}</td>
+            <tr v-for="item in logs" :key="item.id">
+              <td>{{ item.time | parseTime }}</td>
+              <td>{{ item.info }}</td>
             </tr>
           </tbody>
         </template>
@@ -20,32 +20,12 @@
 </template>
 
 <script>
-import { getCommentList } from '@/api/comment'
+import { getLogs } from '@/api/admin'
 
 export default {
   data() {
     return {
-      headers: [
-        {
-          text: "内容",
-          align: "center",
-          sortable: false,
-          value: "detail"
-        },
-        {
-          text: "作者",
-          align: "center",
-          sortable: false,
-          value: "email"
-        },
-        {
-          text: "操作",
-          value: "actions",
-          sortable: false,
-          align: "right"
-        }
-      ],
-      comments: []
+      logs: []
     }
   },
   mounted() {
@@ -53,8 +33,8 @@ export default {
   },
   methods: {
     fetch() {
-      getCommentList({page: 1, limit: 10, status: 'unread'}).then(resp => {
-        this.comments = resp.data.data.items
+      getLogs({page: 1, limit: 5}).then(resp => {
+        this.logs = resp.data
       })
     }
   }

@@ -13,6 +13,7 @@
             :color=info.color
             :icon=info.icon
             :title=info.title
+            :to="info.to"
             :subTitle=infoValues[info.value]
           ></InfoCard>
         </v-col>
@@ -46,9 +47,9 @@ export default {
   data: () => ({
     infoCards: [
       { color: 'blue lighten-3', icon: 'person', title: '访客', value: 'visitor' },
-      { color: 'deep-purple lighten-3', icon: 'forum', title: '评论', value: 'comment' },
-      { color: 'green lighten-1', icon: 'description', title: '文章', value: 'article' },
-      { color: 'indigo lighten-3', icon: 'image', title: '资源', value: 'resource' }
+      { color: 'deep-purple lighten-3', icon: 'forum', title: '评论', value: 'comment', to: '/admin/comment' },
+      { color: 'green lighten-1', icon: 'description', title: '文章', value: 'article', to: '/admin/article' },
+      { color: 'indigo lighten-3', icon: 'image', title: '资源', value: 'resource', to: '/admin/resource' }
     ],
     infoValues: []
   }),

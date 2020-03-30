@@ -5,6 +5,7 @@ import java.util.List;
 public class PageModel<T> {
     List<T> items;
     int total;
+    int current;
 
     public List<T> getItems() {
         return items;
@@ -20,5 +21,13 @@ public class PageModel<T> {
 
     public void setTotal(int total) {
         this.total = total;
+    }
+
+    public int getCurrent() {
+        return current;
+    }
+
+    public void setCurrent(int current) {
+        this.current = current;
     }
 }

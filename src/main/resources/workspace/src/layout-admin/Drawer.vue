@@ -43,7 +43,8 @@ export default {
       { title: '文章管理', icon: 'view_list', path: 'article'},
       { title: '评论管理', icon: 'comment', path: 'comment'},
       { title: '标签管理', icon: 'label', path: 'label'},
-      { title: '资源管理', icon: 'view_compact', path: 'resource'}
+      { title: '资源管理', icon: 'view_compact', path: 'resource'},
+      { title: '系统设置', icon: 'settings', path: 'settings'}
     ]
   }),
   computed: {
@@ -59,7 +60,7 @@ export default {
   methods: {
     toggleDrawer(val) {
       const old = this.drawer
-      if (val != old) {
+      if (val !== old) {
         this.$store.dispatch('toggleDrawer')
       }
     },

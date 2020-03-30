@@ -1,4 +1,4 @@
-package com.aagu.blog.Controllers
+package com.aagu.blog.controller
 
 import com.aagu.blog.Models.Comment
 import com.aagu.blog.Services.CommentService

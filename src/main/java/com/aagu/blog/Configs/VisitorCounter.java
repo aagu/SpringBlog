@@ -1,6 +1,6 @@
 package com.aagu.blog.Configs;
 
-import com.aagu.blog.Controllers.FrontController;
+import com.aagu.blog.controller.FrontController;
 import com.aagu.blog.Utils.CountUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

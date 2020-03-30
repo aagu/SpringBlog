@@ -1,6 +1,6 @@
 HELP.md
 /target/
-!.mvn/wrapper/maven-wrapper.jar
+/.mvn/wrapper/
 
 ### STS ###
 .apt_generated
@@ -27,3 +27,6 @@ HELP.md
 
 ### VS Code ###
 .vscode/
+
+### NPM ###
+/src/main/resources/workspace/node_modules/

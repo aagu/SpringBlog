@@ -2,7 +2,7 @@ package com.aagu.blog.Services.impl;
 
 import com.aagu.blog.Common.Const;
 import com.aagu.blog.Common.ServerResponse;
-import com.aagu.blog.Controllers.FileController;
+import com.aagu.blog.controller.FileController;
 import com.aagu.blog.Dao.ResourceDao;
 import com.aagu.blog.Models.Resource;
 import com.aagu.blog.Services.FileService;

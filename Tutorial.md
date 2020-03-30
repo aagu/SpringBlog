@@ -34,7 +34,7 @@
 ##### 各文件内容
 ```TemplateController```
 ```Java
-package com.aagu.blog.Controllers;
+package com.aagu.blog.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

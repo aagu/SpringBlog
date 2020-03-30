@@ -22,6 +22,7 @@ public class Pager<T> {
         PageModel<T> data = new PageModel<>();
         data.setTotal(callback.getTotal());
         data.setItems(callback.getItems(page, num));
+        data.setCurrent(page);
         return data;
     }
 
@@ -29,6 +30,7 @@ public class Pager<T> {
         PageModel<T> data = new PageModel<>();
         data.setTotal(dao.getTotal(params));
         data.setItems(dao.getItems((page-1)*num, num, params));
+        data.setCurrent(page);
         return data;
     }
 }

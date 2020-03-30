@@ -99,7 +99,15 @@ export default new Router({
           meta: {
             title: '资源管理'
           },
-          component: () => import('@/views/Dashboard')
+          component: () => import('@/views/Resource')
+        },
+        {
+          path: 'settings',
+          name: 'settings',
+          meta: {
+            title: '系统设置'
+          },
+          component: () => import('@/views/Settings')
         },
       ]
     },

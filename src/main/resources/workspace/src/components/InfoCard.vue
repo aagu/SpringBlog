@@ -1,6 +1,8 @@
 <template>
   <v-card
     :color="color"
+    :to="to"
+    :disabled="to === null"
   >
     <div class="d-flex flex-no-wrap justify-space-between">
       <v-avatar
@@ -24,7 +26,7 @@
 
 <script>
 export default {
-  props: ['color', 'icon', 'title', 'subTitle']
+  props: ['color', 'icon', 'title', 'subTitle', 'to']
 }
 </script>
 

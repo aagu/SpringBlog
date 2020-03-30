@@ -1,6 +1,5 @@
-package com.aagu.blog.Controllers;
+package com.aagu.blog.controller;
 
-import com.aagu.blog.Common.ServerResponse;
 import com.aagu.blog.Services.FrontService;
 import com.aagu.blog.Utils.TextUtil;
 import com.aagu.blog.Views.ArticleDetailVO;

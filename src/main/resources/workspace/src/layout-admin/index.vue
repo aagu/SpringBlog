@@ -3,7 +3,9 @@
     <Drawer></Drawer>
     <Toolbar></Toolbar>
     <v-content>
-      <router-view></router-view>
+      <keep-alive>
+        <router-view></router-view>
+      </keep-alive>
     </v-content>
   </v-app>
 </template>
