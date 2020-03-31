@@ -5,7 +5,7 @@
         <v-col
           md="4"
         >
-          <GreettingCard />
+          <GreetingCard />
         </v-col>
         <v-col
           md="4"
@@ -34,38 +34,42 @@
     </div>
 
     <v-row class="d-flex justify-center align-center">
-        <v-col
-          cols="2"
-        >
-          <div v-if="prePage > 0" class="text-center">
-            <v-btn fab small text @click="goPrePage"><v-icon>arrow_back</v-icon></v-btn><div class="d-none d-sm-block">上一页</div>
-          </div>
-        </v-col>
-        <v-col
-          cols="6"
-        >
-          <p class="text-center">第 {{ query['page'] }} 页，共 {{ pages }} 页</p>
-        </v-col>
-        <v-col
-          cols="2"
-        >
-          <div v-if="nextPage > 0 && nextPage <= pages" class="text-center">
-            <v-btn fab small text @click="goNextPage"><v-icon>arrow_forward</v-icon></v-btn><div class="d-none d-sm-block">下一页</div>
-          </div>
-        </v-col>
-      </v-row>
+      <v-col
+        cols="2"
+      >
+        <div v-if="prePage > 0" class="text-center">
+          <v-btn fab small text @click="goPrePage"><v-icon>arrow_back</v-icon></v-btn><div class="d-none d-sm-block">上一页</div>
+        </div>
+      </v-col>
+      <v-col
+        cols="6"
+      >
+        <p class="text-center">第 {{ query['page'] }} 页，共 {{ pages }} 页</p>
+      </v-col>
+      <v-col
+        cols="2"
+      >
+        <div v-if="nextPage > 0 && nextPage <= pages" class="text-center">
+          <v-btn fab small text @click="goNextPage"><v-icon>arrow_forward</v-icon></v-btn><div class="d-none d-sm-block">下一页</div>
+        </div>
+      </v-col>
+    </v-row>
+
+    <v-overlay :value="loading">
+      <v-progress-circular indeterminate size="64"></v-progress-circular>
+    </v-overlay>
   </v-container>
 </template>
 
 <script>
-  import GreettingCard from '@/components/GreettingCard'
+  import GreetingCard from '@/components/GreetingCard'
   import ArticleCard from '@/components/ArticleCard'
   import Notification from '@/components/Notification/Notification'
   import { getArticle } from '@/api/home'
   import { getLabelById, formatTime } from '@/utils'
 
   export default {
-    components: { GreettingCard, ArticleCard },
+    components: { GreetingCard, ArticleCard },
     data: () => ({
       articles: [],
       labels: [],
@@ -78,11 +82,11 @@
       page: 1,
       pages: 2,
       isHomepage: true,
-      date: new Date().toISOString().substr(0, 10)
+      date: new Date().toISOString().substr(0, 10),
+      loading: false
     }),
     mounted() {
       this.getPage()
-      this.$store.dispatch('setToolbar', 'Home')
     },
     computed: {
       nextPage() {
@@ -114,6 +118,7 @@
     },
     methods: {
       getPage() {
+        this.loading = true
         getArticle(this.query).then(response => {
           this.articles = response.data.articles
           this.page = response.data.currePage
@@ -122,6 +127,8 @@
           if (this.query['label'] === null && this.query['archive'] === null) {
             this.$store.dispatch('setLabelMap', this.labels)
           }
+
+          this.loading = false
 
           // clear query
           this.query['label'] = null

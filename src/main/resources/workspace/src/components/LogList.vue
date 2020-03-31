@@ -23,6 +23,7 @@
 import { getLogs } from '@/api/admin'
 
 export default {
+  name: 'LogList',
   data() {
     return {
       logs: []

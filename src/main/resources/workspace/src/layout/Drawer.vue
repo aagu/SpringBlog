@@ -32,7 +32,7 @@
             <v-expand-transition>
               <div v-show="show">
                 <v-list-item class="emailBtn" href="mailto:aagu@outloo.com">
-                  <v-list-item-icon>mail</v-list-item-icon>
+                  <v-list-item-icon><v-icon>email</v-icon></v-list-item-icon>
                   <v-list-item-title>email me</v-list-item-title>
                 </v-list-item>
               </div>

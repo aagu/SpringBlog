@@ -90,7 +90,6 @@
       }
     },
     mounted() {
-      this.$store.dispatch('setToolbar', '评论管理')
       this.fetch()
     },
     watch: {

@@ -32,6 +32,6 @@
 
 <script>
   export default {
-    name: 'GreettingCard'
+    name: 'GreetingCard'
   }
 </script>

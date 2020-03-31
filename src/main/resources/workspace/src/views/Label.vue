@@ -96,7 +96,6 @@
 
     mounted() {
       this.fetch()
-      this.$store.dispatch('setToolbar', '评论管理')
     },
 
     methods: {

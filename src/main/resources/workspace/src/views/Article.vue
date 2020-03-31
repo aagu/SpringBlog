@@ -81,7 +81,6 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('setToolbar', '文章管理')
     this.fetch()
   },
   filters: {

@@ -34,3 +34,7 @@ router.beforeEach(async(to, from, next) => {
     }
   }
 })
+
+router.afterEach(async (to, from, next) => {
+  await store.dispatch('setToolbar', to.meta.title)
+})

@@ -40,7 +40,7 @@
             </v-list-item>
           </v-card-actions>
 
-           <Markdown class="text-wrap" style="margin: 10px;" :content="article.content"></Markdown>
+           <Markdown class="text-wrap" style="padding: 16px;" :content="article.content"></Markdown>
 <!--          <HtmlPanel :html="article.content" style="overflow-x: scroll"></HtmlPanel>-->
         </v-card>
       </v-col>
@@ -138,8 +138,10 @@
       }
     },
     mounted() {
-      const id = this.$route.params && this.$route.params.id
-      this.fetchData(id)
+      this.fetchData()
+    },
+    watch: {
+      '$route': 'fetchData'
     },
     methods: {
       getPre() {
@@ -148,7 +150,8 @@
       getNext() {
         this.$router.push('/detail/'+this.next)
       },
-      fetchData(id) {
+      fetchData() {
+        const id = this.$route.params && this.$route.params.id
         this.loading = true
         getArticle(id).then(response => {
           this.article = response.data.article

@@ -35,16 +35,6 @@ export default new Router({
             title: '文章详情'
           },
           component: () => import('@/views/Detail')
-        },
-        {
-          path: '/category/:label(\\d+)',
-          name: 'category',
-          component: () => import('@/views/Home')
-        },
-        {
-          path: '/archive/:label(\\d{4}-\\d{2})',
-          name: 'archive',
-          component: () => import('@/views/Home')
         }
       ]
     },
@@ -109,6 +99,14 @@ export default new Router({
           },
           component: () => import('@/views/Settings')
         },
+        {
+          path: 'profile',
+          name: 'profile',
+          meta: {
+            title: '个人信息'
+          },
+          component: () => import('@/views/Profile')
+        }
       ]
     },
     {
@@ -119,5 +117,8 @@ export default new Router({
       },
       component: () => import('@/views/Login')
     }
-  ]
+  ],
+  scrollBehavior (to, from, savedPosition) {
+    return { x: 0, y: 0 }
+  }
 })

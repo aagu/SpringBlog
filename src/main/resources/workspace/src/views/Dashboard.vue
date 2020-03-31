@@ -41,7 +41,6 @@ export default {
     LogList
   },
   mounted() {
-    this.$store.dispatch('setToolbar', '仪表盘')
     this.fetch()
   },
   data: () => ({

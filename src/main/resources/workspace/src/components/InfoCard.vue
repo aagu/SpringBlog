@@ -26,6 +26,7 @@
 
 <script>
 export default {
+  name: 'infoCard',
   props: ['color', 'icon', 'title', 'subTitle', 'to']
 }
 </script>

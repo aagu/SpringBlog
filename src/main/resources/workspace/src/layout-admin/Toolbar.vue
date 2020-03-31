@@ -83,10 +83,10 @@ export default {
       })
     },
     goSettings() {
-
+      this.$router.push({name: 'settings'})
     },
     goProfile() {
-      
+      this.$router.push({name: 'profile'})
     }
   }
 }

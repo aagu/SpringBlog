@@ -2,7 +2,9 @@
   <v-app id="inspire">
     <Drawer></Drawer>
     <Toolbar></Toolbar>
-    <v-content>
+    <v-content
+      style="background-color: #fafafa"
+    >
       <keep-alive>
         <router-view></router-view>
       </keep-alive>

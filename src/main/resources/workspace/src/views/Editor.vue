@@ -153,7 +153,6 @@ export default {
     mavonEditor
   },
   mounted() {
-    this.$store.dispatch('setToolbar', '写文章')
     this.setArticle(this.$route.params.articleId)
     this.setLabel()
     this.onResize()
