@@ -9,4 +9,8 @@ interface CommentService {
     fun addComment(comment: Comment): Int
 
     fun getComments(articleId: Int?, page: Int, limit: Int): CommentVO
+
+    fun markRead(id: Int): Int
+
+    fun markDelete(id: Int): Int
 }

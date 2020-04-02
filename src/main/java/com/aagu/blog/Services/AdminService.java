@@ -57,7 +57,7 @@ public interface AdminService {
 
     List<User> getUserByPage(Integer page);
 
-    Map getUserInfo(String name);
+    Map<String, String> getUserInfo(String name);
 
     List<String> getAllUserByName(String name);
 }

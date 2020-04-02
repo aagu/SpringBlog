@@ -32,7 +32,8 @@
 </template>
 
 <script>
-  import { getCommentList } from '@/api/comment'
+  import { getCommentList, markAsRead, markAsDelete } from '@/api/comment'
+  import Notification from "@/components/Notification/Notification";
 
   export default {
     data () {
@@ -107,6 +108,24 @@
           this.comments = resp.data.data.items
           this.total = resp.data.data.total
           this.loading = false
+        })
+      },
+      readComment(comment) {
+        markAsRead(comment.id).then(resp => {
+          if (resp.data.code === 20000) {
+            comment.status = 'read'
+            Notification.success()
+          }
+        })
+      },
+      deleteComment(comment) {
+        markAsDelete(comment.id).then(resp => {
+          if (resp.data.code === 20000) {
+            comment.status = 'deleted'
+            Notification.success()
+          } else {
+            Notification.error('action failed')
+          }
         })
       }
     }

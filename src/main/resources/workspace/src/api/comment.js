@@ -23,3 +23,17 @@ export function getArticleComment(query) {
     params: query
   })
 }
+
+export function markAsRead(id) {
+  return request({
+    url: `/comments/${id}`,
+    method: 'put'
+  })
+}
+
+export function markAsDelete(id) {
+  return request({
+    url: `/comments/${id}`,
+    method: 'delete'
+  })
+}

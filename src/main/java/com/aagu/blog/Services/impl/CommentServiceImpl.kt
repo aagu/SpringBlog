@@ -33,4 +33,12 @@ class CommentServiceImpl(private val commentDao: CommentDao) : CommentService {
         commentVO.currePage = page
         return commentVO
     }
+
+    override fun markRead(id: Int): Int {
+        return commentDao.markAsRead(id);
+    }
+
+    override fun markDelete(id: Int): Int {
+        return commentDao.deleteById(id)
+    }
 }

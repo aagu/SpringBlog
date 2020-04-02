@@ -7,31 +7,33 @@ const blackUrl = '/admin'
 router.beforeEach(async(to, from, next) => {
   document.title = to.meta.title
 
-  const hasToken = getToken()
+  if (to.path.indexOf(blackUrl) !== -1) {
+    const hasToken = getToken()
 
-  if (hasToken) {
-     if (to.path === '/login') {
+    if (hasToken) {
+      if (to.path === '/login') {
         next({ path: '/admin' })
-     } else {
+      } else {
         const hasGetUserInfo = store.getters.name
+
         if (hasGetUserInfo) {
           next()
         } else {
           try {
-            await store.dispatch('getInfo')
-            next()
+            store.dispatch('getInfo').then(() => {
+              next()
+            }).catch(reason => {
+              next(`login?redirect=${to.path}`)
+            })
           } catch (error) {
             await store.dispatch('resetToken')
             next(`login?redirect=${to.path}`)
+          }
         }
       }
     }
   } else {
-    if (to.path.indexOf(blackUrl) !== -1) {
-      next(`/login?redirect=${to.path}`)
-    } else {
-      next()
-    }
+    next()
   }
 })
 

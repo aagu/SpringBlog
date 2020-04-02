@@ -26,4 +26,18 @@ class CommentController {
     ): Any {
         return commentService.getComments(articleId, page, limit)
     }
+
+    @PutMapping("{id}")
+    fun readComment(@PathVariable("id") id: Int): Any {
+        val res = commentService.markRead(id);
+        return if (res == 1) HttpUtil.createResponse(20000, "ok", null)
+            else HttpUtil.createResponse(50000, "mark comment with id: $id as read failed", null)
+    }
+
+    @DeleteMapping("{id}")
+    fun deleteComment(@PathVariable("id") id: Int): Any {
+        val res = commentService.markDelete(id)
+        return if (res == 1) HttpUtil.createResponse(20000, "ok", null)
+        else HttpUtil.createResponse(50000, "mark comment with id: $id as deleted failed", null)
+    }
 }

@@ -31,27 +31,24 @@ public class AdminRestController {
     private LabelDao labelDao;
 
     @GetMapping("user/info")
-    public Object info(@RequestParam(value = "token", required = false)String token) {
+    public Object info(@RequestParam(value = "token", required = false) String token) {
         if (token == null || token.isEmpty()) {
             return HttpUtil.createResponse(20000, null, "用户令牌错误");
         }
-        Map params = adminService.getUserInfo(token);
+        Map<String, String> params = adminService.getUserInfo(token);
+        if (params == null) {
+            return HttpUtil.createResponse(41000, "token expired", null);
+        }
         return HttpUtil.createResponse(20000, null, params);
     }
 
     @PostMapping("user/login")
-    public Object login(@RequestBody Map token) {
-        String role = adminService.login((String)token.get("username"), (String)token.get("password"));
+    public Object login(@RequestBody Map<String, String> token) {
+        String sessionId = adminService.login(token.get("username"), token.get("password"));
         //String role = "admin";
         Map<String, String> params = new HashMap<>();
-        params.put("user", (String)token.get("username"));
-        if (!StringUtils.isEmpty(role)) {
-            if (role.equalsIgnoreCase("admin")) {
-                params.put("token", "admin-token");
-            } else if (role.equalsIgnoreCase("editor")) {
-                params.put("token", "editor-token");
-            }
-        }
+        params.put("user", token.get("username"));
+        params.put("token", sessionId);
         return HttpUtil.createResponse(20000, null, params);
     }
 

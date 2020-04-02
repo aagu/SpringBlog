@@ -19,6 +19,14 @@ export function getInfo(token) {
   return request({
     url: '/admin/user/info',
     method: 'get',
-    params: token
+    params: { token: token }
+  })
+}
+
+export function sec(name) {
+  return request({
+    url: '/user/sec',
+    method: 'get',
+    params: { name: name }
   })
 }

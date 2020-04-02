@@ -97,7 +97,7 @@ export default new Router({
           meta: {
             title: '系统设置'
           },
-          component: () => import('@/views/Settings')
+          component: () => import('@/views/Settings/Settings')
         },
         {
           path: 'profile',

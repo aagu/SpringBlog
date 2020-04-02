@@ -26,30 +26,30 @@ public class FrontController {
      */
     @GetMapping(value = "")
     public String index() {
-        return "redirect:front";
+        return "index";
     }
 
     @GetMapping("/front")
     public String main() {
         return "front";
     }
+//
+//    @GetMapping(value = "/about")
+//    public String about() {
+//        return "front/about";
+//    }
 
-    @GetMapping(value = "/about")
-    public String about() {
-        return "front/about";
-    }
-
-    /**
-     * 评论文章
-     * @param email 评论者邮箱
-     * @param detail 评论详情
-     * @param articleId 文章编号
-     * @return 当前文章详情页
-     */
-    @PostMapping(value = "/put-comment")
-    public String createComment(@Email String email, String detail, Integer articleId) {
-        frontService.createComment(email, detail, articleId);
-        return "redirect:/detail/" + articleId;
-    }
+//    /**
+//     * 评论文章
+//     * @param email 评论者邮箱
+//     * @param detail 评论详情
+//     * @param articleId 文章编号
+//     * @return 当前文章详情页
+//     */
+//    @PostMapping(value = "/put-comment")
+//    public String createComment(@Email String email, String detail, Integer articleId) {
+//        frontService.createComment(email, detail, articleId);
+//        return "redirect:/detail/" + articleId;
+//    }
 
 }

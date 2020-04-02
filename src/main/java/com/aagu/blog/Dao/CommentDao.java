@@ -64,7 +64,7 @@ public interface CommentDao {
     @Insert("insert into comment(detail, email, articleId) value(#{detail},#{email},#{id})")
     Integer insertComment(@Param("detail") String detail, @Param("email") String email, @Param("id") Integer articleId);
 
-    @Delete("delete from comment where id=#{id}")
+    @Update("update comment set status='deleted' where id=#{id}")
     Integer deleteById(@Param("id") Integer id);
 
     @Update("update comment set status='read' where id=#{id}")

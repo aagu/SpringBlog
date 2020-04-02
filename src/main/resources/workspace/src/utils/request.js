@@ -34,6 +34,10 @@ service.interceptors.response.use(
    * You can also judge the status by HTTP Status Code
    */
   response => {
+    const code = response.data.code
+    if (code === 41000) {
+      return Promise.reject(new Error('Token Expired, please login again'))
+    }
     return response
   },
   error => {

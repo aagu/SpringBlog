@@ -25,7 +25,7 @@
         </v-icon>
         <v-icon
           small
-          @click="deleteItem(item)"
+          @click="deleteArticle(item)"
         >
           mdi-delete
         </v-icon>
@@ -35,7 +35,8 @@
 </template>
 
 <script>
-import { getArticleList } from '@/api/article'
+import { getArticleList, deleteArticle } from '@/api/article'
+import Notification from "@/components/Notification/Notification";
 
 export default {
   data: () => ({
@@ -108,6 +109,15 @@ export default {
     },
     editArticle(article) {
       this.$router.push({name: 'edit', params: { articleId: article.id }})
+    },
+    deleteArticle(article) {
+      deleteArticle(article.id).then(resp => {
+        if (resp.data.code === 20000) {
+          article.status = 'deleted'
+        } else {
+          Notification.error('action failed')
+        }
+      })
     }
   }
 }

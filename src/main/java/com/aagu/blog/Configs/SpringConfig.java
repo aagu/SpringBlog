@@ -23,7 +23,6 @@ public class SpringConfig extends WebMvcConfigurationSupport {
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**").addResourceLocations(
                 "classpath:/static/",
-                "classpath:/dist/",
                 "file:"+resLoc
         );
     }

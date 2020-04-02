@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import md5 from 'js-md5'
 import { login, logout, getInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
-import router from './router'
 
 Vue.use(Vuex)
 
@@ -13,7 +13,12 @@ export default new Vuex.Store({
     snackbar: false,
     labelMap: [],
     token: getToken(),
-    name: ''
+    name: null
+  },
+  getters: {
+    name:state => {
+      return state.name
+    }
   },
   mutations: {
     SET_TOOLBAR: (state, title) => {
@@ -53,7 +58,7 @@ export default new Vuex.Store({
     login( { commit }, userInfo) {
       const { username, password } = userInfo
       return new Promise((resolve, reject) => {
-        login({ username: username.trim(), password: password}).then(resp => {
+        login({ username: username.trim(), password: md5(password) }).then(resp => {
           const { data } = resp.data
           commit('SET_TOKEN', data.token)
           setToken(data.token)
@@ -68,7 +73,7 @@ export default new Vuex.Store({
     getInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
         getInfo(state.token).then(response => {
-          const { data } = response
+          const { code, data } = response.data
   
           if (!data) {
             reject('Verification failed, please Login again.')

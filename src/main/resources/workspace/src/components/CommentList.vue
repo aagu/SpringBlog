@@ -52,7 +52,8 @@
 </template>
 
 <script>
-import { getCommentList } from '@/api/comment'
+import { getCommentList, markAsRead, markAsDelete } from '@/api/comment'
+import Notification from "./Notification/Notification";
 
 export default {
   data() {
@@ -87,6 +88,28 @@ export default {
     fetch() {
       getCommentList({page: 1, limit: 10, status: 'unread'}).then(resp => {
         this.comments = resp.data.data.items
+      })
+    },
+    readComment(comment) {
+      markAsRead(comment.id).then(resp => {
+        if (resp.data.code === 20000) {
+          let idx = this.comments.indexOf(comment);
+          this.comments.splice(idx, 1);
+          Notification.success()
+        } else {
+          Notification.error('action failed')
+        }
+      })
+    },
+    deleteComment(comment) {
+      markAsDelete(comment.id).then(resp => {
+        if (resp.data.code === 20000) {
+          let idx = this.comments.indexOf(comment);
+          this.comments.splice(idx, 1);
+          Notification.success()
+        } else {
+          Notification.error('action failed')
+        }
       })
     }
   }

@@ -5,9 +5,7 @@
     <v-content
       style="background-color: #fafafa"
     >
-      <keep-alive>
-        <router-view></router-view>
-      </keep-alive>
+      <router-view></router-view>
     </v-content>
   </v-app>
 </template>

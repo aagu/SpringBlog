@@ -4,6 +4,7 @@ import com.aagu.blog.Dao.*;
 import com.aagu.blog.Models.*;
 import com.aagu.blog.Common.ServerResponse;
 import com.aagu.blog.Utils.Pager;
+import com.aagu.blog.Utils.RequestHolder;
 import com.aagu.blog.Utils.TextUtil;
 import com.aagu.blog.Services.AdminService;
 import com.aagu.blog.Views.TagTree;
@@ -11,9 +12,13 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import static com.aagu.blog.Common.Const.*;
 
@@ -28,11 +33,15 @@ public class AdminServiceImpl implements AdminService {
 
     private final UserDao userDao;
 
-    public AdminServiceImpl(ArticleDao articleDao, CommentDao commentDao, LabelDao labelDao, UserDao userDao) {
+    private final StringRedisTemplate redisTemplate;
+
+    public AdminServiceImpl(ArticleDao articleDao, CommentDao commentDao, LabelDao labelDao,
+                            UserDao userDao, StringRedisTemplate redisTemplate) {
         this.articleDao = articleDao;
         this.commentDao = commentDao;
         this.labelDao = labelDao;
         this.userDao = userDao;
+        this.redisTemplate = redisTemplate;
     }
 
     @Override
@@ -148,8 +157,9 @@ public class AdminServiceImpl implements AdminService {
             Subject subject = SecurityUtils.getSubject();
             try {
                 subject.login(token);
-                User user = (User)subject.getPrincipal();
-                return user.getRole();
+                String sessionId = RequestHolder.Companion.getSession().getId();
+                redisTemplate.opsForValue().set(sessionId, name, 30, TimeUnit.MINUTES);
+                return sessionId;
             } catch (AuthenticationException e) {
                 return "error";
             }
@@ -213,10 +223,15 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Map getUserInfo(String name) {
+    public Map<String, String> getUserInfo(String token) {
+        String name = redisTemplate.opsForValue().get(token);
+
+        if (name == null) return null;
+
         User user = userDao.getByName(name);
         if (user != null) {
             Map<String, String> params = new HashMap<>();
+            params.put("name", name);
             params.put("roles", user.getRole());
             params.put("introduction", user.getName());
             params.put("avatar", "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
