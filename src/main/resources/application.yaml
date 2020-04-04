@@ -1,0 +1,39 @@
+file:
+  path: /home/aagu/IdeaProjects/blog/
+server:
+  port: 8080
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    hikari:
+      max-lifetime: 30000
+    password: pwOfBlog
+    testWhileIdle: true
+    url: jdbc:mariadb://aagu.ltd:3306/blog
+    username: blog
+    validationQuery: SELECT 1
+  output:
+    ansi:
+      enabled: detect
+  redis:
+    host: aagu.ltd
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 10
+        max-wait: 1ms
+        min-idle: 5
+      shutdown-timeout: 100ms
+    password: aagu098IsMe36qq8951ace
+  resources:
+    static-locations: classpath:/static,file:${file.path}
+  thymeleaf:
+    cache: false
+    check-template-location: true
+    encoding: UTF-8
+    mode: HTML
+    prefix: classpath:/templates/
+    servlet:
+      content-type: text/html
+    suffix: .html
+

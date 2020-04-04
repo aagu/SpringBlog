@@ -7,9 +7,14 @@
   >
     <template v-slot:activator>
       <v-list-item-content class="v-list-group__activator">
-        <v-list-item-title>
-          {{ item.text }}
-        </v-list-item-title>
+        <div class="d-flex justify-space-between align-center">
+          <div>
+            {{ item.text }}
+          </div>
+          <v-avatar size="28" color="grey lighten-2">
+            <span>{{ children.length }}</span>
+          </v-avatar>
+        </div>
       </v-list-item-content>
     </template>
     <template v-for="(child, i) in children">

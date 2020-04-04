@@ -1,5 +1,7 @@
 import axios from 'axios'
 import Notification from '@/components/Notification/Notification'
+import store from "@/store";
+import { getToken } from '@/utils/auth'
 
 // create an axios instance
 const service = axios.create({
@@ -12,6 +14,10 @@ const service = axios.create({
 service.interceptors.request.use(
   config => {
     // do something before request is sent
+
+    if (store.getters.token) {
+      config.headers['token'] = getToken()
+    }
     return config
   },
   error => {
@@ -36,6 +42,9 @@ service.interceptors.response.use(
   response => {
     const code = response.data.code
     if (code === 41000) {
+      store.dispatch('resetToken').then(() => {
+        location.reload()
+      })
       return Promise.reject(new Error('Token Expired, please login again'))
     }
     return response

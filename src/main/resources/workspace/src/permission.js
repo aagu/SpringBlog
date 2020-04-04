@@ -31,6 +31,8 @@ router.beforeEach(async(to, from, next) => {
           }
         }
       }
+    } else {
+      next(`login?redirect=${to.path}`)
     }
   } else {
     next()

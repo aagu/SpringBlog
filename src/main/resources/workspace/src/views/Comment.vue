@@ -70,7 +70,8 @@
         comments: [],
         pageQuery: {
           page: 1,
-          limit: 10
+          limit: 10,
+          visibility: 'ALL'
         },
         loading: false,
         total: 0

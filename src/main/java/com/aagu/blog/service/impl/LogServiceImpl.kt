@@ -1,9 +1,9 @@
-package com.aagu.blog.Services.impl
+package com.aagu.blog.service.impl
 
 import com.aagu.blog.Dao.LogDao
 import com.aagu.blog.Models.Log
 import com.aagu.blog.Models.PageModel
-import com.aagu.blog.Services.LogService
+import com.aagu.blog.service.LogService
 import org.springframework.stereotype.Service
 
 @Service

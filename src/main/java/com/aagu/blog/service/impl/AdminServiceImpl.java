@@ -1,4 +1,4 @@
-package com.aagu.blog.Services.impl;
+package com.aagu.blog.service.impl;
 
 import com.aagu.blog.Dao.*;
 import com.aagu.blog.Models.*;
@@ -6,14 +6,12 @@ import com.aagu.blog.Common.ServerResponse;
 import com.aagu.blog.Utils.Pager;
 import com.aagu.blog.Utils.RequestHolder;
 import com.aagu.blog.Utils.TextUtil;
-import com.aagu.blog.Services.AdminService;
+import com.aagu.blog.service.AdminService;
 import com.aagu.blog.Views.TagTree;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -158,7 +156,7 @@ public class AdminServiceImpl implements AdminService {
             try {
                 subject.login(token);
                 String sessionId = RequestHolder.Companion.getSession().getId();
-                redisTemplate.opsForValue().set(sessionId, name, 30, TimeUnit.MINUTES);
+                redisTemplate.opsForValue().set(sessionId, name, 2, TimeUnit.HOURS);
                 return sessionId;
             } catch (AuthenticationException e) {
                 return "error";

@@ -1,7 +1,7 @@
 package com.aagu.blog.controller;
 
 import com.aagu.blog.Common.ServerResponse;
-import com.aagu.blog.Services.FileService;
+import com.aagu.blog.service.FileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

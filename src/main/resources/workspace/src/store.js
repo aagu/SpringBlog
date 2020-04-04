@@ -16,8 +16,11 @@ export default new Vuex.Store({
     name: null
   },
   getters: {
-    name:state => {
+    name: state => {
       return state.name
+    },
+    token: state => {
+      return state.token || undefined
     }
   },
   mutations: {

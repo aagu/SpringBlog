@@ -92,7 +92,6 @@
 </template>
 
 <script>
-  // import HtmlPanel from '@/components/HtmlPanel'
   import Markdown from 'markdown-it-vue'
   import 'markdown-it-vue/dist/markdown-it-vue.css'
   import Comment from '@/components/CommentPanel'

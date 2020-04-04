@@ -1,4 +1,4 @@
-package com.aagu.blog.Services;
+package com.aagu.blog.service;
 
 import com.aagu.blog.Models.Article;
 import com.aagu.blog.Common.ServerResponse;

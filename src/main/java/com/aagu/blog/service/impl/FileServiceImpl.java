@@ -1,11 +1,11 @@
-package com.aagu.blog.Services.impl;
+package com.aagu.blog.service.impl;
 
 import com.aagu.blog.Common.Const;
 import com.aagu.blog.Common.ServerResponse;
 import com.aagu.blog.controller.FileController;
 import com.aagu.blog.Dao.ResourceDao;
 import com.aagu.blog.Models.Resource;
-import com.aagu.blog.Services.FileService;
+import com.aagu.blog.service.FileService;
 import com.aagu.blog.Views.ResourceVO;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;

@@ -1,7 +1,7 @@
 package com.aagu.blog.controller
 
-import com.aagu.blog.Services.ArticleService
-import com.aagu.blog.Services.CommentService
+import com.aagu.blog.service.ArticleService
+import com.aagu.blog.service.CommentService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping

@@ -1,7 +1,8 @@
 package com.aagu.blog.controller
 
+import com.aagu.blog.Common.CommentVisibility
 import com.aagu.blog.Models.Comment
-import com.aagu.blog.Services.CommentService
+import com.aagu.blog.service.CommentService
 import com.aagu.blog.Utils.HttpUtil
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
@@ -22,9 +23,10 @@ class CommentController {
     fun getComments(
             @RequestParam("articleId", required = false) articleId: Int?,
             @RequestParam("page", defaultValue = "1") page: Int,
-            @RequestParam("limit", defaultValue = "10") limit: Int
+            @RequestParam("limit", defaultValue = "10") limit: Int,
+            @RequestParam("visibility", defaultValue = "VISIBLE") visibility: CommentVisibility
     ): Any {
-        return commentService.getComments(articleId, page, limit)
+        return commentService.getComments(articleId, page, limit, visibility)
     }
 
     @PutMapping("{id}")

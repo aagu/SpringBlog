@@ -97,6 +97,12 @@ public interface CommentDao {
                 if (param.containsKey("articleId")) {
                     WHERE("articleId=" + Integer.parseInt(param.get("articleId")));
                 }
+                if (param.containsKey("status_not")) {
+                    WHERE("status != '" + param.get("status_not") + "'");
+                }
+                if (param.containsKey("status")) {
+                    WHERE("status = '" + param.get("status") + "'");
+                }
             }}.toString();
         }
 
@@ -109,6 +115,12 @@ public interface CommentDao {
                 }
                 if (param.containsKey("articleId")) {
                     WHERE("articleId=" + param.get("articleId"));
+                }
+                if (param.containsKey("status_not")) {
+                    WHERE("status != '" + param.get("status_not") + "'");
+                }
+                if (param.containsKey("status")) {
+                    WHERE("status = '" + param.get("status") + "'");
                 }
                 if (param.containsKey("order")) {
                     ORDER_BY("createtime " + param.get("order"));

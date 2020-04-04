@@ -1,4 +1,4 @@
-package com.aagu.blog.Services
+package com.aagu.blog.service
 
 interface ArticleService {
     fun getArticleCount(): Int

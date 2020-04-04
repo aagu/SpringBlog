@@ -2,12 +2,11 @@ package com.aagu.blog.controller;
 
 import com.aagu.blog.Common.ServerResponse;
 import com.aagu.blog.Models.Comment;
-import com.aagu.blog.Services.AdminService;
-import com.aagu.blog.Services.FileService;
-import com.aagu.blog.Services.FrontService;
+import com.aagu.blog.service.AdminService;
+import com.aagu.blog.service.FileService;
+import com.aagu.blog.service.FrontService;
 import com.aagu.blog.Utils.TextUtil;
 import com.aagu.blog.Views.CommentVO;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 

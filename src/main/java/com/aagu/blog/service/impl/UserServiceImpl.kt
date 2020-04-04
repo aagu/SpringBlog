@@ -1,8 +1,8 @@
-package com.aagu.blog.Services.impl
+package com.aagu.blog.service.impl
 
 import com.aagu.blog.Dao.UserDao
 import com.aagu.blog.Models.User
-import com.aagu.blog.Services.UserService
+import com.aagu.blog.service.UserService
 import org.springframework.stereotype.Service
 
 @Service

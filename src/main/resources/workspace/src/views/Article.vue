@@ -25,6 +25,13 @@
         </v-icon>
         <v-icon
           small
+          class="mr-2"
+          @click="publishArticle(item)"
+        >
+          send
+        </v-icon>
+        <v-icon
+          small
           @click="deleteArticle(item)"
         >
           mdi-delete
@@ -35,7 +42,7 @@
 </template>
 
 <script>
-import { getArticleList, deleteArticle } from '@/api/article'
+import { getArticleList, deleteArticle, publishArticle } from '@/api/article'
 import Notification from "@/components/Notification/Notification";
 
 export default {
@@ -114,6 +121,15 @@ export default {
       deleteArticle(article.id).then(resp => {
         if (resp.data.code === 20000) {
           article.status = 'deleted'
+        } else {
+          Notification.error('action failed')
+        }
+      })
+    },
+    publishArticle(article) {
+      publishArticle(article.id).then(resp => {
+        if (resp.data.code === 20000) {
+          article.status = 'published'
         } else {
           Notification.error('action failed')
         }
