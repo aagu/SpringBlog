@@ -2,12 +2,13 @@ package com.aagu.blog.controller;
 
 import com.aagu.blog.Dao.LabelDao;
 import com.aagu.blog.Models.*;
-import com.aagu.blog.service.AdminService;
-import com.aagu.blog.service.FileService;
-import com.aagu.blog.service.FrontService;
 import com.aagu.blog.Utils.HttpUtil;
 import com.aagu.blog.Views.ArticleEditVO;
 import com.aagu.blog.Views.TagTree;
+import com.aagu.blog.service.AdminService;
+import com.aagu.blog.service.ArticleService;
+import com.aagu.blog.service.FileService;
+import com.aagu.blog.service.FrontService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +29,9 @@ public class AdminRestController {
 
     @Autowired
     private LabelDao labelDao;
+
+    @Autowired
+    private ArticleService articleService;
 
     @GetMapping("user/info")
     public Object info(@RequestParam(value = "token", required = false) String token) {
@@ -76,7 +80,8 @@ public class AdminRestController {
 
     @GetMapping("article/detail")
     public Object articleDetail(@RequestParam("id")Integer id) {
-        Article article = frontService.getArticleById(id);
+        Article article = articleService.getArticleById(id);
+        if (article == null) return null;
         ArticleEditVO vo = new ArticleEditVO();
         vo.setContent(article.getContent());
         vo.setTitle(article.getTitle());

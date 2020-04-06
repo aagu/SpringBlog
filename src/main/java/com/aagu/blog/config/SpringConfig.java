@@ -1,7 +1,6 @@
-package com.aagu.blog.Configs;
+package com.aagu.blog.config;
 
 import com.aagu.blog.Common.StringDateConverter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;

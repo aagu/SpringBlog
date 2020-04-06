@@ -34,7 +34,7 @@
                 <v-list-item-subtitle>{{ article.date | parseTime('{y}-{m}-{d} {h}:{i}') }}</v-list-item-subtitle>
               </v-list-item-content>
               <v-spacer></v-spacer>
-              <v-chip style="marginRight: 5px;">{{label(article.labelId)}}</v-chip>
+              <v-chip style="marginRight: 5px;">{{ label }}</v-chip>
               <v-icon>bookmark</v-icon>
               <v-icon>share</v-icon>
             </v-list-item>
@@ -62,7 +62,7 @@
       <v-col
         cols="2"
       >
-        <div class="text-center" v-if="next > 0">
+        <div class="text-center" v-if="next > 0 && next !== article.id">
           <v-btn fab small text @click="getNext">
             <v-icon>arrow_forward</v-icon>
           </v-btn
@@ -95,9 +95,8 @@
   import Markdown from 'markdown-it-vue'
   import 'markdown-it-vue/dist/markdown-it-vue.css'
   import Comment from '@/components/CommentPanel'
-  import { getLabelById } from '@/utils'
-  import { getArticle } from '@/api/article'
-  import { getArticleComment } from "@/api/comment";
+  import {getArticle} from '@/api/article'
+  import {getArticleComment} from "@/api/comment";
   import allBgImages from 'randomBg'
 
   export default {
@@ -116,6 +115,7 @@
         date: '',
         url: ''
       },
+      label: '',
       prev: -1,
       next: -1,
       comments: {},
@@ -126,11 +126,6 @@
       allBgImages
     }),
     computed: {
-      label() {
-        return id => {
-          return getLabelById(this.$store.state.labelMap, id)
-        }
-      },
       randomPic() {
         const randIndex = Math.floor(Math.random() * this.allBgImages.length)
         return this.allBgImages[randIndex]
@@ -156,6 +151,7 @@
           this.article = response.data.article
           this.prev = response.data.prev
           this.next = response.data.next
+          this.label = response.data.label.name
           this.loading = false
           this.$store.dispatch('setToolbar', this.article.title)
           document.title = this.article.title

@@ -7,12 +7,11 @@ import com.aagu.blog.Dao.LabelDao;
 import com.aagu.blog.Models.Article;
 import com.aagu.blog.Models.Label;
 import com.aagu.blog.Models.PageModel;
-import com.aagu.blog.service.FrontService;
 import com.aagu.blog.Utils.Pager;
 import com.aagu.blog.Utils.TextUtil;
 import com.aagu.blog.Views.ArchiveLabel;
-import com.aagu.blog.Views.ArticleDetailVO;
 import com.aagu.blog.Views.BlogVO;
+import com.aagu.blog.service.FrontService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -35,39 +34,39 @@ public class FrontServiceImpl implements FrontService {
         this.commentDao = commentDao;
     }
 
-    @Override
-    public Article getArticleById(Integer id) {
-        if (id != null) {
-            Article article = articleDao.getById(id);
-            return article;
-        }
-        return null;
-    }
+//    @Override
+//    public Article getArticleById(Integer id) {
+//        if (id != null) {
+//            Article article = articleDao.getById(id);
+//            return article;
+//        }
+//        return null;
+//    }
 
-    @Override
-    public ArticleDetailVO getArticleDetail(Integer id) {
-        ArticleDetailVO vo = new ArticleDetailVO();
-        Article article = getArticleById(id);
-        if (article != null) {
-            Label label = labelDao.getById(article.getLabelId());
-            vo.setArticle(article);
-            vo.setLabel(label);
-            vo.setAllLabels(labelDao.getChildLabel());
-            Integer prev = articleDao.getPrevPage(id);
-            Integer next = articleDao.getNextPage(id);
-            if (prev == null) {
-                prev = 0;
-            }
-            vo.setPrev(prev);
-            if (next == null) {
-                // 每页一篇文章，即获取文章总数
-                next = articleDao.getPageCount(1);
-            }
-            vo.setNext(next);
-            return vo;
-        }
-        return null;
-    }
+//    @Override
+//    public ArticleDetailVO getArticleDetail(Integer id) {
+//        ArticleDetailVO vo = new ArticleDetailVO();
+//        Article article = getArticleById(id);
+//        if (article != null) {
+//            Label label = labelDao.getById(article.getLabelId());
+//            vo.setArticle(article);
+//            vo.setLabel(label);
+//            vo.setAllLabels(labelDao.getChildLabel());
+//            Integer prev = articleDao.getPrevPage(id);
+//            Integer next = articleDao.getNextPage(id);
+//            if (prev == null) {
+//                prev = 0;
+//            }
+//            vo.setPrev(prev);
+//            if (next == null) {
+//                // 每页一篇文章，即获取文章总数
+//                next = articleDao.getPageCount(1);
+//            }
+//            vo.setNext(next);
+//            return vo;
+//        }
+//        return null;
+//    }
 
     @Override
     public BlogVO getArticlesPage(int page, Map<String, Object> params) {

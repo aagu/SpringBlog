@@ -18,6 +18,11 @@ public class Label implements Serializable {
         this.name = name;
     }
 
+    // made for deserializer
+    public Label() {
+        this(-1, "null");
+    }
+
     public Integer getId() {
         return id;
     }

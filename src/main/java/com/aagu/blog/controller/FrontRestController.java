@@ -1,9 +1,11 @@
 package com.aagu.blog.controller;
 
-import com.aagu.blog.service.FrontService;
+import com.aagu.blog.Utils.HttpUtil;
 import com.aagu.blog.Utils.TextUtil;
-import com.aagu.blog.Views.ArticleDetailVO;
 import com.aagu.blog.Views.BlogVO;
+import com.aagu.blog.exception.NotFoundException;
+import com.aagu.blog.service.ArticleService;
+import com.aagu.blog.service.FrontService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -12,9 +14,11 @@ import java.util.*;
 @RequestMapping("")
 public class FrontRestController {
     private final FrontService frontService;
+    private final ArticleService articleService;
 
-    public FrontRestController(FrontService frontService) {
+    public FrontRestController(FrontService frontService, ArticleService articleService) {
         this.frontService = frontService;
+        this.articleService = articleService;
     }
 
     @GetMapping("/archives")
@@ -49,10 +53,11 @@ public class FrontRestController {
 
     @GetMapping(value = "/detail/{index}")
     @ResponseBody
-    public ArticleDetailVO detail(@PathVariable(value = "index", required = false) Integer index) {
-        if (index == null) {
-            return null;
+    public Object detail(@PathVariable(value = "index", required = false) Integer index) {
+        try {
+            return articleService.getViewDetail(index);
+        } catch (NotFoundException e) {
+            return HttpUtil.createResponse(40400, "article with id " + index + " not found", null);
         }
-        return frontService.getArticleDetail(index);
     }
 }

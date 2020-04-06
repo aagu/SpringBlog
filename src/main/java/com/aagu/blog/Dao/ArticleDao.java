@@ -6,12 +6,10 @@ import org.apache.ibatis.jdbc.SQL;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Mapper
 @Repository
@@ -78,11 +76,14 @@ public interface ArticleDao extends BaseDao<Article>{
     @Select("select ceil(count(id)/#{div}) from article where title like #{key}")
     Integer getBySearchCount(@Param("key") String key, @Param("div") Integer div);
 
-    @Select("select max(id) from article where id<#{thisId}")
+    @Select("select max(id) from article where id<#{thisId} and status='published'")
     Integer getPrevPage(@Param("thisId") Integer id);
 
-    @Select("select min(id) from article where id>#{thisId}")
+    @Select("select min(id) from article where id>#{thisId} and status='published'")
     Integer getNextPage(@Param("thisId") Integer id);
+
+    @Select("select max(id) from article where status='published'")
+    Integer getMaxPage();
 
     @Select("select distinct date_format(date, '%Y %M') from article limit 5")
     List<String> orderByMonth();
@@ -98,6 +99,10 @@ public interface ArticleDao extends BaseDao<Article>{
 
     @Update("update article set status=#{status} where id=#{id}")
     Integer updateStatus(@Param("id")Integer id, @Param("status")String status);
+
+    @Update("update article set status=#{article.getStatus()}, title = #{article.getTitle()}," +
+            " detail = #{article.getContent()}, labelId = #{article.getLabelId()}")
+    Integer updateArticle(@Param("article") Article article);
 
     @Insert("insert into article(date,labelId,detail,title) values(" +
             "#{date},#{label},#{detail},#{title})")

@@ -1,4 +1,4 @@
-package com.aagu.blog.Configs;
+package com.aagu.blog.config;
 
 import com.aagu.blog.Realm.AdminRealm;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;

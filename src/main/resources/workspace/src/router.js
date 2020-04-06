@@ -11,6 +11,7 @@ export default new Router({
     {
       path: '/',
       component: BlogLayout,
+      redirect: 'home',
       children: [
         {
           path: '/about',
@@ -35,6 +36,14 @@ export default new Router({
             title: '文章详情'
           },
           component: () => import('@/views/Detail')
+        },
+        {
+          path: '/404',
+          name: '404',
+          meta: {
+            title: '找不到页面'
+          },
+          component: () => import('@/views/NotFound')
         }
       ]
     },

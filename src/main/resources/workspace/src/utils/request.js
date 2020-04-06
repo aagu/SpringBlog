@@ -1,7 +1,8 @@
 import axios from 'axios'
 import Notification from '@/components/Notification/Notification'
 import store from "@/store";
-import { getToken } from '@/utils/auth'
+import router from '@/router'
+import {getToken} from '@/utils/auth'
 
 // create an axios instance
 const service = axios.create({
@@ -46,6 +47,9 @@ service.interceptors.response.use(
         location.reload()
       })
       return Promise.reject(new Error('Token Expired, please login again'))
+    }
+    if (code === 40400) {
+      router.push({ name: "404"})
     }
     return response
   },
