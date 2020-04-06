@@ -3,11 +3,11 @@ package com.aagu.blog.service.impl
 import com.aagu.blog.Dao.ArticleDao
 import com.aagu.blog.Models.Article
 import com.aagu.blog.Models.PageModel
-import com.aagu.blog.util.Pager
-import com.aagu.blog.view.ArticleDetailVO
 import com.aagu.blog.exception.NotFoundException
 import com.aagu.blog.service.ArticleService
 import com.aagu.blog.service.LabelService
+import com.aagu.blog.util.Pager
+import com.aagu.blog.view.ArticleDetailVO
 import org.slf4j.LoggerFactory
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.CachePut
@@ -58,10 +58,15 @@ open class ArticleServiceImpl(
         val articleDetailVO = ArticleDetailVO()
         articleDetailVO.article = article
         articleDetailVO.label = labelService.getById(article.labelId)
-        articleDetailVO.allLabels = labelService.getAll()
         articleDetailVO.prev = articleDao.getPrevPage(id) ?: 0
         articleDetailVO.next = articleDao.getNextPage(id) ?: articleDao.maxPage
         return articleDetailVO
+    }
+
+    @Throws(NotFoundException::class)
+    @CacheEvict(value = ["articleView"], key = "#id")
+    override fun publishArticle(id: Int) {
+        articleDao.updateStatus(id, "published")
     }
 
     companion object {

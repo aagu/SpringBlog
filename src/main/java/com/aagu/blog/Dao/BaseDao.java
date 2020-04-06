@@ -7,5 +7,5 @@ import java.util.Map;
 
 public interface BaseDao<T> {
     int getTotal(Map<String, Object> params);
-    List<T> getItems(@Param("page") int page, @Param("limit") int limit, Map<String, Object> params);
+    List<T> getItems(@Param("page") int page, @Param("limit") int limit, @Param("params") Map<String, Object> params);
 }

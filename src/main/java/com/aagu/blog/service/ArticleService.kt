@@ -2,8 +2,8 @@ package com.aagu.blog.service
 
 import com.aagu.blog.Models.Article
 import com.aagu.blog.Models.PageModel
-import com.aagu.blog.view.ArticleDetailVO
 import com.aagu.blog.exception.NotFoundException
+import com.aagu.blog.view.ArticleDetailVO
 
 interface ArticleService {
     fun getArticleCount(): Int
@@ -20,4 +20,7 @@ interface ArticleService {
 
     @Throws(NotFoundException::class)
     fun getViewDetail(id: Int): ArticleDetailVO
+
+    @Throws(NotFoundException::class)
+    fun publishArticle(id: Int)
 }

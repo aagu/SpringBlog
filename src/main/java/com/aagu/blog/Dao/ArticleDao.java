@@ -52,10 +52,7 @@ public interface ArticleDao extends BaseDao<Article>{
 
     @Override
     @SelectProvider(type = ArticleSqlBuilder.class, method = "buildPage")
-    List<Article> getItems(@Param("page") int page, @Param("limit") int limit, Map<String, Object> params);
-
-    @SelectProvider(type = ArticleSqlBuilder.class, method = "buildPage")
-    List<Article> getByPage(@Param("start") Integer start, @Param("num") Integer num);
+    List<Article> getItems(@Param("page") int page, @Param("limit") int limit, @Param("params") Map<String, Object> params);
 
     @Select("select id, date, labelId, title, detail as content" +
             " from article where title like #{key}" +
@@ -138,24 +135,21 @@ public interface ArticleDao extends BaseDao<Article>{
             }}.toString();
         }
 
-        public static String buildPage(int page, int limit, Map<String, Object> params) {
+        public static String buildPage(Map<String, Object> sqlParams) {
             return new SQL() {{
                 SELECT("id, date, labelId, title, detail as content, status");
                 FROM("article");
-                List<String> wheres = new ArrayList<>();
+                Map<String, Object> params = (Map<String, Object>) sqlParams.get("params");
                 if (params.get("labelId") != null) {
-                    wheres.add("labelId=" + (int)params.get("labelId"));
+                    WHERE("labelId=" + params.get("labelId"));
                 }
                 if (params.get("month") != null) {
-                    wheres.add("date > str_to_date('"+params.get("date1")+
+                    WHERE("date > str_to_date('"+params.get("date1")+
                             "', '%Y-%m-%d') AND date < str_to_date('"+params.get("date2")+
                             "', '%Y-%m-%d')");
                 }
                 if (params.get("status") != null) {
-                    wheres.add("status='" + params.get("status") +"'");
-                }
-                if (!wheres.isEmpty()) {
-                    WHERE(String.join(" AND ", wheres));
+                    WHERE("status='" + params.get("status") +"'");
                 }
                 ORDER_BY("date desc");
             }}.toString() + " LIMIT #{page}, #{limit}";

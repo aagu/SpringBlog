@@ -1,24 +1,26 @@
 package com.aagu.blog.service.impl;
 
-import com.aagu.blog.Dao.*;
-import com.aagu.blog.Models.*;
+import com.aagu.blog.Dao.ArticleDao;
+import com.aagu.blog.Dao.CommentDao;
+import com.aagu.blog.Dao.LabelDao;
+import com.aagu.blog.Dao.UserDao;
+import com.aagu.blog.Models.Article;
+import com.aagu.blog.Models.Comment;
+import com.aagu.blog.Models.Label;
+import com.aagu.blog.Models.User;
 import com.aagu.blog.common.ServerResponse;
-import com.aagu.blog.util.Pager;
+import com.aagu.blog.service.AdminService;
 import com.aagu.blog.util.RequestHolder;
 import com.aagu.blog.util.TextUtil;
-import com.aagu.blog.service.AdminService;
 import com.aagu.blog.view.TagTree;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.Subject;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-import static com.aagu.blog.common.Const.*;
+import static com.aagu.blog.common.Const.ARTICLE_ADMIN_PAGE_LEN;
+import static com.aagu.blog.common.Const.COMMENT_PAGE_LEN;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -53,11 +55,6 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public PageModel<Article> getArticleByPage(Integer page, Integer limit) {
-        return new Pager<>(articleDao).getPage(page, limit, new HashMap<>());
-    }
-
-    @Override
     public List<Article> getArticleByLabel(Integer labelId, Integer page) {
         List<Article> articles = articleDao.getByLabel(labelId, (page-1)*ARTICLE_ADMIN_PAGE_LEN, ARTICLE_ADMIN_PAGE_LEN);
         for (Article article : articles) {
@@ -76,11 +73,6 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<Label> getAllLabels() {
-        return labelDao.getAll();
-    }
-
-    @Override
     public Map<String, Object> getTreeViewData() {
         TagTree rootVO = new TagTree(-1, -1, "root");
         Label root = new Label(-1, -1, "root");
@@ -93,45 +85,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void addArticle(Article article) {
-        articleDao.insertArticle(article.getDate(), article.getLabelId(), article.getContent(), article.getTitle());
-    }
-
-    @Override
-    public ServerResponse<Article> updateArticle(Article article) {
-        int id = article.getId();
-        Article oldArticle = articleDao.getById(id);
-        if (oldArticle != null) {
-            if (oldArticle.getContent() == null || !oldArticle.getContent().equals(article.getContent())) {
-                articleDao.updateDetail(id, article.getContent());
-            }
-            if (!oldArticle.getLabelId().equals(article.getLabelId())) {
-                articleDao.updateLabel(id, article.getLabelId());
-            }
-            if (oldArticle.getTitle() == null || !oldArticle.getTitle().equals(article.getTitle())) {
-                articleDao.updateTitle(id, article.getTitle());
-            }
-            if (oldArticle.getStatus() == null || !oldArticle.getStatus().equals(article.getStatus())) {
-                articleDao.updateStatus(id, article.getStatus());
-            }
-        }
-        return ServerResponse.createBySuccess();
-    }
-
-    @Override
-    public ServerResponse<Article> publishArticle(Integer id) {
-        articleDao.updateStatus(id, "published");
-        return ServerResponse.createBySuccess();
-    }
-
-    @Override
     public List<Comment> getCommentByPage(Integer page, String search, String order, String status) {
         return commentDao.getByPage((page-1)*COMMENT_PAGE_LEN, COMMENT_PAGE_LEN, search, order, status);
-    }
-
-    @Override
-    public ServerResponse deleteArticle(Integer id) {
-        return deleteInfo(id, "article");
     }
 
     @Override
@@ -151,24 +106,32 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public String login(String name, String pwd) {
         if (TextUtil.notEmpty(name) && TextUtil.notEmpty(pwd)) {
-            UsernamePasswordToken token = new UsernamePasswordToken(name, pwd);
-            Subject subject = SecurityUtils.getSubject();
-            try {
-                subject.login(token);
+//            UsernamePasswordToken token = new UsernamePasswordToken(name, pwd);
+//            Subject subject = SecurityUtils.getSubject();
+//            try {
+//                subject.login(token);
+//                String sessionId = RequestHolder.Companion.getSession().getId();
+//                redisTemplate.opsForValue().set(sessionId, name, 2, TimeUnit.HOURS);
+//                return sessionId;
+//            } catch (AuthenticationException e) {
+//                return "error";
+//            }
+            User user = userDao.getByName(name);
+            if (user.getPassword().equals(pwd)) {
                 String sessionId = RequestHolder.Companion.getSession().getId();
                 redisTemplate.opsForValue().set(sessionId, name, 2, TimeUnit.HOURS);
                 return sessionId;
-            } catch (AuthenticationException e) {
-                return "error";
             }
         }
-        return null;
+        return "error";
     }
 
     @Override
-    public ServerResponse logout() {
-        Subject subject = SecurityUtils.getSubject();
-        subject.logout();
+    public ServerResponse<String> logout() {
+//        Subject subject = SecurityUtils.getSubject();
+//        subject.logout();
+        String sessionId = RequestHolder.Companion.getSession().getId();
+        redisTemplate.delete(sessionId);
         return ServerResponse.createBySuccessMessage("退出登录");
     }
 

@@ -1,6 +1,12 @@
 import request from '@/utils/request'
 import * as qiniu from 'qiniu-js'
 
+const config = {
+  AccessKey: 'UvCyhIok86KdaGfRzRGvUmem-ENf1333GZvx04KX',
+  SecretKey: 'MELil6gyEw2Rw_Z8aeiyDrAtUOmydla5aiqss31x',
+  Bucket: 'aagublogstore'
+}
+
 export function getList() {
   return request({
     url: 'resources',

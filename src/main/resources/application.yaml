@@ -1,22 +1,18 @@
 file:
   path: /home/aagu/IdeaProjects/blog/
-server:
-  port: 8080
 spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     hikari:
       max-lifetime: 30000
     password: pwOfBlog
-    testWhileIdle: true
-    url: jdbc:mariadb://aagu.ltd:3306/blog
     username: blog
-    validationQuery: SELECT 1
   output:
     ansi:
       enabled: detect
+  profiles:
+    active: dev
   redis:
-    host: aagu.ltd
     lettuce:
       pool:
         max-active: 8

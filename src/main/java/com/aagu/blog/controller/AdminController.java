@@ -1,7 +1,7 @@
 package com.aagu.blog.controller;
 
-import com.aagu.blog.common.ServerResponse;
 import com.aagu.blog.Models.Comment;
+import com.aagu.blog.common.ServerResponse;
 import com.aagu.blog.service.AdminService;
 import com.aagu.blog.service.FileService;
 import com.aagu.blog.service.FrontService;
@@ -58,11 +58,11 @@ public class AdminController {
      * @param model ThymeLeaf Model
      * @return 标签管理页
      */
-    @GetMapping(value = "/labels-tem")
-    public String labelManageTem(Model model) {
-        model.addAttribute(DATA, adminService.getAllLabels());
-        return "admin/label-tem";
-    }
+//    @GetMapping(value = "/labels-tem")
+//    public String labelManageTem(Model model) {
+//        model.addAttribute(DATA, adminService.getAllLabels());
+//        return "admin/label-tem";
+//    }
 
     /**
      * 评论页面
@@ -124,10 +124,10 @@ public class AdminController {
      * @param id 文章ID
      * @return JSON对象
      */
-    @DeleteMapping(value = "/delete-article")
-    public ServerResponse deleteArticle(Integer id) {
-        return adminService.deleteArticle(id);
-    }
+//    @DeleteMapping(value = "/delete-article")
+//    public ServerResponse deleteArticle(Integer id) {
+//        return adminService.deleteArticle(id);
+//    }
 
     /**
      * 评论已读标记

@@ -2,13 +2,11 @@ package com.aagu.blog.controller;
 
 import com.aagu.blog.Dao.LabelDao;
 import com.aagu.blog.Models.*;
+import com.aagu.blog.exception.NotFoundException;
+import com.aagu.blog.service.*;
 import com.aagu.blog.util.HttpUtil;
 import com.aagu.blog.view.ArticleEditVO;
 import com.aagu.blog.view.TagTree;
-import com.aagu.blog.service.AdminService;
-import com.aagu.blog.service.ArticleService;
-import com.aagu.blog.service.FileService;
-import com.aagu.blog.service.FrontService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +30,9 @@ public class AdminRestController {
 
     @Autowired
     private ArticleService articleService;
+
+    @Autowired
+    private LabelService labelService;
 
     @GetMapping("user/info")
     public Object info(@RequestParam(value = "token", required = false) String token) {
@@ -74,7 +75,7 @@ public class AdminRestController {
     @GetMapping("article/list")
     public Object articleList(@RequestParam(value = "page", defaultValue = "1")Integer page,
                               @RequestParam(value = "limit", defaultValue = "10")Integer limit) {
-        PageModel<Article> articles = adminService.getArticleByPage(page, limit);
+        PageModel<Article> articles = articleService.getArticleByPage(page, limit);
         return HttpUtil.createResponse(20000, null, articles);
     }
 
@@ -95,29 +96,30 @@ public class AdminRestController {
 
     @PostMapping("article/create")
     public Object articleCreate(@RequestBody Article article){
-        adminService.addArticle(article);
+        articleService.addArticle(article);
         return HttpUtil.createResponse(20000, null, "OK");
     }
 
     @PostMapping("article/update")
     public Object articleUpdate(@RequestBody Article article){
-        adminService.updateArticle(article);
+        articleService.updateArticle(article);
         return HttpUtil.createResponse(20000, null, "OK");
     }
 
     @PutMapping("article/{id}")
     public Object articlePublish(@PathVariable("id")Integer id) {
-        if (id > 0) {
-            adminService.publishArticle(id);
+        try {
+            articleService.publishArticle(id);
             return HttpUtil.createResponse(20000, null, "OK");
+        } catch (NotFoundException e) {
+            return HttpUtil.createResponse(40000, "article no exist", null);
         }
-        return HttpUtil.createResponse(40000, "article no exist", null);
     }
 
     @DeleteMapping("article/{id}")
     public Object articleDelete(@PathVariable("id")Integer id) {
         if (id > 0) {
-            adminService.deleteArticle(id);
+            articleService.deleteArticle(id);
             return HttpUtil.createResponse(20000, null, "OK");
         }
         return HttpUtil.createResponse(40000, "article no exist", null);
@@ -158,7 +160,7 @@ public class AdminRestController {
 
     @GetMapping("labels")
     public Object labels() {
-        List<Label> labels = adminService.getAllLabels();
+        List<Label> labels = labelService.getAll();
         return HttpUtil.createResponse(20000, null, labels);
     }
 

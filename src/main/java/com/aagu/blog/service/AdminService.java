@@ -1,6 +1,9 @@
 package com.aagu.blog.service;
 
-import com.aagu.blog.Models.*;
+import com.aagu.blog.Models.Article;
+import com.aagu.blog.Models.Comment;
+import com.aagu.blog.Models.Label;
+import com.aagu.blog.Models.User;
 import com.aagu.blog.common.ServerResponse;
 
 import java.util.List;
@@ -12,25 +15,13 @@ public interface AdminService {
 
     Integer getArticleCount();
 
-    PageModel<Article> getArticleByPage(Integer page, Integer limit);
-
     List<Article> getArticleByLabel(Integer labelId, Integer page);
 
     List<Article> getArticleBySearch(String key, Integer page);
 
-    List<Label> getAllLabels();
-
     Map<String, Object> getTreeViewData();
 
-    void addArticle(Article article);
-
-    ServerResponse<Article> updateArticle(Article article);
-
-    ServerResponse<Article> publishArticle(Integer id);
-
     List<Comment> getCommentByPage(Integer page, String search, String order, String status);
-
-    ServerResponse deleteArticle(Integer id);
 
     ServerResponse deleteComment(Integer id);
 
