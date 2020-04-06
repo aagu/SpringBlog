@@ -1,4 +1,4 @@
-package com.aagu.blog.Utils
+package com.aagu.blog.util
 
 import com.vladsch.flexmark.ext.gitlab.GitLabExtension
 import com.vladsch.flexmark.ext.tables.TablesExtension

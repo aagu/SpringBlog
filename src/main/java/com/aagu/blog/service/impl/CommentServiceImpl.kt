@@ -1,15 +1,15 @@
 package com.aagu.blog.service.impl
 
-import com.aagu.blog.Common.CommentVisibility
+import com.aagu.blog.common.CommentVisibility
 import com.aagu.blog.Dao.CommentDao
 import com.aagu.blog.Models.Comment
 import com.aagu.blog.service.CommentService
-import com.aagu.blog.Views.CommentVO
+import com.aagu.blog.view.CommentVO
 import org.springframework.stereotype.Service
 import kotlin.math.ceil
 
 @Service
-class CommentServiceImpl(private val commentDao: CommentDao) : CommentService {
+open class CommentServiceImpl(private val commentDao: CommentDao) : CommentService {
 
     override fun getCommentCount(): Int {
         return commentDao.getCount(1)

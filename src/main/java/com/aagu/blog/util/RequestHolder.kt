@@ -1,4 +1,4 @@
-package com.aagu.blog.Utils
+package com.aagu.blog.util
 
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpSession

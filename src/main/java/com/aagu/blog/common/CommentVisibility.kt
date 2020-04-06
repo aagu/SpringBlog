@@ -1,4 +1,4 @@
-package com.aagu.blog.Common
+package com.aagu.blog.common
 
 enum class CommentVisibility {
     ALL,

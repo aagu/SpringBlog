@@ -1,7 +1,7 @@
 package com.aagu.blog.service;
 
 import com.aagu.blog.Models.*;
-import com.aagu.blog.Common.ServerResponse;
+import com.aagu.blog.common.ServerResponse;
 
 import java.util.List;
 import java.util.Map;

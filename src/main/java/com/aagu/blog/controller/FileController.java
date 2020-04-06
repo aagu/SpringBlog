@@ -1,6 +1,6 @@
 package com.aagu.blog.controller;
 
-import com.aagu.blog.Common.ServerResponse;
+import com.aagu.blog.common.ServerResponse;
 import com.aagu.blog.service.FileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package com.aagu.blog.Utils;
+package com.aagu.blog.util;
 
 import java.util.HashMap;
 import java.util.List;

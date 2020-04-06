@@ -1,6 +1,6 @@
 package com.aagu.blog.controller
 
-import com.aagu.blog.Utils.HttpUtil
+import com.aagu.blog.util.HttpUtil
 import com.aagu.blog.service.ResourceService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping

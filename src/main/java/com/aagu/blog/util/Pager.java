@@ -1,4 +1,4 @@
-package com.aagu.blog.Utils;
+package com.aagu.blog.util;
 
 import com.aagu.blog.Dao.BaseDao;
 import com.aagu.blog.Models.PageModel;

@@ -1,4 +1,4 @@
-package com.aagu.blog.Views;
+package com.aagu.blog.view;
 
 public class ArchiveLabel {
     private String text;

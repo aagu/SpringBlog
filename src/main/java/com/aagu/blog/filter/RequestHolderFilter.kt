@@ -1,6 +1,6 @@
 package com.aagu.blog.filter
 
-import com.aagu.blog.Utils.RequestHolder
+import com.aagu.blog.util.RequestHolder
 import org.springframework.stereotype.Component
 import javax.servlet.Filter
 import javax.servlet.FilterChain

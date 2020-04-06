@@ -3,8 +3,8 @@ package com.aagu.blog.service.impl
 import com.aagu.blog.Dao.ArticleDao
 import com.aagu.blog.Models.Article
 import com.aagu.blog.Models.PageModel
-import com.aagu.blog.Utils.Pager
-import com.aagu.blog.Views.ArticleDetailVO
+import com.aagu.blog.util.Pager
+import com.aagu.blog.view.ArticleDetailVO
 import com.aagu.blog.exception.NotFoundException
 import com.aagu.blog.service.ArticleService
 import com.aagu.blog.service.LabelService

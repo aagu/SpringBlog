@@ -2,9 +2,9 @@ package com.aagu.blog.controller;
 
 import com.aagu.blog.Dao.LabelDao;
 import com.aagu.blog.Models.*;
-import com.aagu.blog.Utils.HttpUtil;
-import com.aagu.blog.Views.ArticleEditVO;
-import com.aagu.blog.Views.TagTree;
+import com.aagu.blog.util.HttpUtil;
+import com.aagu.blog.view.ArticleEditVO;
+import com.aagu.blog.view.TagTree;
 import com.aagu.blog.service.AdminService;
 import com.aagu.blog.service.ArticleService;
 import com.aagu.blog.service.FileService;

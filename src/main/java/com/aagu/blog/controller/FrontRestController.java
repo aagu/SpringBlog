@@ -1,8 +1,8 @@
 package com.aagu.blog.controller;
 
-import com.aagu.blog.Utils.HttpUtil;
-import com.aagu.blog.Utils.TextUtil;
-import com.aagu.blog.Views.BlogVO;
+import com.aagu.blog.util.HttpUtil;
+import com.aagu.blog.util.TextUtil;
+import com.aagu.blog.view.BlogVO;
 import com.aagu.blog.exception.NotFoundException;
 import com.aagu.blog.service.ArticleService;
 import com.aagu.blog.service.FrontService;

@@ -1,4 +1,4 @@
-package com.aagu.blog.Common;
+package com.aagu.blog.common;
 
 public class Const {
     public static final int ARTICLE_PAGE_LEN = 5;

@@ -1,7 +1,7 @@
 package com.aagu.blog.service;
 
-import com.aagu.blog.Common.ServerResponse;
-import com.aagu.blog.Views.BlogVO;
+import com.aagu.blog.common.ServerResponse;
+import com.aagu.blog.view.BlogVO;
 
 import java.util.Map;
 

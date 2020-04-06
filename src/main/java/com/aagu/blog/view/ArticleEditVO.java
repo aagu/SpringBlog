@@ -1,4 +1,4 @@
-package com.aagu.blog.Views;
+package com.aagu.blog.view;
 
 import java.util.Date;
 

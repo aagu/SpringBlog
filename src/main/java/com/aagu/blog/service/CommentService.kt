@@ -1,8 +1,8 @@
 package com.aagu.blog.service
 
-import com.aagu.blog.Common.CommentVisibility
+import com.aagu.blog.common.CommentVisibility
 import com.aagu.blog.Models.Comment
-import com.aagu.blog.Views.CommentVO
+import com.aagu.blog.view.CommentVO
 
 interface CommentService {
     fun getCommentCount(): Int

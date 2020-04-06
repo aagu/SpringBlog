@@ -1,7 +1,7 @@
 package com.aagu.blog.aspect
 
-import com.aagu.blog.Common.Const.USER_LOGIN
-import com.aagu.blog.Common.Const.USER_LOGOUT
+import com.aagu.blog.common.Const.USER_LOGIN
+import com.aagu.blog.common.Const.USER_LOGOUT
 import com.aagu.blog.Dao.LogDao
 import org.aspectj.lang.annotation.After
 import org.aspectj.lang.annotation.Aspect

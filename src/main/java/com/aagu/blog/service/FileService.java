@@ -1,8 +1,8 @@
 package com.aagu.blog.service;
 
-import com.aagu.blog.Common.ServerResponse;
+import com.aagu.blog.common.ServerResponse;
 import com.aagu.blog.Models.Resource;
-import com.aagu.blog.Views.ResourceVO;
+import com.aagu.blog.view.ResourceVO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;

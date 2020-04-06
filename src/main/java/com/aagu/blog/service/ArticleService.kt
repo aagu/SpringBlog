@@ -2,7 +2,7 @@ package com.aagu.blog.service
 
 import com.aagu.blog.Models.Article
 import com.aagu.blog.Models.PageModel
-import com.aagu.blog.Views.ArticleDetailVO
+import com.aagu.blog.view.ArticleDetailVO
 import com.aagu.blog.exception.NotFoundException
 
 interface ArticleService {

@@ -1,4 +1,4 @@
-package com.aagu.blog.Views;
+package com.aagu.blog.view;
 
 import com.aagu.blog.Models.Article;
 import com.aagu.blog.Models.Label;

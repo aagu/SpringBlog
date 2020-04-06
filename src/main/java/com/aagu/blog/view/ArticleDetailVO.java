@@ -1,19 +1,13 @@
-package com.aagu.blog.Views;
+package com.aagu.blog.view;
 
 import com.aagu.blog.Models.Article;
-import com.aagu.blog.Models.Comment;
 import com.aagu.blog.Models.Label;
-import com.aagu.blog.Utils.MarkdownParser;
-import com.aagu.blog.Utils.TextUtil;
-
-import java.util.List;
 
 public class ArticleDetailVO {
     private Article article;
     private Label label;
     private Integer prev;
     private Integer next;
-    private List<Label> allLabels;
 
     public Article getArticle() {
         return article;
@@ -46,14 +40,5 @@ public class ArticleDetailVO {
 
     public void setNext(Integer next) {
         this.next = next;
-    }
-
-
-    public List<Label> getAllLabels() {
-        return allLabels;
-    }
-
-    public void setAllLabels(List<Label> allLabels) {
-        this.allLabels = allLabels;
     }
 }

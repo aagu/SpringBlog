@@ -1,9 +1,9 @@
 package com.aagu.blog.controller
 
-import com.aagu.blog.Common.CommentVisibility
+import com.aagu.blog.common.CommentVisibility
 import com.aagu.blog.Models.Comment
 import com.aagu.blog.service.CommentService
-import com.aagu.blog.Utils.HttpUtil
+import com.aagu.blog.util.HttpUtil
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 

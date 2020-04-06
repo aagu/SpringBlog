@@ -1,12 +1,12 @@
 package com.aagu.blog.service.impl;
 
-import com.aagu.blog.Common.Const;
-import com.aagu.blog.Common.ServerResponse;
+import com.aagu.blog.common.Const;
+import com.aagu.blog.common.ServerResponse;
 import com.aagu.blog.controller.FileController;
 import com.aagu.blog.Dao.ResourceDao;
 import com.aagu.blog.Models.Resource;
 import com.aagu.blog.service.FileService;
-import com.aagu.blog.Views.ResourceVO;
+import com.aagu.blog.view.ResourceVO;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

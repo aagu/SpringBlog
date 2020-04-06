@@ -1,4 +1,4 @@
-package com.aagu.blog.Common;
+package com.aagu.blog.common;
 
 public enum ResponseCode {
     SUCCESS(0, "SUCCESS"),
