@@ -1,6 +1,6 @@
 <template>
   <v-list-item
-    :to="path"
+    :to="to"
     v-bind="customAttrs"
     class="v-list-item--doc"
     ripple

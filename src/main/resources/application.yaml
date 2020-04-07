@@ -5,6 +5,7 @@ spring:
     driver-class-name: org.mariadb.jdbc.Driver
     hikari:
       max-lifetime: 30000
+      connection-test-query: SELECT 1
     password: pwOfBlog
     username: blog
   output:

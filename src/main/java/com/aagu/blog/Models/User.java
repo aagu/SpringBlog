@@ -5,10 +5,10 @@ import java.io.Serializable;
 public class User implements Serializable {
     private Integer id;
     private String name;
-    private String password;
     private String email;
     private String role;
     private String status;
+    private String avatar;
 
     public Integer getId() {
         return id;
@@ -24,14 +24,6 @@ public class User implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getEmail() {
@@ -56,6 +48,14 @@ public class User implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     @Override

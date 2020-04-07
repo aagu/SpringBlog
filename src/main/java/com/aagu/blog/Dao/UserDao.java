@@ -1,7 +1,10 @@
 package com.aagu.blog.Dao;
 
 import com.aagu.blog.Models.User;
-import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.annotations.CacheNamespace;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -10,10 +13,13 @@ import java.util.List;
 @Repository
 @CacheNamespace
 public interface UserDao {
-    @Select("select * from user where name=#{name}")
+    @Select("select id, name, email, status, avatar from user where name=#{name}")
     User getByName(@Param("name") String name);
 
-    @Select("select * from user limit #{start}, #{offset}")
+    @Select("select password from user where name=#{name}")
+    String getPassword(@Param("name") String name);
+
+    @Select("select id, name, email, status, avatar from user limit #{start}, #{offset}")
     List<User> getByPage(@Param("start")Integer page, @Param("offset")Integer num);
 
     @Select("select name from user where name like #{name}")

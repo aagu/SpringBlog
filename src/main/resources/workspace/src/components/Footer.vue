@@ -22,6 +22,7 @@
 
       <v-card-text>
         <strong>Copyright ©</strong> — {{ new Date().getFullYear() }} — <strong>aagu</strong>
+        <span class="caption">浙ICP备20010527号-1</span>
       </v-card-text>
     </v-flex>
   </v-footer>

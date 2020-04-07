@@ -64,11 +64,11 @@
 <script>
   import GreetingCard from '@/components/GreetingCard'
   import ArticleCard from '@/components/ArticleCard'
-  import Notification from '@/components/Notification/Notification'
-  import { getArticle } from '@/api/home'
-  import { getLabelById, formatTime } from '@/utils'
+  import {getArticle} from '@/api/home'
+  import {getLabelById} from '@/utils'
 
   export default {
+    name: 'Home',
     components: { GreetingCard, ArticleCard },
     data: () => ({
       articles: [],

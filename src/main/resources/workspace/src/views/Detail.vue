@@ -16,7 +16,7 @@
           >
             <v-card-title
               :class="{ 'white--text': randomPic.color === 'white', 'grey--text text--darken-4': randomPic.color === 'black' }"
-              class="align-end fill-height"
+              class="align-end fill-height display-1"
             >{{article.title}}</v-card-title>
           </v-img>
 

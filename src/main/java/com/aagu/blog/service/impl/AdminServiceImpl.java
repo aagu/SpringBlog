@@ -106,18 +106,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public String login(String name, String pwd) {
         if (TextUtil.notEmpty(name) && TextUtil.notEmpty(pwd)) {
-//            UsernamePasswordToken token = new UsernamePasswordToken(name, pwd);
-//            Subject subject = SecurityUtils.getSubject();
-//            try {
-//                subject.login(token);
-//                String sessionId = RequestHolder.Companion.getSession().getId();
-//                redisTemplate.opsForValue().set(sessionId, name, 2, TimeUnit.HOURS);
-//                return sessionId;
-//            } catch (AuthenticationException e) {
-//                return "error";
-//            }
-            User user = userDao.getByName(name);
-            if (user.getPassword().equals(pwd)) {
+            if (pwd.equals(userDao.getPassword(name))) {
                 String sessionId = RequestHolder.Companion.getSession().getId();
                 redisTemplate.opsForValue().set(sessionId, name, 2, TimeUnit.HOURS);
                 return sessionId;
@@ -127,9 +116,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public ServerResponse<String> logout() {
-//        Subject subject = SecurityUtils.getSubject();
-//        subject.logout();
+    public ServerResponse<String> logout() { ;
         String sessionId = RequestHolder.Companion.getSession().getId();
         redisTemplate.delete(sessionId);
         return ServerResponse.createBySuccessMessage("退出登录");

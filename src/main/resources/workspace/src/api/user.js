@@ -30,3 +30,10 @@ export function sec(name) {
     params: { name: name }
   })
 }
+
+export function getUser() {
+  return request({
+    url: '/user/info',
+    method: 'get',
+  })
+}

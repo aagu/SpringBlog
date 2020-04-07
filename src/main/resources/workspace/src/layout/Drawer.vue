@@ -14,11 +14,11 @@
           <v-flex shrink>
             <v-avatar size="80">
               <img
-                src="../assets/avataaars.png"
+                :src="avatar"
                 alt="avatar"
               >
             </v-avatar>
-            <div class="headline">aagu</div>
+            <div class="headline">{{ name }}</div>
             <v-card-actions class="white--text">
               <span>aagu@outlook.com</span>
               <v-spacer></v-spacer>
@@ -41,36 +41,17 @@
         </v-layout>
       </v-img>
       <v-divider></v-divider>
-      <v-list-item to="/">
+      <v-list-item to="/" link>
         <v-list-item-action>
           <v-icon>home</v-icon>
         </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title>主页</v-list-item-title>
-        </v-list-item-content>
+        <v-list-item-content>主页</v-list-item-content>
       </v-list-item>
       <template v-for="(item, i) in items">
-        <!-- <v-subheader
-          v-if="item.header"
-          :key="`subheader-${i}`"
-          v-text="item.header"
-        />
-        <v-divider
-          v-else-if="item.divider"
-          :key="`divider-${i}`"
-        /> -->
         <ExpandGroup
           :key="`group-${i}`"
           :item="item"
         />
-        <!-- <ExpandItem
-          v-else
-          :key="`item-${i}`"
-          :icon="item.icon"
-          :subtext="item.subtext"
-          :text="item.text"
-          :to="item.to"
-        /> -->
       </template>
     </v-list>
 
@@ -81,12 +62,13 @@
 </template>
 
 <script>
-import Footer from '@/components/Footer'
-import ExpandGroup from '@/components/ExpandGroup'
-import kebabCase from 'lodash/kebabCase'
-import { archiveItems } from '@/api/drawer'
+  import Footer from '@/components/Footer'
+  import ExpandGroup from '@/components/ExpandGroup'
+  import kebabCase from 'lodash/kebabCase'
+  import {archiveItems} from '@/api/drawer'
+  import {mapGetters} from 'vuex'
 
-export default {
+  export default {
   name: 'Drawer',
   components: { ExpandGroup, Footer },
   data: () => ({
@@ -98,6 +80,7 @@ export default {
     ],
   }),
   computed: {
+    ...mapGetters(['name','avatar']),
     children () {
       return this.item.children.map(item => ({
         ...item,
@@ -129,6 +112,7 @@ export default {
       archiveItems().then(responese => {
         this.drawerItems = responese.data.items
       })
+      this.$store.dispatch('getUser')
     },
     toggleDrawer(val) {
       const old = this.drawer

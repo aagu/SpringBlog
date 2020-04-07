@@ -1,8 +1,7 @@
 <template>
   <v-list-group
-    :group="group"
+    :group="item.group"
     :prepend-icon="item.icon"
-    :sub-group="subGroup"
     no-action
   >
     <template v-slot:activator>
@@ -18,32 +17,24 @@
       </v-list-item-content>
     </template>
     <template v-for="(child, i) in children">
-      <SubGroup
-        v-if="child.group != null"
-        :key="`sub-group-${i}`"
-        :item="child"
-      />
-      <ExpandItem
-        v-else
-        :key="`item-${i}`"
-        :icon="child.icon"
-        :subtext="child.subtext"
+      <v-list-item
         :to="child.to"
-        :text="child.text"
-      />
+      >
+        <v-list-item-content>
+          <v-list-item-title>{{ child.text }}</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
     </template>
   </v-list-group>
 </template>
 
 <script>
   // Utilities
-  import kebabCase from 'lodash/kebabCase'
   import ExpandItem from './ExpandItem'
-  import SubGroup from './SubGroup'
 
   export default {
     name: 'ExpandGroup',
-    components: { ExpandItem, SubGroup },
+    components: { ExpandItem },
     inheritAttrs: false,
     props: {
       item: {
@@ -54,33 +45,19 @@
           children: [],
         }),
       },
-      subGroup: {
-        type: Boolean,
-        default: false,
-      },
     },
     computed: {
       children () {
         return this.item.children.map(item => ({
-          ...item,
+          text: item.text,
           to: `?${this.item.group}=${item.to}`,
         }))
       },
-      group () {
-        return this.genGroup(this.item.children)
-      },
     },
     methods: {
-      genGroup (children) {
-        return children.map(item => {
-          const parent = item.group || this.item.group
-          let group = `${parent}/${kebabCase(item.to)}`
-          if (item.children) {
-            group = `${group}|${this.genGroup(item.children)}`
-          }
-          return group
-        }).join('|')
-      },
+      goTo(to) {
+        this.$router.push(to)
+      }
     },
   }
 </script>

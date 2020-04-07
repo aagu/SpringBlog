@@ -10,4 +10,8 @@ class UserServiceImpl(private val userDao: UserDao) : UserService {
     override fun getSec(name: String): User {
         return userDao.getByName(name)
     }
+
+    override fun info(name: String): User {
+        return userDao.getByName(name);
+    }
 }

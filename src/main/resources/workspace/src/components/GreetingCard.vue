@@ -17,12 +17,12 @@
           <v-list-item-avatar color="grey darken-3">
             <v-img
               class="elevation-6"
-              src="../assets/avataaars.png"
+              :src="avatar"
             ></v-img>
           </v-list-item-avatar>
 
           <v-list-item-content>
-            <v-list-item-title>aagu</v-list-item-title>
+            <v-list-item-title>{{ name }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-card-actions>
@@ -31,7 +31,12 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
+
   export default {
-    name: 'GreetingCard'
+    name: 'GreetingCard',
+    computed: {
+      ...mapGetters(['name', 'avatar'])
+    }
   }
 </script>

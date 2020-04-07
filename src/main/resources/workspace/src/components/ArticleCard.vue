@@ -27,12 +27,12 @@
             <v-list-item-avatar color="grey darken-3">
               <v-img
                 class="elevation-6"
-                src="../assets/avataaars.png"
+                :src="avatar"
               ></v-img>
             </v-list-item-avatar>
 
             <v-list-item-content>
-<!--              <v-list-item-title>{{author}}</v-list-item-title>-->
+              <v-list-item-title>{{ name }}</v-list-item-title>
               <v-list-item-subtitle>
                 {{ date | parseTime('{y}-{m}-{d} {h}:{i}') }}
               </v-list-item-subtitle>
@@ -51,6 +51,7 @@
 
 <script>
   import allBgImages from 'randomBg'
+  import {mapGetters} from 'vuex'
 
   export default {
     name: 'ArticleCard',
@@ -68,6 +69,7 @@
       allBgImages
     }),
     computed: {
+      ...mapGetters(['name', 'avatar']),
       randomPic() {
         const randIndex = Math.floor(Math.random() * this.allBgImages.length)
         return this.allBgImages[randIndex]
