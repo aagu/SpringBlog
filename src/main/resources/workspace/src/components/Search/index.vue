@@ -13,11 +13,13 @@
         single-line
         solo
         light
+        :dark="dark"
         @click:append="doSearch"
         @click:clear="clear"
         @keyup.enter.native="doSearch"
       />
       <ResultBox
+        :dark="dark"
         style="position: absolute; right: 20px; top: 64px"
         :show="searchResult"
         :items="result"
@@ -44,12 +46,14 @@
           single-line
           solo
           light
+          :dark="dark"
           @click:append="doSearch"
           @click:clear="clear"
           @keyup.enter.native="doSearch"
           style="padding-bottom: 12px;"
         />
         <ResultBox
+          :dark="dark"
           :show="searchResult"
           :items="result"
           :persistClose="true"
@@ -61,11 +65,12 @@
 </template>
 
 <script>
-import { getArticleList } from '@/api/article'
-import ResultBox from './components/ResultBox'
-import Overlay from './components/Overlay'
+  import {getArticleList} from '@/api/article'
+  import ResultBox from './components/ResultBox'
+  import Overlay from './components/Overlay'
+  import {mapGetters} from 'vuex'
 
-export default {
+  export default {
   name: 'SearchBox',
   components: {
     ResultBox,
@@ -82,6 +87,9 @@ export default {
     searchResult: false,
     showSearch: false
   }),
+  computed: {
+    ...mapGetters(['dark'])
+  },
   beforeDestroy() {
     this.clear()
   },

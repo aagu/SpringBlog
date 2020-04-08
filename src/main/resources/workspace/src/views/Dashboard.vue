@@ -1,40 +1,38 @@
 <template>
   <v-container>
-    <v-flex>
-      <v-card-title>基本信息</v-card-title>
-      <v-row>
-        <v-col
-          lg="3"
-          md="6"
-          v-for="info in infoCards"
-          :key="info.title"
-        >
-          <InfoCard
-            :color=info.color
-            :icon=info.icon
-            :title=info.title
-            :to="info.to"
-            :subTitle=infoValues[info.value]
-          ></InfoCard>
-        </v-col>
-      </v-row>
+    <v-card-title>基本信息</v-card-title>
+    <v-row>
+      <v-col
+        lg="3"
+        md="6"
+        v-for="info in infoCards"
+        :key="info.title"
+      >
+        <InfoCard
+          :color=info.color
+          :icon=info.icon
+          :title=info.title
+          :to="info.to"
+          :subTitle=infoValues[info.value]
+        ></InfoCard>
+      </v-col>
+    </v-row>
 
-      <v-row>
-        <v-col md="6" sm="12"><CommentList /></v-col>
-        <v-col md="6" sm="12"><LogList /></v-col>
-      </v-row>
-    </v-flex>
+    <v-row>
+      <v-col cols="12" md="6" sm="12"><CommentList /></v-col>
+      <v-col cols="12" md="6" sm="12"><LogList /></v-col>
+    </v-row>
   </v-container>
 </template>
 
 <script>
-import InfoCard from '@/components/InfoCard'
-import CommentList from '@/components/CommentList'
-import LogList from '@/components/LogList'
+  import InfoCard from '@/components/InfoCard'
+  import CommentList from '@/components/CommentList'
+  import LogList from '@/components/LogList'
 
-import { statistic } from '@/api/admin'
+  import {statistic} from '@/api/admin'
 
-export default {
+  export default {
   components: {
     InfoCard,
     CommentList,

@@ -1,4 +1,16 @@
 // Must be called in Vue context
+import Cookies from 'js-cookie'
+
+const isDark = 'darkTheme'
+
+export function getTheme() {
+  return Cookies.get(isDark)
+}
+
+export function setTheme(val) {
+  Cookies.set(isDark, val)
+}
+
 export function goTo (id) {
   this.$vuetify.goTo(id).then(() => {
     if (!id) {

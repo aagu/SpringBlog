@@ -4,6 +4,7 @@ import router from './router'
 import vuetify from './plugins/vuetify';
 import store from './store'
 import './permission'
+import './styles/scrollbar.scss'
 
 import VuetifyDialog from 'vuetify-dialog'
 import 'vuetify-dialog/dist/vuetify-dialog.css'

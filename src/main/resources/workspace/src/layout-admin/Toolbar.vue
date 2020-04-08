@@ -23,7 +23,7 @@
           depressed
         >
           <v-avatar size="40px">
-            <img src="../assets/avataaars.png" alt="avatar" />
+            <img :src="avatar" alt="avatar" />
           </v-avatar>
         </v-btn>
       </template>
@@ -47,7 +47,9 @@
 </template>
 
 <script>
-export default {
+  import {mapGetters} from 'vuex'
+
+  export default {
   data() {
     return {
       userActions: [
@@ -69,9 +71,7 @@ export default {
     }
   },
   computed: {
-    title() {
-      return this.$store.state.appBarTitle
-    }
+    ...mapGetters(['title', 'avatar'])
   },
   methods: {
     toggleDrawer() {

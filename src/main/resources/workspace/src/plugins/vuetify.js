@@ -2,10 +2,10 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css' // Ensure
 import '@fortawesome/fontawesome-free/css/all.css' // Ensure you are using css-loader
 import Vue from 'vue';
 import Vuetify from 'vuetify/lib';
+import zhHans from 'vuetify/es5/locale/zh-Hans'
+import themes from '../theme/theme'
 
 Vue.use(Vuetify);
-
-import zhHans from 'vuetify/es5/locale/zh-Hans'
 
 export default new Vuetify({
   icons: {
@@ -14,5 +14,11 @@ export default new Vuetify({
   lang: {
     locales: { zhHans },
     current: 'zhHans',
+  },
+  theme: {
+    options: {
+      customProperties: true
+    },
+    themes: { ...themes }
   }
 });

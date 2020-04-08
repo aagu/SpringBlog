@@ -4,9 +4,7 @@
     @input="toggleDrawer"
     app
   >
-    <v-list-item
-      color="blue"
-    >
+    <v-list-item>
       <v-list-item-content>
         <v-list-item-title class="title">
           aagu blog
@@ -31,11 +29,26 @@
         <v-list-item-title>{{ item.title }}</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
+
+    <template v-slot:append>
+      <v-footer>
+        <v-row>
+          <v-col>
+            <v-btn icon @click="toggleDark">
+              <v-icon>brightness_medium</v-icon>
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-footer>
+    </template>
   </v-navigation-drawer>
 </template>
 
 <script>
-export default {
+  import ThemeOp from "../mixins/ThemeOp";
+
+  export default {
+  mixins: [ThemeOp],
   data: () => ({
     items: [
       { title: '仪表盘', icon: 'dashboard', path: 'dashboard'},

@@ -14,7 +14,9 @@ export default new Vuex.Store({
     labelMap: [],
     token: getToken(),
     name: null,
-    avatar: ''
+    avatar: '',
+    email: '',
+    dark: false
   },
   getters: {
     name: state => {
@@ -25,6 +27,15 @@ export default new Vuex.Store({
     },
     avatar: state => {
       return state.avatar
+    },
+    title: state => {
+      return state.appBarTitle
+    },
+    email: state => {
+      return state.email
+    },
+    dark: state => {
+      return state.dark
     }
   },
   mutations: {
@@ -48,7 +59,13 @@ export default new Vuex.Store({
     },
     SET_AVATAR: (state, avatar) => {
       state.avatar = avatar
-}
+    },
+    SET_EMAIL: (state, email) => {
+      state.email = email
+    },
+    SET_DARK: (state, dark) => {
+      state.dark = dark
+    }
   },
   actions: {
     setToolbar({ commit }, title) {
@@ -62,6 +79,9 @@ export default new Vuex.Store({
     },
     setLabelMap({ commit }, map) {
       commit('SET_LABEL_MAP', map)
+    },
+    setDark({ commit }, dark) {
+      commit('SET_DARK', dark)
     },
 
     // user login
@@ -84,10 +104,12 @@ export default new Vuex.Store({
         getUser().then(resp => {
           const data = resp.data.data
 
-          const { name, avatar } = data
+          const { name, avatar, email } = data
 
           commit('SET_NAME', name)
           commit('SET_AVATAR', avatar)
+          commit('SET_EMAIL', email)
+          resolve()
         }).catch(error => {
           reject(error)
         })
@@ -103,11 +125,12 @@ export default new Vuex.Store({
           if (!data) {
             reject('Verification failed, please Login again.')
           }
-  
-          const { name } = data
-  
+
+          const { name, avatar } = data
+
           commit('SET_NAME', name)
-          resolve(data)
+          commit('SET_AVATAR', avatar)
+          resolve()
         }).catch(error => {
           reject(error)
         })

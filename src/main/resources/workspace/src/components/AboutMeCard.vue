@@ -4,9 +4,9 @@
     <v-divider></v-divider>
     <v-list-item-content class="content_box">
       <v-avatar size="120">
-        <img src="../assets/avataaars.png" alt="avatar"/>
+        <img :src="avatar" alt="avatar"/>
       </v-avatar>
-      <div class="text-center font-weight-bold name">aagu</div>
+      <div class="text-center font-weight-bold name">{{ name }}</div>
       <div class="align-center section"><v-icon>people</v-icon><span>Bio</span></div>
       <v-divider></v-divider>
       <v-list-item-content class="text--secondary">Keep Learning</v-list-item-content>
@@ -23,10 +23,15 @@
 
 <script>
   import SkillLevel from "./SkillLevel";
+  import {mapGetters} from 'vuex'
+
   export default {
     name: "AboutMeCard",
     components: {
       SkillLevel
+    },
+    computed: {
+      ...mapGetters(['name', 'avatar'])
     },
     data: () => ({
       skills: [

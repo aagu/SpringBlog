@@ -4,7 +4,7 @@
       <v-toolbar-title>系统日志</v-toolbar-title>
     </v-toolbar>
     <v-divider></v-divider>
-    <v-card-text class="pa-0">
+    <v-card-text>
       <v-simple-table>
         <template v-slot:default>
           <tbody>
@@ -20,9 +20,9 @@
 </template>
 
 <script>
-import { getLogs } from '@/api/admin'
+  import {getLogs} from '@/api/admin'
 
-export default {
+  export default {
   name: 'LogList',
   data() {
     return {

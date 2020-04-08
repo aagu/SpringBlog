@@ -195,5 +195,6 @@
 <style>
   .v-application code {
     box-shadow: none;
+    background-color: var(--v-background-base);
   }
 </style>

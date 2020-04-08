@@ -44,7 +44,7 @@ export default new Router({
             title: '找不到页面'
           },
           component: () => import('@/views/NotFound')
-        }
+        },
       ]
     },
     {
@@ -125,6 +125,13 @@ export default new Router({
         title: '登录'
       },
       component: () => import('@/views/Login')
+    },
+    {
+      path: '*',
+      meta: {
+        title: '找不到页面'
+      },
+      component: () => import('@/views/NotFound')
     }
   ],
   scrollBehavior (to, from, savedPosition) {

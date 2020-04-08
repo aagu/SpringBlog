@@ -18,22 +18,7 @@ router.beforeEach(async(to, from, next) => {
       if (to.path === '/login') {
         next({ path: '/admin' })
       } else {
-        const hasGetUserInfo = store.getters.name
-
-        if (hasGetUserInfo) {
-          next()
-        } else {
-          try {
-            store.dispatch('getInfo').then(() => {
-              next()
-            }).catch(reason => {
-              next(`login?redirect=${to.path}`)
-            })
-          } catch (error) {
-            await store.dispatch('resetToken')
-            next(`login?redirect=${to.path}`)
-          }
-        }
+        next()
       }
     } else {
       next(`login?redirect=${to.path}`)

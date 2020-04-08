@@ -5,6 +5,7 @@
       light
       class="mx-auto"
       v-show="show"
+      :dark="dark"
     >
       <transition-group>
         <v-list-item
@@ -21,7 +22,7 @@
     </v-card>
     <v-row v-show="persistClose || show">
       <v-col cols="4" offset="4" class="d-flex justify-center">
-        <v-btn fab small light @click="$emit('close')">
+        <v-btn fab small :dark="dark" @click="$emit('close')">
           <v-icon>close</v-icon>
         </v-btn>
       </v-col>
@@ -36,6 +37,10 @@ export default {
     items: Array,
     show: Boolean,
     persistClose: {
+      type: Boolean,
+      default: false
+    },
+    dark: {
       type: Boolean,
       default: false
     }

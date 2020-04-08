@@ -21,7 +21,7 @@
       </v-menu>
     </v-toolbar>
     <v-divider></v-divider>
-    <v-card-text class="pa-0">
+    <v-card-text>
       <template>
         <v-data-table
           :headers="headers"
@@ -52,10 +52,10 @@
 </template>
 
 <script>
-import { getCommentList, markAsRead, markAsDelete } from '@/api/comment'
-import Notification from "./Notification/Notification";
+  import {getCommentList, markAsDelete, markAsRead} from '@/api/comment'
+  import Notification from "./Notification/Notification";
 
-export default {
+  export default {
   data() {
     return {
       headers: [

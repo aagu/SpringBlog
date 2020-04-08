@@ -1,8 +1,8 @@
 <template>
   <v-list-group
-    :group="item.group"
     :prepend-icon="item.icon"
     no-action
+    color="anchor"
   >
     <template v-slot:activator>
       <v-list-item-content class="v-list-group__activator">
@@ -10,7 +10,7 @@
           <div>
             {{ item.text }}
           </div>
-          <v-avatar size="28" color="grey lighten-2">
+          <v-avatar size="28" color="chip">
             <span>{{ children.length }}</span>
           </v-avatar>
         </div>
@@ -19,6 +19,7 @@
     <template v-for="(child, i) in children">
       <v-list-item
         :to="child.to"
+        link
       >
         <v-list-item-content>
           <v-list-item-title>{{ child.text }}</v-list-item-title>

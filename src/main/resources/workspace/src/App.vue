@@ -3,15 +3,14 @@
 </template>
 
 <script>
-// import Layout from './layout/index'
+  import {getTheme} from "@/utils/helper";
 
-export default {
+  export default {
   name: 'App',
-  // components: {
-  //   Layout
-  // },
-  // data: () => ({
-    //
-  // }),
+  created() {
+    if (getTheme() === 'dark') {
+      this.$vuetify.theme.dark = true
+    }
+  }
 };
 </script>

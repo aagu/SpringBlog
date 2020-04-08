@@ -9,7 +9,7 @@
       class="py-0"
     >
       <v-img src="../assets/sidebar_header.png">
-        <v-layout pa-2 column fill-height class="lightbox white--text" text-center>
+        <v-layout pa-3 column fill-height class="lightbox white--text" text-center>
           <v-spacer></v-spacer>
           <v-flex shrink>
             <v-avatar size="80">
@@ -20,7 +20,7 @@
             </v-avatar>
             <div class="headline">{{ name }}</div>
             <v-card-actions class="white--text">
-              <span>aagu@outlook.com</span>
+              <span>{{ email }}</span>
               <v-spacer></v-spacer>
               <v-btn
                 icon
@@ -31,7 +31,7 @@
             </v-card-actions>
             <v-expand-transition>
               <div v-show="show">
-                <v-list-item class="emailBtn" href="mailto:aagu@outloo.com">
+                <v-list-item class="emailBtn" href="mailto:aagu@outlook.com">
                   <v-list-item-icon><v-icon>email</v-icon></v-list-item-icon>
                   <v-list-item-title>email me</v-list-item-title>
                 </v-list-item>
@@ -80,7 +80,7 @@
     ],
   }),
   computed: {
-    ...mapGetters(['name','avatar']),
+    ...mapGetters(['name','avatar', 'email']),
     children () {
       return this.item.children.map(item => ({
         ...item,

@@ -1,8 +1,14 @@
 <template>
   <v-container>
     <v-row>
-      <v-col md="6" sm="12">
-        <SystemCard />
+      <v-col cols="12" md="6" sm="12">
+        <SystemCard :name="name"/>
+      </v-col>
+      <v-col cols="12" md="6" sm="12">
+        <PersonalizeCard
+          :avatar="avatar"
+          :email="email"
+        />
       </v-col>
     </v-row>
   </v-container>
@@ -10,10 +16,17 @@
 
 <script>
   import SystemCard from "./components/SystemCard";
+  import PersonalizeCard from "./components/PersonalizeCard";
+  import {mapGetters} from 'vuex'
+
   export default {
     name: "Settings",
     components: {
-      SystemCard
+      SystemCard,
+      PersonalizeCard
+    },
+    computed: {
+      ...mapGetters(['name', 'email', 'avatar'])
     },
     methods: {
       showPrompt() {
@@ -27,7 +40,7 @@
         this.$dialog.message.success('ok', {
           position: 'top'
         })
-      }
+      },
     }
   }
 </script>

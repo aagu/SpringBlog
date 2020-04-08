@@ -1,11 +1,11 @@
 <template>
   <v-app id="inspire">
-    <Drawer v-bind:drawer=drawer />
+    <Drawer />
 
-    <Toolbar v-bind:drawer=drawer />
+    <Toolbar />
 
     <v-content
-      style="background-color: #fafafa"
+      class="base"
     >
       <v-container
         fluid
@@ -26,16 +26,14 @@
   export default {
     name: 'Layout',
     components: { Drawer, BackToTop, Toolbar },
-    props: {
-      source: String,
-    },
-    computed: {
-      title() {
-        return this.$store.state.appBarTitle
-      }
-    },
     data: () => ({
       drawer: true,
     }),
   }
 </script>
+
+<style scoped>
+  .base {
+    background-color: var(--v-background-base);
+  }
+</style>

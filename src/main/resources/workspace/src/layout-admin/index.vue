@@ -1,9 +1,11 @@
 <template>
   <v-app id="inspire">
     <Drawer></Drawer>
+
     <Toolbar></Toolbar>
+
     <v-content
-      style="background-color: #fafafa"
+      class="base"
     >
       <router-view></router-view>
     </v-content>
@@ -11,10 +13,11 @@
 </template>
 
 <script>
-import Toolbar from './Toolbar'
-import Drawer from './Drawer'
+  import Toolbar from './Toolbar'
+  import Drawer from './Drawer'
 
-export default {
+  export default {
+  name: 'AdminLayout',
   components: {
     Toolbar,
     Drawer
@@ -26,3 +29,9 @@ export default {
   // }
 }
 </script>
+
+<style scoped>
+  .base {
+    color: var(--v-background);
+  }
+</style>
