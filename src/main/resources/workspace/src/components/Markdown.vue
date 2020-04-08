@@ -2,7 +2,6 @@
   // Utilities
   import MarkdownIt from 'markdown-it'
   import MarkdownItKatex from 'markdown-it-katex'
-  import { parseLink } from '@/utils/helper.js'
 
   // Utilities
   // import {
@@ -37,7 +36,7 @@
         html: true,
         linkify: true,
         typographer: true
-      })
+      }).use(MarkdownItKatex, { throwOnError: false, errorColor: '#FF5252' })
       // let code = this.code || this.source
       // if (!this.code) {
       //   if (this.$slots.default) {

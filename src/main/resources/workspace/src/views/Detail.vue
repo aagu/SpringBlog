@@ -40,7 +40,7 @@
             </v-list-item>
           </v-card-actions>
 
-           <Markdown class="text-wrap" style="padding: 16px;" :content="article.content"></Markdown>
+           <Markdown class="text-wrap" style="padding: 16px;" :source="article.content"></Markdown>
 <!--          <HtmlPanel :html="article.content" style="overflow-x: scroll"></HtmlPanel>-->
         </v-card>
       </v-col>
@@ -92,12 +92,13 @@
 </template>
 
 <script>
-  import Markdown from 'markdown-it-vue'
-  import 'markdown-it-vue/dist/markdown-it-vue.css'
+  import Markdown from '@/components/Markdown'
+  // import 'markdown-it-vue/dist/markdown-it-vue.css'
   import Comment from '@/components/CommentPanel'
   import {getArticle} from '@/api/article'
   import {getArticleComment} from "@/api/comment";
   import allBgImages from 'randomBg'
+  import getPageTitle from "@/utils/get-page-title";
 
   export default {
     name: 'ArticleDetail',
@@ -154,7 +155,7 @@
           this.label = response.data.label.name
           this.loading = false
           this.$store.dispatch('setToolbar', this.article.title)
-          document.title = this.article.title
+          document.title = getPageTitle(this.article.title)
         })
         getArticleComment({ articleId: id, page: 1, limit: 5}).then(resp => {
           this.comments = resp.data.comments
