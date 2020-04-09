@@ -42,8 +42,11 @@ export default new Vuex.Store({
     SET_TOOLBAR: (state, title) => {
       state.appBarTitle = title
     },
-    SET_DRAWER: (state) => {
+    TOGGLE_DRAWER: (state) => {
       state.drawer = !state.drawer
+    },
+    SET_DRAWER: (state, val) => {
+      state.drawer = val
     },
     SET_SNACKBAR: (state) => {
       state.snackbar = !state.snackbar
@@ -72,7 +75,10 @@ export default new Vuex.Store({
       commit('SET_TOOLBAR', title)
     },
     toggleDrawer({ commit }) {
-      commit('SET_DRAWER')
+      commit('TOGGLE_DRAWER')
+    },
+    setDrawer({ commit }, val) {
+      commit('SET_DRAWER', val)
     },
     toggleSnackbar({ commit }) {
       commit('SET_SNACKBAR')
@@ -138,7 +144,7 @@ export default new Vuex.Store({
     },
   
     // user logout
-    logout({ commit, state, dispatch }) {
+    logout({ commit, state }) {
       return new Promise((resolve, reject) => {
         logout(state.token).then(() => {
           commit('SET_TOKEN', '')

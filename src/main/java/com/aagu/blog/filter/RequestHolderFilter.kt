@@ -1,17 +1,21 @@
 package com.aagu.blog.filter
 
 import com.aagu.blog.util.RequestHolder
-import org.springframework.stereotype.Component
 import javax.servlet.Filter
 import javax.servlet.FilterChain
 import javax.servlet.ServletRequest
 import javax.servlet.ServletResponse
 import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 
-@Component
 class RequestHolderFilter : Filter {
     override fun doFilter(servletRequest: ServletRequest, servletResponse: ServletResponse, filterChain: FilterChain) {
         RequestHolder.setRequest((servletRequest as HttpServletRequest))
+        RequestHolder.setResponse((servletResponse) as HttpServletResponse)
         filterChain.doFilter(servletRequest, servletResponse)
+    }
+
+    override fun destroy() {
+        RequestHolder.remove()
     }
 }

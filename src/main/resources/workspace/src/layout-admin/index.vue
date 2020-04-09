@@ -32,6 +32,6 @@
 
 <style scoped>
   .base {
-    color: var(--v-background);
+    color: var(--v-background-base);
   }
 </style>

@@ -12,6 +12,7 @@
       this.$vuetify.theme.dark = true
     }
     this.$store.dispatch('setDark', this.$vuetify.theme.dark)
+    this.$store.dispatch('getUser')
   }
 };
 </script>

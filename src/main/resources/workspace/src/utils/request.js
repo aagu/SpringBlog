@@ -44,6 +44,7 @@ service.interceptors.response.use(
     const code = response.data.code
     if (code === 41000) {
       store.dispatch('resetToken').then(() => {
+        Notification.error('登录过期')
         location.reload()
       })
       return Promise.reject(new Error('Token Expired, please login again'))

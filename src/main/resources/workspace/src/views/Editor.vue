@@ -44,7 +44,7 @@
         <div id="editor" v-resize="onResize">
           <mavon-editor
             v-model="article.content"
-            v-bind:style="{ height: editorHeight, zIndex: 1}"
+            v-bind:style="{ height: editorHeight, zIndex: 1, backgroundColor: `var(--v-background-base)`}"
             :boxShadow="Boolean(false)"
             :subfield="subField"
           />
@@ -141,13 +141,13 @@
 </template>
 
 <script>
-import { mavonEditor } from 'mavon-editor'
-import 'mavon-editor/dist/css/index.css'
-import Notification from '@/components/Notification/Notification'
-import { getArticleDetail, createArticle, updateArticle, publishArticle, deleteArticle } from '@/api/article'
-import { getLabels } from '@/api/label'
+  import {mavonEditor} from 'mavon-editor'
+  import 'mavon-editor/dist/css/index.css'
+  import Notification from '@/components/Notification/Notification'
+  import {createArticle, deleteArticle, getArticleDetail, updateArticle} from '@/api/article'
+  import {getLabels} from '@/api/label'
 
-export default {
+  export default {
   name: 'Editor',
   components: {
     mavonEditor

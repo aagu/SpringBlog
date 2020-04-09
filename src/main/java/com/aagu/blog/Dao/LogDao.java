@@ -34,6 +34,7 @@ public interface LogDao extends BaseDao<Log> {
                 if (param.containsKey("time_start")) {
                     WHERE("time > str_to_date('" + param.get("time_start") + "', %Y-%m-%d %H:%i:%s)");
                 }
+                ORDER_BY("time desc");
             }}.toString() + " limit " + param.get("start") + ", " + param.get("num");
         }
     }

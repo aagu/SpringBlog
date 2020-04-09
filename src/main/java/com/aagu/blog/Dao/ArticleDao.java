@@ -6,7 +6,6 @@ import org.apache.ibatis.jdbc.SQL;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -112,25 +111,11 @@ public interface ArticleDao extends BaseDao<Article>{
     Integer deleteById(@Param("id") Integer id);
 
     class ArticleSqlBuilder {
-        public static String buildTotal(Map<String, Object> params) {
+        public static String buildTotal(Map<String, String> params) {
             return new SQL() {{
                 SELECT("count(id)");
                 FROM("article");
-                List<String> wheres = new ArrayList<>();
-                if (params.get("labelId") != null) {
-                    wheres.add("labelId=" + (int)params.get("labelId"));
-                }
-                if (params.get("month") != null) {
-                    wheres.add("date > str_to_date('"+params.get("date1")+
-                            "', '%Y-%m-%d') AND date < str_to_date('"+params.get("date2")+
-                            "', '%Y-%m-%d')");
-                }
-                if (params.get("status") != null) {
-                    wheres.add("status='" + params.get("status")+"'");
-                }
-                if (!wheres.isEmpty()) {
-                    WHERE(String.join(" AND ", wheres));
-                }
+                applyWhere(this, params);
                 ORDER_BY("date desc");
             }}.toString();
         }
@@ -139,20 +124,27 @@ public interface ArticleDao extends BaseDao<Article>{
             return new SQL() {{
                 SELECT("id, date, labelId, title, detail as content, status");
                 FROM("article");
-                Map<String, Object> params = (Map<String, Object>) sqlParams.get("params");
-                if (params.get("labelId") != null) {
-                    WHERE("labelId=" + params.get("labelId"));
-                }
-                if (params.get("month") != null) {
-                    WHERE("date > str_to_date('"+params.get("date1")+
-                            "', '%Y-%m-%d') AND date < str_to_date('"+params.get("date2")+
-                            "', '%Y-%m-%d')");
-                }
-                if (params.get("status") != null) {
-                    WHERE("status='" + params.get("status") +"'");
-                }
+                Map<String, String> params = (Map<String, String>) sqlParams.get("params");
+                applyWhere(this, params);
                 ORDER_BY("date desc");
             }}.toString() + " LIMIT #{page}, #{limit}";
+        }
+
+        private static void applyWhere(SQL sql, Map<String, String> sqlParams) {
+            if (sqlParams.get("labelId") != null) {
+                sql.WHERE("labelId=" + sqlParams.get("labelId"));
+            }
+            if (sqlParams.get("month") != null) {
+                sql.WHERE("date > str_to_date('"+sqlParams.get("date1")+
+                        "', '%Y-%m-%d') AND date < str_to_date('"+sqlParams.get("date2")+
+                        "', '%Y-%m-%d')");
+            }
+            if (sqlParams.get("status") != null) {
+                sql.WHERE("status='" + sqlParams.get("status") +"'");
+            }
+            if (sqlParams.containsKey("keyword")) {
+                sql.WHERE("title like '" + sqlParams.get("keyword") + "%'");
+            }
         }
     }
 }

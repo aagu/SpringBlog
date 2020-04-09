@@ -1,7 +1,6 @@
 <template>
   <v-navigation-drawer
     v-model="drawer"
-    @input="toggleDrawer"
     app
   >
     <v-list-item>
@@ -32,10 +31,15 @@
 
     <template v-slot:append>
       <v-footer>
-        <v-row>
+        <v-row justify="center">
           <v-col>
             <v-btn icon @click="toggleDark">
               <v-icon>brightness_medium</v-icon>
+            </v-btn>
+          </v-col>
+          <v-col>
+            <v-btn icon @click="$router.push('/')" >
+              <v-icon>home</v-icon>
             </v-btn>
           </v-col>
         </v-row>
@@ -66,17 +70,11 @@
         return this.$store.state.drawer
       },
       set(val) {
-        // this.$store.dispatch('toggleDrawer')
+        this.$store.dispatch('setDrawer', val)
       }
     }
   },
   methods: {
-    toggleDrawer(val) {
-      const old = this.drawer
-      if (val !== old) {
-        this.$store.dispatch('toggleDrawer')
-      }
-    },
   }
 }
 </script>

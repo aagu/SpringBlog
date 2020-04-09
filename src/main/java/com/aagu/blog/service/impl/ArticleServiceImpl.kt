@@ -13,7 +13,6 @@ import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.CachePut
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
-import java.util.*
 
 @Service
 open class ArticleServiceImpl(
@@ -25,8 +24,8 @@ open class ArticleServiceImpl(
         return articleDao.articleCount
     }
 
-    override fun getArticleByPage(page: Int, limit: Int): PageModel<Article> {
-        return Pager(articleDao).getPage(page, limit, HashMap())
+    override fun getArticleByPage(page: Int, limit: Int, params: Map<String, String>): PageModel<Article> {
+        return Pager(articleDao).getPage(page, limit, params)
     }
 
     @Cacheable(value = ["article"], key = "#id")

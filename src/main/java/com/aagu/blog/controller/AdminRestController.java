@@ -72,12 +72,12 @@ public class AdminRestController {
         return HttpUtil.createResponse(20000, null, comments);
     }
 
-    @GetMapping("article/list")
-    public Object articleList(@RequestParam(value = "page", defaultValue = "1")Integer page,
-                              @RequestParam(value = "limit", defaultValue = "10")Integer limit) {
-        PageModel<Article> articles = articleService.getArticleByPage(page, limit);
-        return HttpUtil.createResponse(20000, null, articles);
-    }
+//    @GetMapping("article/list")
+//    public Object articleList(@RequestParam(value = "page", defaultValue = "1")Integer page,
+//                              @RequestParam(value = "limit", defaultValue = "10")Integer limit) {
+//        PageModel<Article> articles = articleService.getArticleByPage(page, limit);
+//        return HttpUtil.createResponse(20000, null, articles);
+//    }
 
     @GetMapping("article/detail")
     public Object articleDetail(@RequestParam("id")Integer id) {

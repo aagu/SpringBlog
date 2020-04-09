@@ -4,8 +4,15 @@
       class="mx-auto"
       v-show="show"
       :light="!dark"
+      width="260"
     >
-      <transition-group name="list">
+      <v-card-text class="text-center" v-if="loading">
+        <v-progress-circular
+          indeterminate
+        ></v-progress-circular>
+      </v-card-text>
+      <v-card-text class="text-center" v-else-if="items.length === 0">No Data</v-card-text>
+      <transition-group name="list" v-else>
         <v-list-item
           v-for="(item, idx) in items"
           :key="`key-${idx}`"
@@ -13,7 +20,7 @@
           @click="$emit('close')"
         >
           <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
+            <v-list-item-title class="text-center">{{ item.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </transition-group>
@@ -39,6 +46,10 @@ export default {
       default: false
     },
     dark: {
+      type: Boolean,
+      default: false
+    },
+    loading: {
       type: Boolean,
       default: false
     }

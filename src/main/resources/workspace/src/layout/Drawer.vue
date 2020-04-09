@@ -1,7 +1,6 @@
 <template>
   <v-navigation-drawer
     v-model="drawer"
-    @input="toggleDrawer"
     app
   >
     <v-list
@@ -100,7 +99,7 @@
         return this.$store.state.drawer
       },
       set(val) {
-        // this.$store.dispatch('toggleDrawer')
+        this.$store.dispatch('setDrawer', val)
       }
     }
   },
@@ -112,7 +111,6 @@
       archiveItems().then(responese => {
         this.drawerItems = responese.data.items
       })
-      this.$store.dispatch('getUser')
     },
     toggleDrawer(val) {
       const old = this.drawer

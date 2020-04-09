@@ -9,7 +9,7 @@ export function getArticle(id) {
 
 export function getArticleList(query) {
   return request({
-    url: '/admin/article/list',
+    url: '/article/list',
     method: 'get',
     params: query
   })

@@ -8,7 +8,7 @@ import com.aagu.blog.view.ArticleDetailVO
 interface ArticleService {
     fun getArticleCount(): Int
 
-    fun getArticleByPage(page: Int, limit: Int): PageModel<Article>
+    fun getArticleByPage(page: Int, limit: Int, params: Map<String, String>): PageModel<Article>
 
     fun addArticle(article: Article): Int
 

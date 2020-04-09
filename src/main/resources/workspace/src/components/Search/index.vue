@@ -23,6 +23,7 @@
         style="position: absolute; right: 64px; top: 64px"
         :show="searchResult"
         :items="result"
+        :loading="loading"
         v-on:close="clear"
       ></ResultBox>
     </div>
@@ -56,6 +57,7 @@
           :dark="dark"
           :show="searchResult"
           :items="result"
+          :loading="loading"
           :persistClose="true"
           v-on:close="clear"
         ></ResultBox>
@@ -85,7 +87,8 @@
     },
     result: [],
     searchResult: false,
-    showSearch: false
+    showSearch: false,
+    loading: false
   }),
   computed: {
     ...mapGetters(['dark'])
@@ -100,8 +103,10 @@
     doSearch() {
       if (!this.search || this.search === '') return
       this.searchResult = true
+      this.loading = true
       getArticleList({page: 1, limit: 10, search: this.search}).then(resp => {
         this.result = resp.data.data.items
+        this.loading = false
       })
     },
     clear() {

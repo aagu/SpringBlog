@@ -32,7 +32,7 @@
   }
 </script>
 
-<style scoped>
+<style>
   .base {
     background-color: var(--v-background-base);
   }

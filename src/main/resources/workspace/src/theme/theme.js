@@ -13,6 +13,6 @@ export default {
     accent: colors.grey.darken2,
     anchor: colors.grey.base,
     chip: colors.grey.darken1,
-    background: colors.grey.darken4
+    background: colors.black
   }
 }
