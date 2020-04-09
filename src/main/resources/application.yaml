@@ -1,5 +1,8 @@
 file:
   path: /home/aagu/IdeaProjects/blog/
+server:
+  compression:
+    enabled: true
 spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
