@@ -20,7 +20,7 @@
       />
       <ResultBox
         :dark="dark"
-        style="position: absolute; right: 20px; top: 64px"
+        style="position: absolute; right: 64px; top: 64px"
         :show="searchResult"
         :items="result"
         v-on:close="clear"

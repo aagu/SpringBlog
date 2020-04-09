@@ -11,6 +11,7 @@
     if (getTheme() === 'dark') {
       this.$vuetify.theme.dark = true
     }
+    this.$store.dispatch('setDark', this.$vuetify.theme.dark)
   }
 };
 </script>

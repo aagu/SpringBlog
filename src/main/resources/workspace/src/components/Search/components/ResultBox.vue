@@ -1,13 +1,11 @@
 <template>
   <div>
     <v-card
-      transition="fade-transition"
-      light
       class="mx-auto"
       v-show="show"
-      :dark="dark"
+      :light="!dark"
     >
-      <transition-group>
+      <transition-group name="list">
         <v-list-item
           v-for="(item, idx) in items"
           :key="`key-${idx}`"
@@ -22,7 +20,7 @@
     </v-card>
     <v-row v-show="persistClose || show">
       <v-col cols="4" offset="4" class="d-flex justify-center">
-        <v-btn fab small :dark="dark" @click="$emit('close')">
+        <v-btn fab small :light="!dark" @click="$emit('close')">
           <v-icon>close</v-icon>
         </v-btn>
       </v-col>

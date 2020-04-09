@@ -89,3 +89,13 @@
 <style scoped>
  @import url("https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css");
 </style>
+
+<style>
+  .v-application code {
+    box-shadow: none;
+    background-color: var(--v-background-base);
+  }
+  pre {
+    overflow: auto;
+  }
+</style>
