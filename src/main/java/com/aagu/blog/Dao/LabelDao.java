@@ -26,15 +26,16 @@ public interface LabelDao {
     @Select("select id from label where name=#{name}")
     Integer getIdByName(@Param("name") String name);
 
-    @Insert("insert into label(parentId, name) value(#{parentId},#{name})")
-    Integer insertLabel(@Param("parentId") Integer parentId, @Param("name") String name);
+    @Insert("insert into label(parentId, name) value(-1,#{name})")
+    @SelectKey(statement = "select @@identity", keyProperty = "id", resultType = Integer.class, before = false)
+    Integer insertLabel(Label label);
 
     @Update("update label set parentId=#{pId} where id=#{id}")
     Integer updateParentId(@Param("pId") Integer pId, @Param("id") Integer id);
 
     @Update("update label set name=#{name} where id=#{id}")
-    Integer updateName(@Param("name") String name, @Param("id") Integer id);
+    Integer updateLabel(Label label);
 
-    @Delete("delete from label where id=#{id} or parentId=#{id}")
-    Integer deleteLabelAndChild(@Param("id") Integer id);
+    @Delete("delete from label where id=#{id}")
+    Integer deleteLabel(@Param("id") Integer id);
 }

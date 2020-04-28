@@ -55,7 +55,7 @@
             <v-list-item>
               <v-list-item-action><v-icon>access_time</v-icon></v-list-item-action>
               <v-list-item-content>
-                <v-list-item-subtitle>上次修改时间</v-list-item-subtitle>
+                <v-list-item-subtitle>上次保存时间</v-list-item-subtitle>
                 <v-list-item-title>{{ article.date | parseTime }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
@@ -205,11 +205,16 @@
     handleSave() {
       this.article.date = Number(Date());
       if (this.article.id) {
-        updateArticle(this.article).then(() => {
+        updateArticle(this.article).then(resp => {
+          const { date } = resp.data.data
+          this.article.date = date
           Notification.notify({color:'success', text: '修改成功！'})
         })
       } else {
-        createArticle(this.article).then(() => {
+        createArticle(this.article).then(resp => {
+          const { id, date } = resp.data.data
+          this.article.id = id
+          this.article.date = date
           Notification.notify({color:'success', text: '保存成功！'})
         })
       }

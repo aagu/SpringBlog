@@ -2,27 +2,6 @@
   <div>
     <v-container>
       <v-flex>
-        <v-row no-gutters style="flex-shrink: 0">
-          <v-col align="center" cols="4">
-            <v-btn
-              @click="fetch"
-            >
-              <v-icon>undo</v-icon>
-              Reset
-            </v-btn>
-          </v-col>
-          <v-spacer></v-spacer>
-          <v-col align="center" cols="4">
-            <v-btn
-              class="white--text"
-              color="green darken-1"
-              @click="save"
-            >
-              Save
-              <v-icon right>save</v-icon>
-            </v-btn>
-          </v-col>
-        </v-row>
         <v-card-text style="flex: 1 0 auto">
           <v-btn
             rounded
@@ -79,7 +58,8 @@
 </template>
 
 <script>
-  import { getLabels } from '@/api/label'
+  import {addLabel, deleteLabel, editLabel, getLabels} from '@/api/label'
+  import Notification from '@/components/Notification/Notification'
 
   export default {
     data: () => ({
@@ -107,21 +87,28 @@
         })
       },
       handleAdd() {
-        this.labels.push({id: this.initKey++, name: this.newLabelName})
-        this.added.push({name: this.newLabelName})
-        this.newLabelName = ''
-        this.dialog = false
+        let newLabel = {name: this.newLabelName}
+        addLabel(newLabel).then(resp => {
+          this.labels.push(resp.data.data)
+          this.newLabelName = ''
+          this.dialog = false
+          Notification.notify({color:'success', text: '添加成功！'})
+        })
       },
       handleDelete(label) {
-        let index = this.labels.indexOf(label)
-        if (index >= 0) {
-          this.labels.splice(index, 1)
-        }
-        this.removed.push(label)
+        deleteLabel(label.id).then(() => {
+          let index = this.labels.indexOf(label)
+          if (index >= 0) {
+            this.labels.splice(index, 1)
+            Notification.notify({color:'info', text: '删除成功！'})
+          }
+        })
       },
       handleEdit(event, label) {
         label.name = event.target.innerText
-        this.modified.push(label)
+        editLabel(label).then(() => {
+          Notification.notify({color:'info', text: '修改成功！'})
+        })
       },
       save() {
 

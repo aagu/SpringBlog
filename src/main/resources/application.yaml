@@ -9,7 +9,6 @@ spring:
     hikari:
       max-lifetime: 30000
       connection-test-query: SELECT 1
-    password: pwOfBlog
     username: blog
   output:
     ansi:
@@ -24,7 +23,6 @@ spring:
         max-wait: 1ms
         min-idle: 5
       shutdown-timeout: 100ms
-    password: aagu098IsMe36qq8951ace
   resources:
     static-locations: classpath:/static,file:${file.path}
   thymeleaf:
@@ -37,3 +35,7 @@ spring:
       content-type: text/html
     suffix: .html
 
+qiniu:
+  accessKey: UvCyhIok86KdaGfRzRGvUmem-ENf1333GZvx04KX
+  secretKey: MELil6gyEw2Rw_Z8aeiyDrAtUOmydla5aiqss31x
+  bucket: aagublogstore

@@ -1,9 +1,15 @@
 package com.aagu.blog.controller;
 
 import com.aagu.blog.Dao.LabelDao;
-import com.aagu.blog.Models.*;
+import com.aagu.blog.Models.Article;
+import com.aagu.blog.Models.Comment;
+import com.aagu.blog.Models.Label;
+import com.aagu.blog.Models.User;
 import com.aagu.blog.exception.NotFoundException;
-import com.aagu.blog.service.*;
+import com.aagu.blog.service.AdminService;
+import com.aagu.blog.service.ArticleService;
+import com.aagu.blog.service.FrontService;
+import com.aagu.blog.service.LabelService;
 import com.aagu.blog.util.HttpUtil;
 import com.aagu.blog.view.ArticleEditVO;
 import com.aagu.blog.view.TagTree;
@@ -21,9 +27,6 @@ public class AdminRestController {
 
     @Autowired
     private FrontService frontService;
-
-    @Autowired
-    private FileService fileService;
 
     @Autowired
     private LabelDao labelDao;
@@ -94,18 +97,6 @@ public class AdminRestController {
         return HttpUtil.createResponse(20000, null, vo);
     }
 
-    @PostMapping("article/create")
-    public Object articleCreate(@RequestBody Article article){
-        articleService.addArticle(article);
-        return HttpUtil.createResponse(20000, null, "OK");
-    }
-
-    @PostMapping("article/update")
-    public Object articleUpdate(@RequestBody Article article){
-        articleService.updateArticle(article);
-        return HttpUtil.createResponse(20000, null, "OK");
-    }
-
     @PutMapping("article/{id}")
     public Object articlePublish(@PathVariable("id")Integer id) {
         try {
@@ -131,20 +122,6 @@ public class AdminRestController {
         return HttpUtil.createResponse(20000, null, users);
     }
 
-    @GetMapping("resource/list")
-    public Object resourceList(@RequestParam(value = "page", required = false, defaultValue = "1")Integer page,
-                               @RequestParam(value = "limit", required = false)Integer limit,
-                               @RequestParam(value = "type")String type) {
-        List<Resource> resources = fileService.getByType(type);
-        return HttpUtil.createResponse(20000, null, resources);
-    }
-
-    @PostMapping("resource/update")
-    public Object resourceUpdate(@RequestBody Resource resource) {
-        fileService.updateRes(resource);
-        return HttpUtil.createResponse(20000, null, "ok");
-    }
-
     @GetMapping("label/tree")
     public Object labelTree(@RequestParam(value = "needRoot", defaultValue = "false")Boolean needRoot) {
         Set<TagTree> tagTree = new HashSet<>();
@@ -164,34 +141,22 @@ public class AdminRestController {
         return HttpUtil.createResponse(20000, null, labels);
     }
 
-    @PostMapping("label/add")
-    public Object labelAdd(@RequestBody TagTree node) {
-        Map<String, Object> map = adminService.addLabel(node.getName(), node.getParentId());
-        if (map == null) return HttpUtil.createResponse(400000, "error add label", null);
-        Set<TagTree> tagTree = new HashSet<>();
-        tagTree.add(((TagTree)map.get("tree")));
-        map.replace("tree", tagTree);
-        return HttpUtil.createResponse(20000, null, map);
+    @PostMapping("label")
+    public Object labelAdd(@RequestBody Label label) {
+        labelService.add(label);
+        return HttpUtil.createResponse(20000, null, label);
     }
 
-    @PutMapping("label/{name}")
-    public Object labelUpdate(@PathVariable("name")String name, @RequestBody TagTree node) {
-        Map<String, Object> map = adminService.updateLabelName(name, node.getId());
-        if (map == null) return HttpUtil.createResponse(400000, "error update label", null);
-        Set<TagTree> tagTree = new HashSet<>();
-        tagTree.add(((TagTree)map.get("tree")));
-        map.replace("tree", tagTree);
-        return HttpUtil.createResponse(20000, null, map);
+    @PutMapping("label")
+    public Object labelUpdate(@RequestBody Label label) {
+        labelService.modify(label);
+        return HttpUtil.createResponse(20000, null, label);
     }
 
-    @DeleteMapping("label/{name}")
-    public Object labelDelete(@PathVariable("name")String name) {
-        Map<String, Object> map = adminService.deleteLabel(name);
-        if (map == null) return HttpUtil.createResponse(400000, "error delete label", null);
-        Set<TagTree> tagTree = new HashSet<>();
-        tagTree.add(((TagTree)map.get("tree")));
-        map.replace("tree", tagTree);
-        return HttpUtil.createResponse(20000, null, map);
+    @DeleteMapping("label")
+    public Object labelDelete(@RequestParam("id")Integer id) {
+        labelService.delete(id);
+        return HttpUtil.createResponse(20000, null, "ok");
     }
 
     @GetMapping("search/user")

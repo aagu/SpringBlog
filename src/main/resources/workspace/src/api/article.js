@@ -25,7 +25,7 @@ export function getArticleDetail(id) {
 
 export function updateArticle(data) {
   return request({
-    url: '/admin/article/update',
+    url: '/article/update',
     method: 'post',
     data
   })
@@ -33,7 +33,7 @@ export function updateArticle(data) {
 
 export function createArticle(data) {
   return request({
-    url: '/admin/article/create',
+    url: '/article/create',
     method: 'post',
     data
   })

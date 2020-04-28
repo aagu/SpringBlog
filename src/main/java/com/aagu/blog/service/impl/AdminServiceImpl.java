@@ -135,34 +135,10 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Map<String, Object> addLabel(String tag, Integer parentId) {
-        if (tag.isEmpty()) return null;
-        labelDao.insertLabel(parentId, tag);
-        return getTreeViewData();
-    }
-
-    @Override
     public Map<String, Object> updateParentLabel(Integer parentId, Integer id) {
         if (parentId < 1) return null;
         labelDao.updateParentId(parentId, id);
         return getTreeViewData();
-    }
-
-    @Override
-    public Map<String, Object> updateLabelName(String name, Integer id) {
-        if (name.isEmpty()) return null;
-        labelDao.updateName(name, id);
-        return getTreeViewData();
-    }
-
-    @Override
-    public Map<String, Object> deleteLabel(String name) {
-        Integer id = labelDao.getIdByName(name);
-        if (id != null &&  id > 0) {
-            labelDao.deleteLabelAndChild(id);
-            return getTreeViewData();
-        }
-        return null;
     }
 
     @Override

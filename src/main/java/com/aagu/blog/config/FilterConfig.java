@@ -1,6 +1,6 @@
 package com.aagu.blog.config;
 
-import com.aagu.blog.filter.RequestHolderFilter;
+import com.aagu.blog.system.filter.RequestHolderFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,6 +1,7 @@
 package com.aagu.blog.config;
 
 import com.aagu.blog.util.AESUtil;
+import com.aagu.blog.util.TextUtil;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Value;
@@ -44,7 +45,10 @@ public class DataEncryptConfig {
         RedisStandaloneConfiguration standaloneConfiguration = new RedisStandaloneConfiguration();
         standaloneConfiguration.setDatabase(0);
         standaloneConfiguration.setHostName(env.getProperty("spring.redis.host"));
-        standaloneConfiguration.setPassword(AESUtil.decrypt(env.getProperty("spring.redis.password"), encKey));
+        String rawPwd = env.getProperty("spring.redis.password");
+        if (TextUtil.notEmpty(rawPwd)) {
+            standaloneConfiguration.setPassword(AESUtil.decrypt(rawPwd, encKey));
+        }
         return new LettuceConnectionFactory(standaloneConfiguration, clientConfiguration);
     }
 }

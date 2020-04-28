@@ -35,13 +35,7 @@ public interface AdminService {
 
     Integer getArticlePages(Integer labelId, String search);
 
-    Map<String, Object> addLabel(String tag, Integer parentId);
-
     Map<String, Object> updateParentLabel(Integer parentId, Integer id);
-
-    Map<String, Object> updateLabelName(String name, Integer id);
-
-    Map<String, Object> deleteLabel(String name);
 
     List<User> getUserByPage(Integer page);
 

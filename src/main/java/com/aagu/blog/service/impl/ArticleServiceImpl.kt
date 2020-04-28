@@ -3,6 +3,7 @@ package com.aagu.blog.service.impl
 import com.aagu.blog.Dao.ArticleDao
 import com.aagu.blog.Models.Article
 import com.aagu.blog.Models.PageModel
+import com.aagu.blog.exception.ModificationFailedException
 import com.aagu.blog.exception.NotFoundException
 import com.aagu.blog.service.ArticleService
 import com.aagu.blog.service.LabelService
@@ -13,6 +14,7 @@ import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.CachePut
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
+import java.util.*
 
 @Service
 open class ArticleServiceImpl(
@@ -30,18 +32,32 @@ open class ArticleServiceImpl(
 
     @Cacheable(value = ["article"], key = "#id")
     override fun getArticleById(id: Int): Article? {
-        logger.info("cache miss, get article from db")
         return articleDao.getById(id)
     }
 
-    @CachePut(value = ["article"], key = "#result", condition = "#result > 0")
-    override fun addArticle(article: Article): Int {
-        return articleDao.insertArticle(article.date, article.labelId, article.content, article.title)
+    @CachePut(value = ["article"], key = "#article.id")
+    @Throws(ModificationFailedException::class)
+    override fun addArticle(article: Article): Article {
+        article.date = Date()
+        try {
+            val res = articleDao.insertArticle(article)
+            if (res != 1) throw ModificationFailedException("failed to add article: no row bean inserted")
+        } catch (ex: Exception) {
+            throw ModificationFailedException("failed to add article: ${ex.message}")
+        }
+        return article
     }
 
     @CacheEvict(value = ["article"], key = "#article.id")
-    override fun updateArticle(article: Article): Int {
-        return articleDao.updateArticle(article)
+    override fun updateArticle(article: Article): Article {
+        article.date = Date()
+        try {
+            val res = articleDao.updateArticle(article)
+            if (res != 1) throw ModificationFailedException("failed to update article: no row bean updated")
+        } catch (ex: Exception) {
+            throw ModificationFailedException("failed to update article: ${ex.message}")
+        }
+        return article
     }
 
     @CacheEvict(value = ["article"], key = "#id")

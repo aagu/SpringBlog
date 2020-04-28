@@ -1,4 +1,4 @@
-package com.aagu.blog.filter
+package com.aagu.blog.system.filter
 
 import com.aagu.blog.util.RequestHolder
 import javax.servlet.Filter

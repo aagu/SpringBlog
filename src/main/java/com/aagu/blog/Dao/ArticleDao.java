@@ -6,7 +6,6 @@ import org.apache.ibatis.jdbc.SQL;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -96,16 +95,14 @@ public interface ArticleDao extends BaseDao<Article>{
     @Update("update article set status=#{status} where id=#{id}")
     Integer updateStatus(@Param("id")Integer id, @Param("status")String status);
 
-    @Update("update article set status=#{article.getStatus()}, title = #{article.getTitle()}," +
-            " detail = #{article.getContent()}, labelId = #{article.getLabelId()}")
-    Integer updateArticle(@Param("article") Article article);
+    @Update("update article set status=#{status}, title = #{title}," +
+            " detail = #{content}, labelId = #{labelId}, date = #{date} where id=#{id}")
+    Integer updateArticle(Article article);
 
     @Insert("insert into article(date,labelId,detail,title) values(" +
-            "#{date},#{label},#{detail},#{title})")
-    Integer insertArticle(@Param("date") Date date,
-                          @Param("label") Integer label,
-                          @Param("detail") String detail,
-                          @Param("title") String title);
+            "#{date},#{labelId},#{content},#{title})")
+    @SelectKey(statement="select @@IDENTITY as id", keyProperty="id", before=false, resultType=Integer.class)
+    Integer insertArticle(Article article);
 
     @Delete("update article set status='deleted' where id=#{id}")
     Integer deleteById(@Param("id") Integer id);

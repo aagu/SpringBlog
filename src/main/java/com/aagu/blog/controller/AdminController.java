@@ -3,8 +3,6 @@ package com.aagu.blog.controller;
 import com.aagu.blog.Models.Comment;
 import com.aagu.blog.common.ServerResponse;
 import com.aagu.blog.service.AdminService;
-import com.aagu.blog.service.FileService;
-import com.aagu.blog.service.FrontService;
 import com.aagu.blog.util.TextUtil;
 import com.aagu.blog.view.CommentVO;
 import org.springframework.ui.Model;
@@ -18,13 +16,10 @@ public class AdminController {
 
     private final AdminService adminService;
 
-    private final FileService fileService;
-
     private static final String DATA = "data";
 
-    public AdminController(AdminService adminService, FrontService frontService, FileService fileService) {
+    public AdminController(AdminService adminService) {
         this.adminService = adminService;
-        this.fileService = fileService;
     }
 
     /**
@@ -46,12 +41,6 @@ public class AdminController {
         return "admin";
     }
 
-
-    @GetMapping(value = "/resources-tem")
-    public String resourceTem(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page, Model model) {
-        model.addAttribute("data", fileService.getByPage(page));
-        return "admin/resource-tem";
-    }
 
     /**
      * 标签管理页面

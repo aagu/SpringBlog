@@ -10,9 +10,9 @@ interface ArticleService {
 
     fun getArticleByPage(page: Int, limit: Int, params: Map<String, String>): PageModel<Article>
 
-    fun addArticle(article: Article): Int
+    fun addArticle(article: Article): Article
 
-    fun updateArticle(article: Article): Int
+    fun updateArticle(article: Article): Article
 
     fun deleteArticle(id: Int): Int
 
