@@ -98,4 +98,8 @@
   pre {
     overflow: auto;
   }
+  pre code{
+    border-radius: 8px;
+    padding: 12px;
+  }
 </style>

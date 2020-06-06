@@ -103,6 +103,7 @@
     },
     watch: {
       $route(to, from) {
+        this.loading = true
         if (to.name === 'home') {
           const query = this.$route.query
 
@@ -114,6 +115,7 @@
 
           this.getPage()
         }
+        this.loading = false
       }
     },
     methods: {
