@@ -48,7 +48,7 @@ open class ArticleServiceImpl(
         return article
     }
 
-    @CacheEvict(value = ["article"], key = "#article.id")
+    @CacheEvict(value = ["article", "articleView"], key = "#article.id")
     override fun updateArticle(article: Article): Article {
         article.date = Date()
         try {
