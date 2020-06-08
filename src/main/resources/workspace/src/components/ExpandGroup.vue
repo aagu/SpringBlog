@@ -18,7 +18,8 @@
     </template>
     <template v-for="(child, i) in children">
       <v-list-item
-        :to="child.to"
+        :href="`/#/${child.to}`"
+        :key="`item-${i}`"
         link
       >
         <v-list-item-content>
