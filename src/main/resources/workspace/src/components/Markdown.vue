@@ -84,6 +84,9 @@
     vertical-align: baseline
 .markdown > h4
   margin: 8px 0
+.markdown img
+  max-height: 100%
+  max-width: 100%
 </style>
 
 <style scoped>
