@@ -1,7 +1,7 @@
 package com.aagu.blog.service.impl
 
-import com.aagu.blog.Dao.UserDao
-import com.aagu.blog.Models.User
+import com.aagu.blog.dao.UserDao
+import com.aagu.blog.model.User
 import com.aagu.blog.exception.NotFoundException
 import com.aagu.blog.service.UserService
 import org.springframework.stereotype.Service

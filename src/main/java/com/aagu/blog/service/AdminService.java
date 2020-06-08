@@ -1,9 +1,9 @@
 package com.aagu.blog.service;
 
-import com.aagu.blog.Models.Article;
-import com.aagu.blog.Models.Comment;
-import com.aagu.blog.Models.Label;
-import com.aagu.blog.Models.User;
+import com.aagu.blog.model.Article;
+import com.aagu.blog.model.Comment;
+import com.aagu.blog.model.Label;
+import com.aagu.blog.model.User;
 import com.aagu.blog.common.ServerResponse;
 
 import java.util.List;

@@ -1,8 +1,8 @@
 package com.aagu.blog.service.impl
 
-import com.aagu.blog.Dao.LogDao
-import com.aagu.blog.Models.Log
-import com.aagu.blog.Models.PageModel
+import com.aagu.blog.dao.LogDao
+import com.aagu.blog.model.Log
+import com.aagu.blog.model.PageModel
 import com.aagu.blog.service.LogService
 import org.springframework.stereotype.Service
 

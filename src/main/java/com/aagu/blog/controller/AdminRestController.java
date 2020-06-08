@@ -1,10 +1,10 @@
 package com.aagu.blog.controller;
 
-import com.aagu.blog.Dao.LabelDao;
-import com.aagu.blog.Models.Article;
-import com.aagu.blog.Models.Comment;
-import com.aagu.blog.Models.Label;
-import com.aagu.blog.Models.User;
+import com.aagu.blog.dao.LabelDao;
+import com.aagu.blog.model.Article;
+import com.aagu.blog.model.Comment;
+import com.aagu.blog.model.Label;
+import com.aagu.blog.model.User;
 import com.aagu.blog.exception.NotFoundException;
 import com.aagu.blog.service.AdminService;
 import com.aagu.blog.service.ArticleService;

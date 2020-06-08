@@ -1,6 +1,6 @@
-package com.aagu.blog.Dao;
+package com.aagu.blog.dao;
 
-import com.aagu.blog.Models.Comment;
+import com.aagu.blog.model.Comment;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.stereotype.Repository;

@@ -1,7 +1,7 @@
 package com.aagu.blog.view;
 
-import com.aagu.blog.Models.Article;
-import com.aagu.blog.Models.Comment;
+import com.aagu.blog.model.Article;
+import com.aagu.blog.model.Comment;
 
 import java.util.List;
 

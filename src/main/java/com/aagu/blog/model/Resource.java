@@ -1,4 +1,4 @@
-package com.aagu.blog.Models;
+package com.aagu.blog.model;
 
 public class Resource {
     private Integer id;

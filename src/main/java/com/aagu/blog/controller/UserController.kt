@@ -1,6 +1,6 @@
 package com.aagu.blog.controller
 
-import com.aagu.blog.Models.User
+import com.aagu.blog.model.User
 import com.aagu.blog.service.UserService
 import com.aagu.blog.util.HttpUtil
 import org.springframework.beans.factory.annotation.Autowired

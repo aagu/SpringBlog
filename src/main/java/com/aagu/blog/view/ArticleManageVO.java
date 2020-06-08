@@ -1,7 +1,7 @@
 package com.aagu.blog.view;
 
-import com.aagu.blog.Models.Article;
-import com.aagu.blog.Models.Label;
+import com.aagu.blog.model.Article;
+import com.aagu.blog.model.Label;
 
 import java.util.Collection;
 import java.util.List;

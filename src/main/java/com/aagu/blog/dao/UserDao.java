@@ -1,6 +1,6 @@
-package com.aagu.blog.Dao;
+package com.aagu.blog.dao;
 
-import com.aagu.blog.Models.User;
+import com.aagu.blog.model.User;
 import org.apache.ibatis.annotations.CacheNamespace;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

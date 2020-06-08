@@ -1,6 +1,6 @@
 package com.aagu.blog.service
 
-import com.aagu.blog.Models.User
+import com.aagu.blog.model.User
 import com.aagu.blog.exception.NotFoundException
 
 interface UserService {

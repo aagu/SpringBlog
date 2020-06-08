@@ -1,6 +1,6 @@
 package com.aagu.blog.controller
 
-import com.aagu.blog.Models.Article
+import com.aagu.blog.model.Article
 import com.aagu.blog.service.ArticleService
 import com.aagu.blog.util.HttpUtil
 import com.aagu.blog.util.TextUtil

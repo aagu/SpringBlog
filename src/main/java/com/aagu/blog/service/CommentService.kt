@@ -1,7 +1,7 @@
 package com.aagu.blog.service
 
 import com.aagu.blog.common.CommentVisibility
-import com.aagu.blog.Models.Comment
+import com.aagu.blog.model.Comment
 import com.aagu.blog.view.CommentVO
 
 interface CommentService {

@@ -85,6 +85,14 @@ export default new Router({
           component: () => import('@/views/Comment')
         },
         {
+          path: 'notice',
+          name: 'notice',
+          meta: {
+            title: 'Notice'
+          },
+          component: () => import('@/views/Notice')
+        },
+        {
           path: 'label',
           name: 'label',
           meta: {

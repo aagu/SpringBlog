@@ -1,6 +1,6 @@
-package com.aagu.blog.Dao;
+package com.aagu.blog.dao;
 
-import com.aagu.blog.Models.Log;
+import com.aagu.blog.model.Log;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

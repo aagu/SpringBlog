@@ -7,7 +7,7 @@
       dense
       class="py-0"
     >
-      <v-img src="../assets/sidebar_header.png">
+      <v-img src="../assets/daily_pic.png">
         <v-layout pa-3 column fill-height class="lightbox white--text" text-center>
           <v-spacer></v-spacer>
           <v-flex shrink>

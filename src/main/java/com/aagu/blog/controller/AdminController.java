@@ -1,6 +1,6 @@
 package com.aagu.blog.controller;
 
-import com.aagu.blog.Models.Comment;
+import com.aagu.blog.model.Comment;
 import com.aagu.blog.common.ServerResponse;
 import com.aagu.blog.service.AdminService;
 import com.aagu.blog.util.TextUtil;

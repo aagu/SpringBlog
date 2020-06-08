@@ -1,7 +1,7 @@
 package com.aagu.blog.util;
 
-import com.aagu.blog.Dao.BaseDao;
-import com.aagu.blog.Models.PageModel;
+import com.aagu.blog.dao.BaseDao;
+import com.aagu.blog.model.PageModel;
 
 import java.util.Map;
 
@@ -26,10 +26,12 @@ public class Pager<T> {
         return data;
     }
 
-    public PageModel<T> getPage(int page, int num, Map<String, Object> params) {
+    public PageModel<T> getPage(int page, int num, Map<String, String> params) {
         PageModel<T> data = new PageModel<>();
         data.setTotal(dao.getTotal(params));
-        data.setItems(dao.getItems((page-1)*num, num, params));
+        params.put("start", String.valueOf((page - 1) * num));
+        params.put("num", String.valueOf(num));
+        data.setItems(dao.getItems(params));
         data.setCurrent(page);
         return data;
     }

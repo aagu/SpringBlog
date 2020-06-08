@@ -1,6 +1,6 @@
-package com.aagu.blog.Dao;
+package com.aagu.blog.dao;
 
-import com.aagu.blog.Models.Article;
+import com.aagu.blog.model.Article;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.stereotype.Repository;
@@ -46,11 +46,11 @@ public interface ArticleDao extends BaseDao<Article>{
 
     @Override
     @SelectProvider(type = ArticleSqlBuilder.class, method = "buildTotal")
-    int getTotal(Map<String, Object> params);
+    int getTotal(Map<String, String> params);
 
     @Override
     @SelectProvider(type = ArticleSqlBuilder.class, method = "buildPage")
-    List<Article> getItems(@Param("page") int page, @Param("limit") int limit, @Param("params") Map<String, Object> params);
+    List<Article> getItems(Map<String, String> params);
 
     @Select("select id, date, labelId, title, detail as content" +
             " from article where title like #{key}" +
@@ -117,14 +117,13 @@ public interface ArticleDao extends BaseDao<Article>{
             }}.toString();
         }
 
-        public static String buildPage(Map<String, Object> sqlParams) {
+        public static String buildPage(Map<String, String> params) {
             return new SQL() {{
                 SELECT("id, date, labelId, title, detail as content, status");
                 FROM("article");
-                Map<String, String> params = (Map<String, String>) sqlParams.get("params");
                 applyWhere(this, params);
                 ORDER_BY("date desc");
-            }}.toString() + " LIMIT #{page}, #{limit}";
+            }}.toString() + " LIMIT " + params.get("start") +", " + params.get("num");
         }
 
         private static void applyWhere(SQL sql, Map<String, String> sqlParams) {

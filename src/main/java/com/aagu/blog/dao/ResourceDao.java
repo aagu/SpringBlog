@@ -1,6 +1,6 @@
-package com.aagu.blog.Dao;
+package com.aagu.blog.dao;
 
-import com.aagu.blog.Models.Resource;
+import com.aagu.blog.model.Resource;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 

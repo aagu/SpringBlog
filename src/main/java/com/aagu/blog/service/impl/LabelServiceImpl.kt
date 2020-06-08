@@ -1,7 +1,7 @@
 package com.aagu.blog.service.impl
 
-import com.aagu.blog.Dao.LabelDao
-import com.aagu.blog.Models.Label
+import com.aagu.blog.dao.LabelDao
+import com.aagu.blog.model.Label
 import com.aagu.blog.exception.ModificationFailedException
 import com.aagu.blog.service.LabelService
 import org.springframework.cache.annotation.CacheEvict

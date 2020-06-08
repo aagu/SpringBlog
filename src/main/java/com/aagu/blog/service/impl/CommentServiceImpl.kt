@@ -1,8 +1,8 @@
 package com.aagu.blog.service.impl
 
 import com.aagu.blog.common.CommentVisibility
-import com.aagu.blog.Dao.CommentDao
-import com.aagu.blog.Models.Comment
+import com.aagu.blog.dao.CommentDao
+import com.aagu.blog.model.Comment
 import com.aagu.blog.service.CommentService
 import com.aagu.blog.view.CommentVO
 import org.springframework.stereotype.Service

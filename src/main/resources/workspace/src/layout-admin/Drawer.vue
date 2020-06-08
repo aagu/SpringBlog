@@ -59,6 +59,7 @@
       { title: '写文章', icon: 'edit', path: 'edit'},
       { title: '文章管理', icon: 'view_list', path: 'article'},
       { title: '评论管理', icon: 'comment', path: 'comment'},
+      { title: 'Notice', icon: 'notifications', path: 'notice'},
       { title: '标签管理', icon: 'label', path: 'label'},
       { title: '资源管理', icon: 'view_compact', path: 'resource'},
       { title: '系统设置', icon: 'settings', path: 'settings'}

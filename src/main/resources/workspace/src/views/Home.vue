@@ -1,37 +1,29 @@
 <template>
   <v-container>
-    <div>
-      <v-row v-if="isHomepage" justify="center">
+    <v-row justify="center">
+      <v-col
+          md="8"
+          sm="12"
+      >
+        <BulletBoard />
+      </v-col>
+    </v-row>
+    <template v-for="article in articles">
+      <v-row :key="article.date" justify="center">
         <v-col
-          md="4"
+            md="8"
+            sm="12"
         >
-          <GreetingCard />
-        </v-col>
-        <v-col
-          md="4"
-        >
-          <v-date-picker
-            full-width
-            no-title
-            readonly
-            v-model="date"
-            :first-day-of-week="1"
-            locale="zh-cn"
-          ></v-date-picker>
+          <ArticleCard
+              :title=article.title
+              :content=article.content
+              :author=article.author
+              :date=article.date
+              :url=article.url
+              :label=label(article.labelId) />
         </v-col>
       </v-row>
-      <div>
-        <div v-for="article in articles" :key="article.date">
-          <ArticleCard
-          :title=article.title
-          :content=article.content
-          :author=article.author
-          :date=article.date
-          :url=article.url
-          :label=label(article.labelId) />
-        </div>
-      </div>
-    </div>
+    </template>
 
     <v-row class="d-flex justify-center align-center">
       <v-col
@@ -64,12 +56,13 @@
 <script>
   import GreetingCard from '@/components/GreetingCard'
   import ArticleCard from '@/components/ArticleCard'
+  import BulletBoard from "@/components/BulletBoard";
   import {getArticle} from '@/api/home'
   import {getLabelById} from '@/utils'
 
   export default {
     name: 'Home',
-    components: { GreetingCard, ArticleCard },
+    components: { GreetingCard, ArticleCard, BulletBoard },
     data: () => ({
       articles: [],
       labels: [],

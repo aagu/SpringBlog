@@ -11,7 +11,7 @@ public interface FrontService {
 
 //    ArticleDetailVO getArticleDetail(Integer id);
 
-    BlogVO getArticlesPage(int page, Map<String, Object> params);
+    BlogVO getArticlesPage(int page, Map<String, String> params);
 
     ServerResponse createComment(String email, String detail, Integer articleId);
 

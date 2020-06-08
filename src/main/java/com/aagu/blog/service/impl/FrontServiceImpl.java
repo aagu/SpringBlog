@@ -1,12 +1,12 @@
 package com.aagu.blog.service.impl;
 
 import com.aagu.blog.common.ServerResponse;
-import com.aagu.blog.Dao.ArticleDao;
-import com.aagu.blog.Dao.CommentDao;
-import com.aagu.blog.Dao.LabelDao;
-import com.aagu.blog.Models.Article;
-import com.aagu.blog.Models.Label;
-import com.aagu.blog.Models.PageModel;
+import com.aagu.blog.dao.ArticleDao;
+import com.aagu.blog.dao.CommentDao;
+import com.aagu.blog.dao.LabelDao;
+import com.aagu.blog.model.Article;
+import com.aagu.blog.model.Label;
+import com.aagu.blog.model.PageModel;
 import com.aagu.blog.util.Pager;
 import com.aagu.blog.util.TextUtil;
 import com.aagu.blog.view.ArchiveLabel;
@@ -15,7 +15,7 @@ import com.aagu.blog.service.FrontService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static com.aagu.blog.common.Const.ARTICLE_PAGE_LEN;
@@ -27,6 +27,8 @@ public class FrontServiceImpl implements FrontService {
     private final LabelDao labelDao;
 
     private final CommentDao commentDao;
+
+    private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM");
 
     public FrontServiceImpl(ArticleDao articleDao, LabelDao labelDao, CommentDao commentDao) {
         this.articleDao = articleDao;
@@ -69,15 +71,17 @@ public class FrontServiceImpl implements FrontService {
 //    }
 
     @Override
-    public BlogVO getArticlesPage(int page, Map<String, Object> params) {
+    public BlogVO getArticlesPage(int page, Map<String, String> params) {
         BlogVO blogVO = new BlogVO();
         if (params.get("month") != null) {
-            LocalDate date = ((Date)params.get("month")).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            params.put("date1", date);
-            params.put("date2", date.plusMonths(1));
+            String month = params.get("month");
+            LocalDate date = LocalDate.of(Integer.parseInt(month.substring(0, 4)), Integer.parseInt(month.substring(5)), 1);
+
+            params.put("date1", dateFormatter.format(date));
+            params.put("date2", dateFormatter.format(date.plusMonths(1)));
         }
         if (params.get("labelId") != null) {
-            blogVO.setCurreLabel(labelDao.getById((int)params.get("labelId")).getName());
+            blogVO.setCurreLabel(labelDao.getById(Integer.parseInt(params.get("labelId"))).getName());
         }
         PageModel<Article> articles = new Pager<>(articleDao).getPage(page, ARTICLE_PAGE_LEN, params);
         setPage(blogVO, articles, page);

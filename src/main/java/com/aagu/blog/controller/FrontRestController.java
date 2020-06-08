@@ -34,13 +34,13 @@ public class FrontRestController {
 
     @GetMapping(value = "/blog")
     public BlogVO blog(@RequestParam(value = "label", required = false) Integer label,
-                       @RequestParam(value = "archive", required = false) Date archive,
+                       @RequestParam(value = "archive", required = false) String archive,
                        @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
                        @RequestParam(value = "search", required = false) String keyWord) {
-        Map<String, Object> params = new HashMap<>();
+        Map<String, String> params = new HashMap<>();
         params.put("status", "published");
         if (label != null && label > 0) {
-            params.put("labelId", label);
+            params.put("labelId", String.valueOf(label));
         }
         if (archive != null) {
             params.put("month", archive);

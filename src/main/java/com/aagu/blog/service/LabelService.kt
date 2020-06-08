@@ -1,6 +1,6 @@
 package com.aagu.blog.service
 
-import com.aagu.blog.Models.Label
+import com.aagu.blog.model.Label
 import com.aagu.blog.exception.ModificationFailedException
 
 interface LabelService {

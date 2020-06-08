@@ -1,7 +1,7 @@
 package com.aagu.blog.service
 
-import com.aagu.blog.Models.Article
-import com.aagu.blog.Models.PageModel
+import com.aagu.blog.model.Article
+import com.aagu.blog.model.PageModel
 import com.aagu.blog.exception.NotFoundException
 import com.aagu.blog.view.ArticleDetailVO
 

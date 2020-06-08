@@ -2,7 +2,7 @@ package com.aagu.blog.aspect
 
 import com.aagu.blog.common.Const.USER_LOGIN
 import com.aagu.blog.common.Const.USER_LOGOUT
-import com.aagu.blog.Dao.LogDao
+import com.aagu.blog.dao.LogDao
 import org.aspectj.lang.annotation.After
 import org.aspectj.lang.annotation.Aspect
 import org.springframework.beans.factory.annotation.Autowired

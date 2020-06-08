@@ -1,6 +1,6 @@
 package com.aagu.blog.view;
 
-import com.aagu.blog.Models.Resource;
+import com.aagu.blog.model.Resource;
 
 import java.util.List;
 

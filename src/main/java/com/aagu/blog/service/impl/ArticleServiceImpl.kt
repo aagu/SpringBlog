@@ -1,8 +1,8 @@
 package com.aagu.blog.service.impl
 
-import com.aagu.blog.Dao.ArticleDao
-import com.aagu.blog.Models.Article
-import com.aagu.blog.Models.PageModel
+import com.aagu.blog.dao.ArticleDao
+import com.aagu.blog.model.Article
+import com.aagu.blog.model.PageModel
 import com.aagu.blog.exception.ModificationFailedException
 import com.aagu.blog.exception.NotFoundException
 import com.aagu.blog.service.ArticleService
