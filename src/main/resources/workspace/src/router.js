@@ -128,10 +128,7 @@ export default new Router({
     },
     {
       path: '*',
-      meta: {
-        title: '找不到页面'
-      },
-      component: () => import('@/views/NotFound')
+      redirect: '/404'
     }
   ],
   // eslint-disable-next-line
