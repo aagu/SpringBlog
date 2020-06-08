@@ -16,7 +16,7 @@
 
           <v-list-item-action>
             <v-list-item-action-text>{{ item.date || parseTime }}</v-list-item-action-text>
-            <v-icon color="cyan">reply</v-icon>
+<!--            <v-icon color="cyan">reply</v-icon>-->
           </v-list-item-action>
         </v-list-item>
         <v-divider
