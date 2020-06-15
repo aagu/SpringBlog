@@ -24,10 +24,33 @@ class NoticeServiceImpl(
         notice.date = Date()
         try {
             val res = noticeDao.insertNotice(notice)
-            if (res != 1) throw ModificationFailedException("failed to add article: no row bean inserted")
+            if (res != 1) throw ModificationFailedException("failed to add notice: no row bean inserted")
         } catch (ex: Exception) {
             logger.error("failed to add notice", ex)
             throw ModificationFailedException("failed to add notice: ${ex.message}")
+        }
+        return notice
+    }
+
+    override fun updateNotice(notice: Notice): Notice {
+        notice.date = Date()
+        try {
+            val res = noticeDao.updateNotice(notice)
+            if (res != 1) throw ModificationFailedException("failed to update notice: no row bean inserted")
+        } catch (ex: Exception) {
+            logger.error("failed to update notice", ex)
+            throw ModificationFailedException("failed to update notice: ${ex.message}")
+        }
+        return notice
+    }
+
+    override fun deleteNotice(notice: Notice): Notice {
+        try {
+            val res = noticeDao.deleteNotice(notice)
+            if (res != 1) throw ModificationFailedException("failed to delete notice: no row bean inserted")
+        } catch (ex: Exception) {
+            logger.error("failed to delete notice", ex)
+            throw ModificationFailedException("failed to delete notice: ${ex.message}")
         }
         return notice
     }

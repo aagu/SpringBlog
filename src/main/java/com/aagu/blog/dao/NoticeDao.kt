@@ -1,10 +1,7 @@
 package com.aagu.blog.dao
 
 import com.aagu.blog.model.Notice
-import org.apache.ibatis.annotations.Insert
-import org.apache.ibatis.annotations.Mapper
-import org.apache.ibatis.annotations.SelectKey
-import org.apache.ibatis.annotations.SelectProvider
+import org.apache.ibatis.annotations.*
 import org.apache.ibatis.jdbc.SQL
 import org.springframework.stereotype.Repository
 
@@ -22,6 +19,13 @@ interface NoticeDao: BaseDao<Notice> {
             "#{date},#{detail},#{title})")
     @SelectKey(statement = ["select @@IDENTITY as id"], keyProperty = "id", before = false, resultType = Int::class)
     fun insertNotice(notice: Notice): Int
+
+    @Update("update notice set date=#{date}, detail=#{detail}, " +
+            "title=#{title} where id=#{id}")
+    fun updateNotice(notice: Notice): Int
+
+    @Delete("update notice set status='deleted' where id=#{id}")
+    fun deleteNotice(notice: Notice): Int
 
     class NoticeBuilder {
         fun buildPage(params: Map<String, String>): String {
@@ -44,7 +48,7 @@ interface NoticeDao: BaseDao<Notice> {
 
         private fun applyWhere(sql: SQL, params: Map<String, String>) {
             if (params.containsKey("status")) {
-                sql.WHERE("status='${params["status"]}'}")
+                sql.WHERE("status='${params["status"]}'")
             }
         }
     }

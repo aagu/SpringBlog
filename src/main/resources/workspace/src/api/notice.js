@@ -25,8 +25,8 @@ export function getNoticeDetail(id) {
 
 export function updateNotice(data) {
   return request({
-    url: '/notice/update',
-    method: 'post',
+    url: '/notice',
+    method: 'put',
     data
   })
 }
@@ -46,9 +46,10 @@ export function publishNotice(id) {
   })
 }
 
-export function deleteNotice(id) {
+export function deleteNotice(data) {
   return request({
-    url: `/admin/notice/${id}`,
-    method: 'delete'
+    url: '/notice',
+    method: 'delete',
+    data
   })
 }

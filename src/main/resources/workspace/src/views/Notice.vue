@@ -13,7 +13,7 @@
         {{ item.date | parseTime}}
       </template>
       <template v-slot:item.status="{ item }">
-        <v-chip :color="item.status | stautsColor" dark>{{ item.status | statusText }}</v-chip>
+        <v-chip :color="item.status | statusColor" dark>{{ item.status | statusText }}</v-chip>
       </template>
       <template v-slot:item.actions="{ item }">
         <v-icon
@@ -32,7 +32,7 @@
         </v-icon>
         <v-icon
             small
-            @click="deleteNotice(item)"
+            @click="handleDelete(item)"
         >
           mdi-delete
         </v-icon>
@@ -71,8 +71,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary darken-1" text @click="handleCancel">Cancel</v-btn>
-          <v-btn color="primary darken-1" text @click="handleSave">Publish</v-btn>
+          <v-btn color="primary darken-1" text @click="handleCancel">取消</v-btn>
+          <v-btn v-if="dialogMode !== 2" color="primary darken-1" text @click="handleSave">发布</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -80,7 +80,7 @@
 </template>
 
 <script>
-  import { getNoticeList, createNotice } from "../api/notice";
+  import {getNoticeList, createNotice, updateNotice, deleteNotice} from "../api/notice";
   import { deepClone } from "../utils";
 
   export default {
@@ -130,16 +130,16 @@
     }),
     computed: {
       dialogTitle: function () {
-        if (this.dialogMode === 0) return 'Create Notice'
-        if (this.dialogMode === 1) return 'Edit Notice'
-        return 'View Notice'
+        if (this.dialogMode === 0) return '新建公告'
+        if (this.dialogMode === 1) return '编辑公告'
+        return '公告详情'
       }
     },
     mounted() {
       this.fetch()
     },
     filters: {
-      stautsColor: function(status) {
+      statusColor: function(status) {
         if (status === 'published') return 'green'
         else if (status === 'deleted') return 'red'
         else if (status === 'draft') return 'orange'
@@ -178,7 +178,35 @@
             this.noticeList.unshift(resp.data.data)
             this.dialog = false
           })
+        } else {
+          updateNotice(this.currNotice).then(resp => {
+            let idx = this.noticeList.indexOf(this.currNotice)
+            this.noticeList.splice(idx, 0, resp.data.data)
+            this.resetCurrNotice()
+            this.dialog = false
+          })
         }
+      },
+      handleDelete(data) {
+        this.$dialog.confirm({
+          title: '删除公告',
+          text: `编号为 ${data.id} 的公告将会被删除`,
+          actions: {
+            No: '取消',
+            Yes: {
+              color: 'red',
+              text: "确认",
+              handle: () => {
+                deleteNotice(data).then(resp => {
+                  let idx = this.noticeList.indexOf(data)
+                  if (idx >= 0) {
+                    this.noticeList[idx].status = 'deleted'
+                  }
+                })
+              }
+            }
+          }
+        })
       },
       handleCancel() {
         this.dialog = false

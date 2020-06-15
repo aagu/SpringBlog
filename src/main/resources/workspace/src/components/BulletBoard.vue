@@ -5,10 +5,13 @@
     >
       <v-card-title class="primary">
         <v-icon dark>new_releases</v-icon>
-        <span style="margin-left: 8px; color: #ffffff">Bullet Board</span>
+        <span style="margin-left: 8px; color: #ffffff">公告</span>
       </v-card-title>
       <v-card-text>
-        <v-list>
+        <v-list-item v-if="noticeList.length === 0">
+          <v-list-item-content>暂无公告</v-list-item-content>
+        </v-list-item>
+        <v-list v-else>
           <v-list-item
               v-for="item in noticeList"
               :key="item.id"
@@ -57,7 +60,7 @@
     },
     methods: {
       fetch() {
-        getNoticeList({page: 1, limit: 4}).then(resp => {
+        getNoticeList({page: 1, limit: 4, status: 'published'}).then(resp => {
           this.noticeList = resp.data.items
         })
       },
