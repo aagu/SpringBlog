@@ -98,14 +98,6 @@
       $route(to, from) {
         this.loading = true
         if (to.name === 'home') {
-          const query = this.$route.query
-
-          if (query.category) {
-            this.query['label'] = query.category
-          } else if (query.archive) {
-            this.query['archive'] = query.archive
-          }
-
           this.getPage()
         }
         this.loading = false
@@ -114,6 +106,8 @@
     methods: {
       getPage() {
         this.loading = true
+        this.articles = []
+        this.handleQuery()
         getArticle(this.query).then(response => {
           this.articles = response.data.articles
           this.page = response.data.currePage
@@ -137,6 +131,15 @@
       goPrePage() {
         this.query["page"] = this.prePage
         this.getPage()
+      },
+      handleQuery() {
+        const query = this.$route.query
+
+        if (query.category) {
+          this.query['label'] = query.category
+        } else if (query.archive) {
+          this.query['archive'] = query.archive
+        }
       }
     }
   }
