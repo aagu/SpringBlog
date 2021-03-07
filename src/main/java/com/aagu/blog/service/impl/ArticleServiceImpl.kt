@@ -38,7 +38,8 @@ open class ArticleServiceImpl(
     @CachePut(value = ["article"], key = "#article.id")
     @Throws(ModificationFailedException::class)
     override fun addArticle(article: Article): Article {
-        article.date = Date()
+        article.creationTime = Date()
+        article.modificationTime = article.creationTime
         try {
             val res = articleDao.insertArticle(article)
             if (res != 1) throw ModificationFailedException("failed to add article: no row bean inserted")
@@ -50,7 +51,7 @@ open class ArticleServiceImpl(
 
     @CacheEvict(value = ["article", "articleView"], key = "#article.id")
     override fun updateArticle(article: Article): Article {
-        article.date = Date()
+        article.modificationTime = Date()
         try {
             val res = articleDao.updateArticle(article)
             if (res != 1) throw ModificationFailedException("failed to update article: no row bean updated")

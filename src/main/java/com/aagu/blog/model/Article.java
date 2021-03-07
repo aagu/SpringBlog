@@ -5,19 +5,20 @@ import java.util.Date;
 
 public class Article implements Serializable {
     private Integer id;
-    private Date date;
     private Integer labelId;
     private String title;
     private String content;
     private String author;
     private String status;
     private String url;
+    private Date creationTime;
+    private Date modificationTime;
 
     public Article() {
     }
 
-    public Article(Date date, Integer labelId, String content, String title) {
-        this.date = date;
+    public Article(Date creationTime, Integer labelId, String content, String title) {
+        this.creationTime = creationTime;
         this.labelId = labelId;
         this.content = content;
         this.title = title;
@@ -29,14 +30,6 @@ public class Article implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 
     public Integer getLabelId() {
@@ -106,11 +99,28 @@ public class Article implements Serializable {
     public String toString() {
         return "Article{" +
                 "id=" + id +
-                ", date='" + date + '\'' +
+                ", creationTime='" + creationTime + '\'' +
+                ", modificationTime='" + modificationTime + '\'' +
                 ", labelId=" + labelId +
                 ", title='" + title + '\'' +
                 ", author='" + author + '\'' +
                 ", status='" + status + '\'' +
                 '}';
+    }
+
+    public Date getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(Date creationTime) {
+        this.creationTime = creationTime;
+    }
+
+    public Date getModificationTime() {
+        return modificationTime;
+    }
+
+    public void setModificationTime(Date modificationTime) {
+        this.modificationTime = modificationTime;
     }
 }

@@ -93,7 +93,8 @@ public class AdminRestController {
         vo.setLabelName(labelDao.getById(article.getLabelId()).getName());
         vo.setId(article.getId());
         vo.setStatus(article.getStatus());
-        vo.setDate(article.getDate());
+        vo.setCreationTime(article.getCreationTime());
+        vo.setModificationTime(article.getModificationTime());
         return HttpUtil.createResponse(20000, null, vo);
     }
 

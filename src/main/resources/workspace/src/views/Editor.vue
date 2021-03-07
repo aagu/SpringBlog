@@ -56,7 +56,7 @@
               <v-list-item-action><v-icon>access_time</v-icon></v-list-item-action>
               <v-list-item-content>
                 <v-list-item-subtitle>上次保存时间</v-list-item-subtitle>
-                <v-list-item-title>{{ article.date | parseTime }}</v-list-item-title>
+                <v-list-item-title>{{ article.modificationTime | parseTime }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-col>

@@ -9,8 +9,11 @@
       :server-items-length="total"
       class="elevation-1"
     >
-      <template v-slot:item.date="{ item }">
-        {{ item.date | parseTime}}
+      <template v-slot:item.creationTime="{ item }">
+        {{ item.creationTime | parseTime }}
+      </template>
+      <template v-slot:item.modificationTime="{ item }">
+        {{ item.modificationTime | parseTime }}
       </template>
       <template v-slot:item.status="{ item }">
         <v-chip :color="item.status | stautsColor" dark>{{ item.status | statusText }}</v-chip>
@@ -56,9 +59,14 @@ export default {
         value: 'title',
       },
       {
-        text: '时间',
+        text: '创建时间',
         align: 'center',
-        value: 'date'
+        value: 'creationTime'
+      },
+      {
+        text: '更新时间',
+        align: 'center',
+        value: 'modificationTime'
       },
       {
         text: '状态',

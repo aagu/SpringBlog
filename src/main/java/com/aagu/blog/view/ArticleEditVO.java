@@ -8,7 +8,8 @@ public class ArticleEditVO {
     private String title;
     private Integer labelId;
     private String labelName;
-    private Date date;
+    private Date creationTime;
+    private Date modificationTime;
     private String author;
     private String status;
 
@@ -52,12 +53,12 @@ public class ArticleEditVO {
         this.labelName = labelName;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getCreationTime() {
+        return creationTime;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setCreationTime(Date creationTime) {
+        this.creationTime = creationTime;
     }
 
     public String getAuthor() {
@@ -74,5 +75,13 @@ public class ArticleEditVO {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Date getModificationTime() {
+        return modificationTime;
+    }
+
+    public void setModificationTime(Date modificationTime) {
+        this.modificationTime = modificationTime;
     }
 }

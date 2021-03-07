@@ -14,27 +14,27 @@ import java.util.Map;
 @CacheNamespace
 public interface ArticleDao extends BaseDao<Article>{
 
-    @Select("select id, date, labelId, title, detail as content, status" +
+    @Select("select id, creationTime, modificationTime, labelId, title, detail as content, status" +
             " from article")
     List<Article> getAll();
 
     @Select("select count(id) from article")
     Integer getArticleCount();
 
-    @Select("select id, date, labelId, title, detail as content, status" +
+    @Select("select id, creationTime, modificationTime, labelId, title, detail as content, status" +
             " from article where id=#{id}")
     Article getById(@Param("id") Integer id);
 
-    @Select("select id, date, labelId, title, detail as content, status" +
+    @Select("select id, creationTime, modificationTime, labelId, title, detail as content, status" +
             " from article" +
             " where labelId=#{labelId}" +
-            " order by date desc" +
+            " order by creationTime desc" +
             " limit #{start}, #{num}")
     List<Article> getByLabel(@Param("labelId") Integer labelId,
                              @Param("start") Integer start,
                              @Param("num") Integer num);
 
-    @Select("select id, date, labelId, title, detail as content, status" +
+    @Select("select id, creationTime, modificationTime, labelId, title, detail as content, status" +
             " from article" +
             " where date > str_to_date(#{date1}, '%Y-%m-%d') and date < str_to_date(#{date2}, '%Y-%m-%d')" +
             " order by date desc" +
@@ -52,9 +52,9 @@ public interface ArticleDao extends BaseDao<Article>{
     @SelectProvider(type = ArticleSqlBuilder.class, method = "buildPage")
     List<Article> getItems(Map<String, String> params);
 
-    @Select("select id, date, labelId, title, detail as content" +
+    @Select("select id, creationTime, modificationTime, labelId, title, detail as content" +
             " from article where title like #{key}" +
-            " order by date desc" +
+            " order by creationTime desc" +
             " limit #{start}, #{num}")
     List<Article> getBySearch(@Param("start") Integer start, @Param("num") Integer num, @Param("key") String key);
 
@@ -80,7 +80,7 @@ public interface ArticleDao extends BaseDao<Article>{
     @Select("select max(id) from article where status='published'")
     Integer getMaxPage();
 
-    @Select("select distinct date_format(date, '%Y %M') from article limit 5")
+    @Select("select distinct date_format(creationTime, '%Y %M') from article limit 5")
     List<String> orderByMonth();
 
     @Update("update article set title=#{title}, date=now() where id=#{id}")
@@ -96,11 +96,11 @@ public interface ArticleDao extends BaseDao<Article>{
     Integer updateStatus(@Param("id")Integer id, @Param("status")String status);
 
     @Update("update article set status=#{status}, title = #{title}," +
-            " detail = #{content}, labelId = #{labelId}, date = #{date} where id=#{id}")
+            " detail = #{content}, labelId = #{labelId}, modificationTime = #{modificationTime} where id=#{id}")
     Integer updateArticle(Article article);
 
-    @Insert("insert into article(date,labelId,detail,title) values(" +
-            "#{date},#{labelId},#{content},#{title})")
+    @Insert("insert into article(creationTime, modificationTime,labelId,detail,title) values(" +
+            "#{creationTime},#{creationTime},#{labelId},#{content},#{title})")
     @SelectKey(statement="select @@IDENTITY as id", keyProperty="id", before=false, resultType=Integer.class)
     Integer insertArticle(Article article);
 
@@ -113,16 +113,16 @@ public interface ArticleDao extends BaseDao<Article>{
                 SELECT("count(id)");
                 FROM("article");
                 applyWhere(this, params);
-                ORDER_BY("date desc");
+                ORDER_BY("creationTime desc");
             }}.toString();
         }
 
         public static String buildPage(Map<String, String> params) {
             return new SQL() {{
-                SELECT("id, date, labelId, title, detail as content, status");
+                SELECT("id, creationTime, modificationTime, labelId, title, detail as content, status");
                 FROM("article");
                 applyWhere(this, params);
-                ORDER_BY("date desc");
+                ORDER_BY("creationTime desc");
             }}.toString() + " LIMIT " + params.get("start") +", " + params.get("num");
         }
 
@@ -131,8 +131,8 @@ public interface ArticleDao extends BaseDao<Article>{
                 sql.WHERE("labelId=" + sqlParams.get("labelId"));
             }
             if (sqlParams.get("month") != null) {
-                sql.WHERE("date > str_to_date('"+sqlParams.get("date1")+
-                        "', '%Y-%m-%d') AND date < str_to_date('"+sqlParams.get("date2")+
+                sql.WHERE("creationTime > str_to_date('"+sqlParams.get("date1")+
+                        "', '%Y-%m-%d') AND creationTime < str_to_date('"+sqlParams.get("date2")+
                         "', '%Y-%m-%d')");
             }
             if (sqlParams.get("status") != null) {

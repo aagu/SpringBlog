@@ -9,7 +9,7 @@
       </v-col>
     </v-row>
     <template v-for="article in articles">
-      <v-row :key="article.date" justify="center">
+      <v-row :key="article.creationTime" justify="center">
         <v-col
             md="8"
             sm="12"
@@ -18,7 +18,7 @@
               :title=article.title
               :content=article.content
               :author=article.author
-              :date=article.date
+              :date=article.creationTime
               :url=article.url
               :label=label(article.labelId) />
         </v-col>

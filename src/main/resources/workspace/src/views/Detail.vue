@@ -31,7 +31,9 @@
 
               <v-list-item-content>
                 <v-list-item-title>{{ name }}</v-list-item-title>
-                <v-list-item-subtitle>{{ article.date | parseTime('{y}-{m}-{d} {h}:{i}') }}</v-list-item-subtitle>
+                <v-list-item-subtitle class="hidden-sm-and-down">创建于{{ article.creationTime | parseTime('{y}-{m}-{d} {h}:{i}') }}|更新于{{ article.modificationTime || article.creationTime | parseTime('{y}-{m}-{d} {h}:{i}')}}</v-list-item-subtitle>
+                <v-list-item-subtitle class="hidden-md-and-up">创建于{{ article.creationTime | parseTime('{y}-{m}-{d} {h}:{i}') }}</v-list-item-subtitle>
+                <v-list-item-subtitle class="hidden-md-and-up">更新于{{ article.modificationTime || article.creationTime | parseTime('{y}-{m}-{d} {h}:{i}')}}</v-list-item-subtitle>
               </v-list-item-content>
               <v-spacer class="hidden-sm-and-down"></v-spacer>
               <v-chip style="marginRight: 5px;">{{ label }}</v-chip>
